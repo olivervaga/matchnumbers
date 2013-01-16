@@ -13,10 +13,12 @@ import android.view.WindowManager;
 public class BoardCanvas extends View {
 	
 	Activity mParent;
-	Paint mPaint;
+	Paint mRectPaint;
 	
 	int resolutionX;
 	int resolutionY;
+	
+	int tileSize;
 	
 	public BoardCanvas(Context context) {
 		super(context);
@@ -42,15 +44,26 @@ public class BoardCanvas extends View {
 		wm.getDefaultDisplay().getMetrics(displayMetrics);
 		resolutionX = displayMetrics.widthPixels;
 		resolutionY = displayMetrics.heightPixels;
-		mPaint = new Paint();
+		tileSize = (int) (resolutionX - 45) / 9;
+		mRectPaint = new Paint();
 	}
 	
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		mPaint.setStyle(Paint.Style.FILL);
-		mPaint.setColor(Color.BLUE);
-		canvas.drawPaint(mPaint);
+		mRectPaint.setStyle(Paint.Style.FILL);
+		mRectPaint.setColor(Color.BLUE);
+		canvas.drawPaint(mRectPaint);
+		
+		mRectPaint.setStyle(Paint.Style.STROKE);
+		mRectPaint.setColor(Color.RED);
+		mRectPaint.setAntiAlias(true);
+		int startX;
+		for (int i = 1; i <= 9; i++) {
+			startX = (i - 1) * tileSize;
+			canvas.drawRect(startX + 5, 20, startX + tileSize, 20 + tileSize, mRectPaint);
+		}
+		
 	}
 
 }

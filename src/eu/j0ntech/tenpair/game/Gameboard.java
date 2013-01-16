@@ -74,6 +74,10 @@ public class Gameboard {
 		}
 	}
 	
+	public void setNumberAsScratched(int row, int column) {
+		//TODO
+	}
+	
 	public void displayBoard() {
 		StringBuilder rowString;
 		for (int i = 0; i < rows; i++) {

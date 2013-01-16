@@ -3,6 +3,7 @@
 
     <string name="app_name">TenPair</string>
     <string name="button_start">Start game</string>
+    <string name="button_writeout">Write out</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_game">TenPair</string>
 
