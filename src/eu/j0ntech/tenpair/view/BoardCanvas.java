@@ -71,24 +71,20 @@ public class BoardCanvas extends View {
 		mNumberPaint.setColor(Color.BLACK);
 		mNumberPaint.setAntiAlias(true);
 		mNumberPaint.setTextAlign(Paint.Align.CENTER);
-		mNumberPaint.setTextSize(tileSize - 5);
-		float startX;
-		float startY;
-		NumberSquare tempSquare;
+		mNumberPaint.setTextSize(tileSize - SQUARE_PADDING);
 		for (int j = 0; j < mParent.getGameboard().getRows(); j++) {
-			startY = j * tileSize;
+			float startY = j * tileSize;
 			for (int i = 0; i < Gameboard.COLUMNS; i++) {
-				startX = i * tileSize;
-				System.out.println("X = " + startX + ", Y = " + startY);
-				mParent.getGameboard().getNumberSquare(j, i).setCoordinates(startX + SQUARE_PADDING, 
+				float startX = i * tileSize;
+				NumberSquare tempSquare = mParent.getGameboard().getNumberSquare(j, i);
+				tempSquare.setCoordinates(startX + SQUARE_PADDING, 
 						startY + SQUARE_PADDING,
 						startX + tileSize,
-						startY + SQUARE_PADDING + tileSize);
-				tempSquare = mParent.getGameboard().getNumberSquare(j, i);
-				canvas.drawRect(startX + SQUARE_PADDING, startY + SQUARE_PADDING, startX + tileSize,
-						startY + tileSize, mRectPaint);
-				System.out.println("Drawing \"" + tempSquare.getValue() + "\" at position ("  + tempSquare.getCenterX() + ", " + tempSquare.getCenterY() + "), memloc = " + tempSquare.toString());
-				canvas.drawText(String.valueOf(tempSquare.getValue()), tempSquare.getCenterX(), tempSquare.getCenterY(), mNumberPaint);
+						startY + tileSize);
+				canvas.drawRect(tempSquare.getStartX(), tempSquare.getStartY(),
+					      tempSquare.getEndX(), tempSquare.getEndY(), mRectPaint);
+				canvas.drawText(String.valueOf(tempSquare.getValue()), tempSquare.getCenterX(), (float) (tempSquare.getCenterY()
+						+ (mNumberPaint.getTextSize()) / 2.6), mNumberPaint);
 			}	
 		}
 		

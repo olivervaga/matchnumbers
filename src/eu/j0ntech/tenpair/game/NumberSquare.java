@@ -91,8 +91,8 @@ public class NumberSquare {
 	}
 	
 	private void calculateCenter() {
-		centerX = (endX - startX) / 2;
-		centerY = (endY - startY) / 2;
+		centerX = startX + (endX - startX) / 2;
+		centerY = startY + (endY - startY) / 2;
 	}
 
 }
