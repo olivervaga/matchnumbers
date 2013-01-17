@@ -1,24 +1,30 @@
 package eu.j0ntech.tenpair.view;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import eu.j0ntech.tenpair.activity.GameActivity;
+import eu.j0ntech.tenpair.game.Gameboard;
+import eu.j0ntech.tenpair.game.NumberSquare;
 
 public class BoardCanvas extends View {
 	
-	Activity mParent;
-	Paint mRectPaint;
+	private GameActivity mParent;
+	private Paint mRectPaint;
+	private Paint mNumberPaint;
 	
-	int resolutionX;
-	int resolutionY;
+	private int resolutionX;
+	private int resolutionY;
 	
-	int tileSize;
+	private static int SQUARE_PADDING = 5;
+	
+	private float tileSize;
 	
 	public BoardCanvas(Context context) {
 		super(context);
@@ -38,32 +44,63 @@ public class BoardCanvas extends View {
 	}
 	
 	private void initCanvas(Context context) {
-		mParent = (Activity) context;
+		mParent = (GameActivity) context;
 		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		wm.getDefaultDisplay().getMetrics(displayMetrics);
 		resolutionX = displayMetrics.widthPixels;
+		System.out.println("Pixels X: " + resolutionX);
 		resolutionY = displayMetrics.heightPixels;
-		tileSize = (int) (resolutionX - 45) / 9;
+		tileSize = (resolutionX) / 9;
+		System.out.println("Tile size: " + tileSize);
 		mRectPaint = new Paint();
+		mNumberPaint = new Paint();
 	}
 	
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		mRectPaint.setStyle(Paint.Style.FILL);
-		mRectPaint.setColor(Color.BLUE);
+		mRectPaint.setColor(Color.DKGRAY);
 		canvas.drawPaint(mRectPaint);
 		
-		mRectPaint.setStyle(Paint.Style.STROKE);
-		mRectPaint.setColor(Color.RED);
+		mRectPaint.setStyle(Paint.Style.FILL);
+		mRectPaint.setColor(Color.WHITE);
 		mRectPaint.setAntiAlias(true);
-		int startX;
-		for (int i = 1; i <= 9; i++) {
-			startX = (i - 1) * tileSize;
-			canvas.drawRect(startX + 5, 20, startX + tileSize, 20 + tileSize, mRectPaint);
+		mNumberPaint.setStyle(Paint.Style.STROKE);
+		mNumberPaint.setColor(Color.BLACK);
+		mNumberPaint.setAntiAlias(true);
+		mNumberPaint.setTextAlign(Paint.Align.CENTER);
+		mNumberPaint.setTextSize(tileSize - 5);
+		float startX;
+		float startY;
+		NumberSquare tempSquare;
+		for (int j = 0; j < mParent.getGameboard().getRows(); j++) {
+			startY = j * tileSize;
+			for (int i = 0; i < Gameboard.COLUMNS; i++) {
+				startX = i * tileSize;
+				System.out.println("X = " + startX + ", Y = " + startY);
+				mParent.getGameboard().getNumberSquare(j, i).setCoordinates(startX + SQUARE_PADDING, 
+						startY + SQUARE_PADDING,
+						startX + tileSize,
+						startY + SQUARE_PADDING + tileSize);
+				tempSquare = mParent.getGameboard().getNumberSquare(j, i);
+				canvas.drawRect(startX + SQUARE_PADDING, startY + SQUARE_PADDING, startX + tileSize,
+						startY + tileSize, mRectPaint);
+				System.out.println("Drawing \"" + tempSquare.getValue() + "\" at position ("  + tempSquare.getCenterX() + ", " + tempSquare.getCenterY() + "), memloc = " + tempSquare.toString());
+				canvas.drawText(String.valueOf(tempSquare.getValue()), tempSquare.getCenterX(), tempSquare.getCenterY(), mNumberPaint);
+			}	
 		}
 		
+	}
+	
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+			System.out.println(event.getX() + ", " + event.getY());
+			return true;			
+		}
+		else return false;
 	}
 
 }

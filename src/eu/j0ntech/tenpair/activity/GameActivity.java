@@ -9,16 +9,19 @@ import eu.j0ntech.tenpair.view.BoardCanvas;
 
 public class GameActivity extends Activity {
 	
-	Gameboard mGameboard;
+	private Gameboard mGameboard;
+	
+	private BoardCanvas mCanvas;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game);
 		
-//		mGameboard = new Gameboard();
+		mCanvas = (BoardCanvas) findViewById(R.id.boardcanvas);
+		
+		mGameboard = new Gameboard();
 //		mGameboard.displayBoard();
-		BoardCanvas canvas = new BoardCanvas(this);
 	}
 
 	@Override
@@ -26,6 +29,10 @@ public class GameActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_game, menu);
 		return true;
+	}
+	
+	public Gameboard getGameboard() {
+		return mGameboard;
 	}
 
 }
