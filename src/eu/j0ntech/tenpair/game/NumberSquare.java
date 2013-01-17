@@ -16,6 +16,10 @@ public class NumberSquare {
 	
 	private float centerY;
 	
+	private int row;
+	
+	private int column;
+	
 	private boolean selected = false;
 	
 	private boolean highlighted = false;
@@ -24,6 +28,12 @@ public class NumberSquare {
 	
 	public NumberSquare(byte value) {
 		this.value = value;
+	}
+	
+	public NumberSquare(byte value, int row, int column) {
+		this.value = value;
+		this.row = row;
+		this.column = column;
 	}
 
 	public byte getValue() {
@@ -96,6 +106,22 @@ public class NumberSquare {
 		calculateCenter();
 	}
 	
+	public int getRow() {
+		return row;
+	}
+
+	public void setRow(int row) {
+		this.row = row;
+	}
+
+	public int getColumn() {
+		return column;
+	}
+
+	public void setColumn(int column) {
+		this.column = column;
+	}
+
 	public boolean isSelected() {
 		return selected;
 	}

@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -21,6 +22,8 @@ public class BoardCanvas extends View {
 	private final int COLOR_NUMBER = Color.BLACK;
 	private final int COLOR_BACKGROUND = Color.DKGRAY;
 	
+	private final String TAG = "BoardCanvas";
+	
 	private GameActivity mParent;
 	private Paint mRectPaint;
 	private Paint mNumberPaint;
@@ -30,6 +33,7 @@ public class BoardCanvas extends View {
 	
 	private int lastSelectedRow;
 	private int lastSelectedColumn;
+	private int[][] curHighlights;
 	
 	private static int SQUARE_PADDING = 5;
 	
@@ -58,10 +62,10 @@ public class BoardCanvas extends View {
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		wm.getDefaultDisplay().getMetrics(displayMetrics);
 		resolutionX = displayMetrics.widthPixels;
-		System.out.println("Pixels X: " + resolutionX);
+		Log.d(TAG, "Pixels X: " + resolutionX);
 		resolutionY = displayMetrics.heightPixels;
 		tileSize = (resolutionX) / 9;
-		System.out.println("Tile size: " + tileSize);
+		Log.d(TAG, "Tile size: " + tileSize);
 		mRectPaint = new Paint();
 		mNumberPaint = new Paint();
 	}
@@ -88,8 +92,13 @@ public class BoardCanvas extends View {
 				NumberSquare tempSquare = board.getNumberSquare(j, i);
 				if (tempSquare.isSelected()) {
 					mRectPaint.setColor(COLOR_SELECTED_SQUARE);
+//					Log.d(TAG, "Square is SELECTED");
+				} else if (tempSquare.isHighlighted()){
+					mRectPaint.setColor(COLOR_HIGHLIGHTED_SQUARE);
+//					Log.d(TAG, "Square is HIGHLIGHTED");
 				} else {
 					mRectPaint.setColor(COLOR_DEFAULT_SQUARE);
+//					Log.d(TAG, "Square is DEFAULT");
 				}
 				tempSquare.setCoordinates(startX + SQUARE_PADDING, 
 						startY + SQUARE_PADDING,
@@ -115,13 +124,17 @@ public class BoardCanvas extends View {
 				if (squareRow == lastSelectedRow && squareColumn == lastSelectedColumn
 						&& board.getNumberSquare(lastSelectedRow, lastSelectedColumn).isSelected()) {
 					board.getNumberSquare(squareRow, squareColumn).setSelected(false);
+					clearHighlights();
 					invalidate();
 					return true;
 				}
 				board.getNumberSquare(lastSelectedRow, lastSelectedColumn).setSelected(false);
+				clearHighlights();
 				lastSelectedRow = squareRow;
 				lastSelectedColumn = squareColumn;
 				board.getNumberSquare(squareRow, squareColumn).setSelected(true);
+				curHighlights = board.getAdjacentSquaresArray(squareRow, squareColumn);
+				setHighlights();
 				invalidate();
 				return true;
 			} else {
@@ -129,6 +142,25 @@ public class BoardCanvas extends View {
 			}			
 		}
 		else return false;
+	}
+	
+	private void clearHighlights() {
+		if (curHighlights != null) {
+			Gameboard board = mParent.getGameboard();
+			for (int i = 0; i < curHighlights.length; i++) {
+				board.getNumberSquare(curHighlights[i][0], curHighlights[i][1]).setHighlighted(false);
+			}			
+		}
+	}
+	
+	private void setHighlights() {
+		if (curHighlights != null) {
+			Gameboard board = mParent.getGameboard();
+			for (int i = 0; i < curHighlights.length; i++) {
+				board.getNumberSquare(curHighlights[i][0], curHighlights[i][1]).setHighlighted(true);
+				Log.d(TAG, "Set square (" + curHighlights[i][0] + ", " + curHighlights[i][1] + ") as HIGHLIGHTED");
+			}			
+		}
 	}
 
 }
