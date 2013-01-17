@@ -27,6 +27,7 @@ public class BoardCanvas extends View {
 	private GameActivity mParent;
 	private Paint mRectPaint;
 	private Paint mNumberPaint;
+	private Paint mLinePaint;
 	
 	private int resolutionX;
 	private int resolutionY;
@@ -68,6 +69,7 @@ public class BoardCanvas extends View {
 		Log.d(TAG, "Tile size: " + tileSize);
 		mRectPaint = new Paint();
 		mNumberPaint = new Paint();
+		mLinePaint = new Paint();
 	}
 	
 	@Override
@@ -80,6 +82,12 @@ public class BoardCanvas extends View {
 		
 		mRectPaint.setStyle(Paint.Style.FILL);
 		mRectPaint.setAntiAlias(true);
+		
+		mLinePaint.setStyle(Paint.Style.STROKE);
+		mLinePaint.setColor(COLOR_NUMBER);
+		mLinePaint.setStrokeWidth(3f);
+		mLinePaint.setAntiAlias(true);
+		
 		mNumberPaint.setStyle(Paint.Style.STROKE);
 		mNumberPaint.setColor(COLOR_NUMBER);
 		mNumberPaint.setAntiAlias(true);
@@ -108,6 +116,12 @@ public class BoardCanvas extends View {
 					      tempSquare.getEndX(), tempSquare.getEndY(), mRectPaint);
 				canvas.drawText(String.valueOf(tempSquare.getValue()), tempSquare.getCenterX(), (float) (tempSquare.getCenterY()
 						+ (mNumberPaint.getTextSize()) / 2.6), mNumberPaint);
+				if (tempSquare.isScratched()) {
+					canvas.drawLine(startX + SQUARE_PADDING, startY + SQUARE_PADDING, startX + tileSize,
+							startY + tileSize, mLinePaint);
+					canvas.drawLine(startX + tileSize, startY + SQUARE_PADDING,
+							startX + SQUARE_PADDING, startY + tileSize, mLinePaint);
+				}
 			}	
 		}
 		
