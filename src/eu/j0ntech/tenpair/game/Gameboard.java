@@ -6,10 +6,6 @@ public class Gameboard {
 	
 	public static final int COLUMNS = 9;
 	
-	private static final byte SCRATCHED_NUMBER = 0;
-	
-	private static final byte EMPTY_SPACE = -1;
-	
 	private int rows = 3;
 	
 	private ArrayList<ArrayList<NumberSquare>> board;
@@ -79,10 +75,6 @@ public class Gameboard {
 				}
 			}
 		}
-	}
-	
-	public void setNumberAsScratched(int row, int column) {
-		//TODO
 	}
 	
 	public void displayBoard() {

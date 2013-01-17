@@ -16,6 +16,12 @@ public class NumberSquare {
 	
 	private float centerY;
 	
+	private boolean selected = false;
+	
+	private boolean highlighted = false;
+	
+	private boolean scratched = false;
+	
 	public NumberSquare(byte value) {
 		this.value = value;
 	}
@@ -90,6 +96,30 @@ public class NumberSquare {
 		calculateCenter();
 	}
 	
+	public boolean isSelected() {
+		return selected;
+	}
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
+
+	public boolean isHighlighted() {
+		return highlighted;
+	}
+
+	public void setHighlighted(boolean highlighted) {
+		this.highlighted = highlighted;
+	}
+
+	public boolean isScratched() {
+		return scratched;
+	}
+
+	public void setScratched(boolean scratched) {
+		this.scratched = scratched;
+	}
+
 	private void calculateCenter() {
 		centerX = startX + (endX - startX) / 2;
 		centerY = startY + (endY - startY) / 2;

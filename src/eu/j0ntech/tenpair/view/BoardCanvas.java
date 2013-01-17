@@ -15,12 +15,21 @@ import eu.j0ntech.tenpair.game.NumberSquare;
 
 public class BoardCanvas extends View {
 	
+	private final int COLOR_DEFAULT_SQUARE = Color.WHITE;
+	private final int COLOR_SELECTED_SQUARE = Color.rgb(135,206,250); // Light blue
+	private final int COLOR_HIGHLIGHTED_SQUARE = Color.GREEN;
+	private final int COLOR_NUMBER = Color.BLACK;
+	private final int COLOR_BACKGROUND = Color.DKGRAY;
+	
 	private GameActivity mParent;
 	private Paint mRectPaint;
 	private Paint mNumberPaint;
 	
 	private int resolutionX;
 	private int resolutionY;
+	
+	private int lastSelectedRow;
+	private int lastSelectedColumn;
 	
 	private static int SQUARE_PADDING = 5;
 	
@@ -60,23 +69,28 @@ public class BoardCanvas extends View {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
+		Gameboard board = mParent.getGameboard();
 		mRectPaint.setStyle(Paint.Style.FILL);
-		mRectPaint.setColor(Color.DKGRAY);
+		mRectPaint.setColor(COLOR_BACKGROUND);
 		canvas.drawPaint(mRectPaint);
 		
 		mRectPaint.setStyle(Paint.Style.FILL);
-		mRectPaint.setColor(Color.WHITE);
 		mRectPaint.setAntiAlias(true);
 		mNumberPaint.setStyle(Paint.Style.STROKE);
-		mNumberPaint.setColor(Color.BLACK);
+		mNumberPaint.setColor(COLOR_NUMBER);
 		mNumberPaint.setAntiAlias(true);
 		mNumberPaint.setTextAlign(Paint.Align.CENTER);
 		mNumberPaint.setTextSize(tileSize - SQUARE_PADDING);
-		for (int j = 0; j < mParent.getGameboard().getRows(); j++) {
+		for (int j = 0; j < board.getRows(); j++) {
 			float startY = j * tileSize;
 			for (int i = 0; i < Gameboard.COLUMNS; i++) {
 				float startX = i * tileSize;
-				NumberSquare tempSquare = mParent.getGameboard().getNumberSquare(j, i);
+				NumberSquare tempSquare = board.getNumberSquare(j, i);
+				if (tempSquare.isSelected()) {
+					mRectPaint.setColor(COLOR_SELECTED_SQUARE);
+				} else {
+					mRectPaint.setColor(COLOR_DEFAULT_SQUARE);
+				}
 				tempSquare.setCoordinates(startX + SQUARE_PADDING, 
 						startY + SQUARE_PADDING,
 						startX + tileSize,
@@ -93,8 +107,26 @@ public class BoardCanvas extends View {
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
-			System.out.println(event.getX() + ", " + event.getY());
-			return true;			
+			Gameboard board = mParent.getGameboard();
+			int squareRow = (int) (event.getY() / tileSize);
+			int squareColumn = (int) (event.getX() / tileSize);
+			if ((squareRow >= 0 && squareRow < board.getRows())
+					&& (squareColumn >= 0 && squareColumn < Gameboard.COLUMNS)) {
+				if (squareRow == lastSelectedRow && squareColumn == lastSelectedColumn
+						&& board.getNumberSquare(lastSelectedRow, lastSelectedColumn).isSelected()) {
+					board.getNumberSquare(squareRow, squareColumn).setSelected(false);
+					invalidate();
+					return true;
+				}
+				board.getNumberSquare(lastSelectedRow, lastSelectedColumn).setSelected(false);
+				lastSelectedRow = squareRow;
+				lastSelectedColumn = squareColumn;
+				board.getNumberSquare(squareRow, squareColumn).setSelected(true);
+				invalidate();
+				return true;
+			} else {
+				return false;
+			}			
 		}
 		else return false;
 	}
