@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -19,10 +20,13 @@ public class BoardCanvas extends View {
 	private final int COLOR_DEFAULT_SQUARE = Color.WHITE;
 	private final int COLOR_SELECTED_SQUARE = Color.rgb(135,206,250); // Light blue
 	private final int COLOR_HIGHLIGHTED_SQUARE = Color.GREEN;
+	private final int COLOR_SCRATCHED_SQUARE = Color.RED;
 	private final int COLOR_NUMBER = Color.BLACK;
 	private final int COLOR_BACKGROUND = Color.DKGRAY;
 	
 	private final String TAG = "BoardCanvas";
+	
+	private GestureDetector mGestureDetector;
 	
 	private GameActivity mParent;
 	private Paint mRectPaint;
@@ -59,6 +63,7 @@ public class BoardCanvas extends View {
 	
 	private void initCanvas(Context context) {
 		mParent = (GameActivity) context;
+		mGestureDetector = new GestureDetector(context, new GestureListener());
 		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		wm.getDefaultDisplay().getMetrics(displayMetrics);
@@ -76,6 +81,7 @@ public class BoardCanvas extends View {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		Gameboard board = mParent.getGameboard();
+		board.displayBoard();
 		mRectPaint.setStyle(Paint.Style.FILL);
 		mRectPaint.setColor(COLOR_BACKGROUND);
 		canvas.drawPaint(mRectPaint);
@@ -129,10 +135,43 @@ public class BoardCanvas extends View {
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+		return mGestureDetector.onTouchEvent(event);
+	}
+	
+	private void clearHighlights() {
+		if (curHighlights != null) {
 			Gameboard board = mParent.getGameboard();
-			int squareRow = (int) (event.getY() / tileSize);
-			int squareColumn = (int) (event.getX() / tileSize);
+			for (int i = 0; i < curHighlights.length; i++) {
+				board.getNumberSquare(curHighlights[i][0], curHighlights[i][1]).setHighlighted(false);
+			}			
+		}
+	}
+	
+	private void setHighlights() {
+		if (curHighlights != null) {
+			Gameboard board = mParent.getGameboard();
+			for (int i = 0; i < curHighlights.length; i++) {
+				board.getNumberSquare(curHighlights[i][0], curHighlights[i][1]).setHighlighted(true);
+//				Log.d(TAG, "Set square (" + curHighlights[i][0] + ", " + curHighlights[i][1] + ") as HIGHLIGHTED");
+			}			
+		}
+	}
+	
+	private int getSquareRow(MotionEvent event) {
+		return (int) (event.getY() / tileSize);
+	}
+	
+	private int getSquareColumn(MotionEvent event) {
+		return (int) (event.getX() / tileSize);
+	}
+	
+	private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+		
+		@Override
+		public boolean onDown(MotionEvent event) {
+			Gameboard board = mParent.getGameboard();
+			int squareRow = getSquareRow(event);
+			int squareColumn = getSquareColumn(event);
 			if ((squareRow >= 0 && squareRow < board.getRows())
 					&& (squareColumn >= 0 && squareColumn < Gameboard.COLUMNS)) {
 				if (squareRow == lastSelectedRow && squareColumn == lastSelectedColumn
@@ -151,30 +190,29 @@ public class BoardCanvas extends View {
 				setHighlights();
 				invalidate();
 				return true;
-			} else {
-				return false;
-			}			
+			}
+			return false;
 		}
-		else return false;
-	}
-	
-	private void clearHighlights() {
-		if (curHighlights != null) {
+		
+		@Override
+		public void onLongPress(MotionEvent event) {
 			Gameboard board = mParent.getGameboard();
-			for (int i = 0; i < curHighlights.length; i++) {
-				board.getNumberSquare(curHighlights[i][0], curHighlights[i][1]).setHighlighted(false);
-			}			
+			int squareRow = getSquareRow(event);
+			int squareColumn = getSquareColumn(event);
+			if ((squareRow >= 0 && squareRow < board.getRows())
+					&& (squareColumn >= 0 && squareColumn < Gameboard.COLUMNS)) {
+				board.getNumberSquare(squareRow, squareColumn).setScratched(
+						!board.getNumberSquare(squareRow, squareColumn).isScratched());
+			}
 		}
-	}
-	
-	private void setHighlights() {
-		if (curHighlights != null) {
-			Gameboard board = mParent.getGameboard();
-			for (int i = 0; i < curHighlights.length; i++) {
-				board.getNumberSquare(curHighlights[i][0], curHighlights[i][1]).setHighlighted(true);
-				Log.d(TAG, "Set square (" + curHighlights[i][0] + ", " + curHighlights[i][1] + ") as HIGHLIGHTED");
-			}			
+		
+		@Override
+		public boolean onScroll(MotionEvent e1, MotionEvent e2,
+				float distanceX, float distanceY) {
+			// TODO Scrolling
+			return super.onScroll(e1, e2, distanceX, distanceY);
 		}
+
 	}
 
 }

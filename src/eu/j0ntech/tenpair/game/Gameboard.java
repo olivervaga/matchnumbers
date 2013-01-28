@@ -84,32 +84,62 @@ public class Gameboard {
 	public List<NumberSquare> getAdjacentSquares(int row, int column) {
 		ArrayList<NumberSquare> result = new ArrayList<NumberSquare>(4);
 		// Top adjacent
-		if (row > 0) {
-			result.add(getNumberSquare(row - 1, column));
-			Log.d(TAG, "Added top adjacent to coordinates (" + (row - 1) + ", " + column +")");
+		for (int i = row - 1; i >= 0; i--) {
+			if (!getNumberSquare(i, column).isScratched()) {
+				result.add(getNumberSquare(i,column));
+				break;
+			}
 		}
 		// Left adjacent
-		if (column > 0) {
-			result.add(getNumberSquare(row, column - 1));
-			Log.d(TAG, "Added left adjacent to coordinates (" + row + ", " + (column - 1) +")");
-		}
-		else if (column == 0 && row > 0) {
-			result.add(getNumberSquare(row - 1, (COLUMNS - 1)));
-			Log.d(TAG, "Added left adjacent to coordinates (" + (row - 1) + ", " + (COLUMNS - 1) +")");
+		leftOuter:
+		if (column == 0) {
+			for (int i = row - 1; i >= 0; i--) {
+				for (int j = COLUMNS - 1; j >= 0; j--) {
+					Log.d(TAG, String.valueOf(getNumberSquare(row, column).isScratched()));
+					if (!getNumberSquare(row, column).isScratched()) {
+						result.add(getNumberSquare(i, j));
+						break leftOuter;
+					}
+				}
+			}
+		} else {
+			for (int i = row; i >= 0; i--) {
+				for (int j = column - 1; j >= 0; j--) {
+					Log.d(TAG, String.valueOf(getNumberSquare(row, column).isScratched()));
+					if (!getNumberSquare(row, column).isScratched()) {
+						result.add(getNumberSquare(i, j));
+						break leftOuter;
+					}
+				}
+			}			
 		}
 		// Bottom adjacent
-		if (row < rows - 1) {
-			result.add(getNumberSquare(row + 1, column));
-			Log.d(TAG, "Added bottom adjacent to coordinates (" + (row + 1) + ", " + column +")");
+		for (int i = row + 1; i < rows; i++) {
+			if (!getNumberSquare(i, column).isScratched()) {
+				result.add(getNumberSquare(i,column));
+				break;
+			}
 		}
-		// Right adjacent	
-		if (column < (COLUMNS - 1)) {
-			result.add(getNumberSquare(row, column + 1));
-			Log.d(TAG, "Added right adjacent to coordinates (" + row + ", " + (column - 1) +")");
-		}
-		else if (column == (COLUMNS - 1) && row < rows - 1) {
-			result.add(getNumberSquare(row + 1, 0));
-			Log.d(TAG, "Added right adjacent to coordinates (" + (row + 1) + ", 0)");
+		// Right adjacent
+		rightOuter:
+		if (column + 1 == COLUMNS) {
+			for (int i = row + 1; i < rows; i++) {
+				for (int j = 0; j < COLUMNS; j++) {
+					if (!getNumberSquare(row, column).isScratched()) {
+						result.add(getNumberSquare(i, j));
+						break rightOuter;
+					}
+				}
+			}
+		} else {
+			for (int i = row; i < rows; i++) {
+				for (int j = column + 1; j < COLUMNS; j++) {
+					if (!getNumberSquare(row, column).isScratched()) {
+						result.add(getNumberSquare(i, j));
+						break rightOuter;
+					}
+				}
+			}			
 		}
 		return result;
 	}
@@ -123,7 +153,7 @@ public class Gameboard {
 			for (int i = 0; i < result.length; i++) {
 				result[i][0] = list.get(i).getRow();
 				result[i][1] = list.get(i).getColumn();
-				Log.d(TAG, "Set square (" + result[i][0] + ", " + result[i][1] + ") as HIGHLIGHTED");
+//				Log.d(TAG, "Set square (" + result[i][0] + ", " + result[i][1] + ") as HIGHLIGHTED");
 			}
 		}
 		return result;
@@ -135,6 +165,9 @@ public class Gameboard {
 			rowString = new StringBuilder(9);
 			for (int j = 0; j < 9; j++) {
 				rowString.append(getSquareValue(i, j));
+				if (getNumberSquare(i, j).isScratched()) rowString.append("*");
+				else rowString.append(" ");
+				rowString.append(" ");
 			}
 			Log.d(TAG, rowString.toString());
 		}
