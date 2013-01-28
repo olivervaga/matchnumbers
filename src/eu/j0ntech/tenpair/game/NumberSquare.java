@@ -1,35 +1,54 @@
 package eu.j0ntech.tenpair.game;
 
+/**
+ * A data class for holding info about a number square
+ * @author Oliver Vaga
+ *
+ */
 public class NumberSquare {
 	
+	// Numeric value of the square
 	private byte value;
 	
+	// Left X coordinate
 	private float startX;
 	
+	// Right X coordinate
 	private float endX;
 	
+	// Top Y coordinate
 	private float startY;
 	
+	// Bottom Y coordinate
 	private float endY;
 	
+	// Horizontal center coordinate
 	private float centerX;
 	
+	// Vertical center coordinate
 	private float centerY;
 	
+	// Row on the game board
 	private int row;
 	
+	// Column on the game board
 	private int column;
 	
+	// The square is currently selected
 	private boolean selected = false;
 	
+	// The square is highlighted (available squares next to the selected square)
 	private boolean highlighted = false;
 	
+	// The square has been played (no more selectable or highlightable)
 	private boolean scratched = false;
 	
+	// Constructor with just the numeric value (byte)
 	public NumberSquare(byte value) {
 		this.value = value;
 	}
 	
+	// Constructor with numeric value and place on the game board
 	public NumberSquare(byte value, int row, int column) {
 		this.value = value;
 		this.row = row;
@@ -44,6 +63,7 @@ public class NumberSquare {
 		this.value = value;
 	}
 	
+	// Sets the coordinates and calculates center
 	public void setCoordinates(float left, float top, float right, float bottom) {
 		startX = left;
 		startY = top;
@@ -146,6 +166,7 @@ public class NumberSquare {
 		this.scratched = scratched;
 	}
 
+	// Calculates center of square
 	private void calculateCenter() {
 		centerX = startX + (endX - startX) / 2;
 		centerY = startY + (endY - startY) / 2;

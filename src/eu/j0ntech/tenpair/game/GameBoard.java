@@ -5,17 +5,36 @@ import java.util.List;
 
 import android.util.Log;
 
-public class Gameboard {
-	
-	public static final int COLUMNS = 9;
+/**
+ * Class for holding all the game-related data
+ * and logic
+ * @author Oliver Vaga
+ *
+ */
+public class GameBoard {
 	
 	private final String TAG = "Gameboard";
 	
+	/**
+	 * Maximum number of columns on the board
+	 */
+	public static final int COLUMNS = 9;
+	
+	/**
+	 * Current number of rows on the board
+	 */
 	private int rows = 3;
 	
+	/**
+	 * Representation of the game board, a two-dimensional ArrayList
+	 * containing all the NumberSquares
+	 */
 	private ArrayList<ArrayList<NumberSquare>> board;
 	
-	public Gameboard() {
+	/**
+	 * Creates a new GameBoard and populates it with the default values
+	 */
+	public GameBoard() {
 		board = new ArrayList<ArrayList<NumberSquare>>(rows);
 		board.ensureCapacity(rows);
 		for (int i = 0; i <= 2; i++) {
@@ -36,6 +55,10 @@ public class Gameboard {
 		return rows;
 	}
 	
+	/**
+	 * Populates the board with the default starting values
+	 * for the game
+	 */
 	private void populateDefaultBoard() {
 		for (int i = 0; i < 9; i++) {
 			board.get(0).add(i, new NumberSquare((byte) (i + 1), 0, i));
@@ -81,6 +104,13 @@ public class Gameboard {
 		}
 	}
 	
+	/**
+	 * Finds all the legally highlightable adjacent squares
+	 * (scratched squares can't be highlighted) BUGGY
+	 * @param row Row of the selected square
+	 * @param column Column of the selected square
+	 * @return An ArrayList of highlighted NumberSquare objects
+	 */
 	public List<NumberSquare> getAdjacentSquares(int row, int column) {
 		ArrayList<NumberSquare> result = new ArrayList<NumberSquare>(4);
 		// Top adjacent
@@ -144,6 +174,14 @@ public class Gameboard {
 		return result;
 	}
 	
+	/**
+	 * Finds all the legally highlightable adjacent squares
+	 * (scratched squares can't be highlighted) BUGGY
+	 * @param row Row of the selected square
+	 * @param column Column of the selected square
+	 * @return A two-dimensional integer array with the
+	 * rows and columns of highlighted squares
+	 */
 	public int[][] getAdjacentSquaresArray(int row, int column) {
 		List<NumberSquare> list = getAdjacentSquares(row, column);
 		Log.d(TAG, "Got " + list.size() + " adjacent squares");
@@ -159,6 +197,11 @@ public class Gameboard {
 		return result;
 	}
 	
+	/**
+	 * Displays the current game board state
+	 * in LogCat (for debugging purposes),
+	 * scratched squares have trailing asterisk
+	 */
 	public void displayBoard() {
 		StringBuilder rowString;
 		for (int i = 0; i < rows; i++) {

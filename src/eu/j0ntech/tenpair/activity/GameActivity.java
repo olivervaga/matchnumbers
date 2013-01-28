@@ -4,12 +4,12 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import eu.j0ntech.tenpair.R;
-import eu.j0ntech.tenpair.game.Gameboard;
+import eu.j0ntech.tenpair.game.GameBoard;
 import eu.j0ntech.tenpair.view.BoardCanvas;
 
 public class GameActivity extends Activity {
 	
-	private Gameboard mGameboard;
+	private GameBoard mGameboard;
 	
 	private BoardCanvas mCanvas;
 
@@ -20,7 +20,7 @@ public class GameActivity extends Activity {
 		
 		mCanvas = (BoardCanvas) findViewById(R.id.boardcanvas);
 		
-		mGameboard = new Gameboard();
+		mGameboard = new GameBoard();
 //		mGameboard.displayBoard();
 	}
 
@@ -31,7 +31,7 @@ public class GameActivity extends Activity {
 		return true;
 	}
 	
-	public Gameboard getGameboard() {
+	public GameBoard getGameboard() {
 		return mGameboard;
 	}
 

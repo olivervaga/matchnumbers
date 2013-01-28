@@ -12,9 +12,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import eu.j0ntech.tenpair.activity.GameActivity;
-import eu.j0ntech.tenpair.game.Gameboard;
+import eu.j0ntech.tenpair.game.GameBoard;
 import eu.j0ntech.tenpair.game.NumberSquare;
 
+/**
+ * The canvas that displays the game area
+ * @author Oliver Vaga
+ *
+ */
 public class BoardCanvas extends View {
 	
 	private final int COLOR_DEFAULT_SQUARE = Color.WHITE;
@@ -61,6 +66,11 @@ public class BoardCanvas extends View {
 		
 	}
 	
+	/**
+	 * Initializes Paint objects, the GestureDetector and detects
+	 * the screen size
+	 * @param context Parent activity
+	 */
 	private void initCanvas(Context context) {
 		mParent = (GameActivity) context;
 		mGestureDetector = new GestureDetector(context, new GestureListener());
@@ -77,10 +87,14 @@ public class BoardCanvas extends View {
 		mLinePaint = new Paint();
 	}
 	
+	/**
+	 * Draws the squares, numbers, colors things according
+	 * to status
+	 */
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		Gameboard board = mParent.getGameboard();
+		GameBoard board = mParent.getGameboard();
 		board.displayBoard();
 		mRectPaint.setStyle(Paint.Style.FILL);
 		mRectPaint.setColor(COLOR_BACKGROUND);
@@ -101,7 +115,7 @@ public class BoardCanvas extends View {
 		mNumberPaint.setTextSize(tileSize - SQUARE_PADDING);
 		for (int j = 0; j < board.getRows(); j++) {
 			float startY = j * tileSize;
-			for (int i = 0; i < Gameboard.COLUMNS; i++) {
+			for (int i = 0; i < GameBoard.COLUMNS; i++) {
 				float startX = i * tileSize;
 				NumberSquare tempSquare = board.getNumberSquare(j, i);
 				if (tempSquare.isSelected()) {
@@ -133,23 +147,34 @@ public class BoardCanvas extends View {
 		
 	}
 	
+	/**
+	 * Sends the touch event to the GestureDetector
+	 */
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		return mGestureDetector.onTouchEvent(event);
 	}
 	
+	/**
+	 * Sets squares in the curHighlights array as
+	 * default
+	 */
 	private void clearHighlights() {
 		if (curHighlights != null) {
-			Gameboard board = mParent.getGameboard();
+			GameBoard board = mParent.getGameboard();
 			for (int i = 0; i < curHighlights.length; i++) {
 				board.getNumberSquare(curHighlights[i][0], curHighlights[i][1]).setHighlighted(false);
 			}			
 		}
 	}
 	
+	/**
+	 * Sets squares in the curHighlights array as
+	 * highlighted
+	 */
 	private void setHighlights() {
 		if (curHighlights != null) {
-			Gameboard board = mParent.getGameboard();
+			GameBoard board = mParent.getGameboard();
 			for (int i = 0; i < curHighlights.length; i++) {
 				board.getNumberSquare(curHighlights[i][0], curHighlights[i][1]).setHighlighted(true);
 //				Log.d(TAG, "Set square (" + curHighlights[i][0] + ", " + curHighlights[i][1] + ") as HIGHLIGHTED");
@@ -165,15 +190,20 @@ public class BoardCanvas extends View {
 		return (int) (event.getX() / tileSize);
 	}
 	
+	/**
+	 * The GestureListener class that consumes to touch events
+	 * @author Oliver Vaga
+	 *
+	 */
 	private class GestureListener extends GestureDetector.SimpleOnGestureListener {
 		
 		@Override
 		public boolean onDown(MotionEvent event) {
-			Gameboard board = mParent.getGameboard();
+			GameBoard board = mParent.getGameboard();
 			int squareRow = getSquareRow(event);
 			int squareColumn = getSquareColumn(event);
 			if ((squareRow >= 0 && squareRow < board.getRows())
-					&& (squareColumn >= 0 && squareColumn < Gameboard.COLUMNS)) {
+					&& (squareColumn >= 0 && squareColumn < GameBoard.COLUMNS)) {
 				if (squareRow == lastSelectedRow && squareColumn == lastSelectedColumn
 						&& board.getNumberSquare(lastSelectedRow, lastSelectedColumn).isSelected()) {
 					board.getNumberSquare(squareRow, squareColumn).setSelected(false);
@@ -196,11 +226,11 @@ public class BoardCanvas extends View {
 		
 		@Override
 		public void onLongPress(MotionEvent event) {
-			Gameboard board = mParent.getGameboard();
+			GameBoard board = mParent.getGameboard();
 			int squareRow = getSquareRow(event);
 			int squareColumn = getSquareColumn(event);
 			if ((squareRow >= 0 && squareRow < board.getRows())
-					&& (squareColumn >= 0 && squareColumn < Gameboard.COLUMNS)) {
+					&& (squareColumn >= 0 && squareColumn < GameBoard.COLUMNS)) {
 				board.getNumberSquare(squareRow, squareColumn).setScratched(
 						!board.getNumberSquare(squareRow, squareColumn).isScratched());
 			}
