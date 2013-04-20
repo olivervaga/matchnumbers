@@ -147,6 +147,11 @@ public class Tile {
 		this.type = type;
 	}
 
+	public void setTypeSafely(TileType type) {
+		if (this.type != TileType.SCRATCHED)
+			this.type = type;
+	}
+
 	// Calculates center of square
 	private void calculateCenter() {
 		centerX = startX + (endX - startX) / 2;

@@ -11,6 +11,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Toast;
 import eu.j0ntech.tenpair.activity.GameActivity;
 import eu.j0ntech.tenpair.game.GameBoard;
 import eu.j0ntech.tenpair.game.Tile;
@@ -41,6 +42,7 @@ public class BoardCanvas extends View {
 	private int resolutionX;
 	private int resolutionY;
 
+	private boolean tileSelected = false;
 	private int lastSelectedRow;
 	private int lastSelectedColumn;
 	private int[][] curHighlights;
@@ -95,7 +97,7 @@ public class BoardCanvas extends View {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		GameBoard board = mParent.getGameboard();
-		board.displayBoard();
+		// board.displayBoard();
 		mBackPaint.setStyle(Paint.Style.FILL);
 		mBackPaint.setColor(COLOR_BACKGROUND);
 		canvas.drawPaint(mBackPaint);
@@ -126,11 +128,10 @@ public class BoardCanvas extends View {
 	 */
 	private void clearHighlights() {
 		if (curHighlights != null) {
-			Log.d(TAG, "Clearing highlights");
 			GameBoard board = mParent.getGameboard();
 			for (int i = 0; i < curHighlights.length; i++) {
 				board.getTile(curHighlights[i][0], curHighlights[i][1])
-						.setType(TileType.DEFAULT);
+						.setTypeSafely(TileType.DEFAULT);
 			}
 		}
 	}
@@ -140,15 +141,40 @@ public class BoardCanvas extends View {
 	 */
 	private void setHighlights() {
 		if (curHighlights != null) {
-			Log.d(TAG, "Setting highlights");
 			GameBoard board = mParent.getGameboard();
 			for (int i = 0; i < curHighlights.length; i++) {
 				board.getTile(curHighlights[i][0], curHighlights[i][1])
-						.setType(TileType.HIGHLIGHTED);
-				// Log.d(TAG, "Set square (" + curHighlights[i][0] + ", " +
-				// curHighlights[i][1] + ") as HIGHLIGHTED");
+						.setTypeSafely(TileType.HIGHLIGHTED);
 			}
 		}
+	}
+
+	private boolean isTouchEventWithinBoard(MotionEvent event, GameBoard board) {
+		int squareRow = getSquareRow(event);
+		int squareColumn = getSquareColumn(event);
+		if ((squareRow >= 0 && squareRow < board.getRows())
+				&& (squareColumn >= 0 && squareColumn < GameBoard.COLUMNS))
+			return true;
+		else
+			return false;
+	}
+
+	private void clearSelection(GameBoard board) {
+		tileSelected = false;
+		board.getTile(lastSelectedRow, lastSelectedColumn).setTypeSafely(
+					TileType.DEFAULT);
+		clearHighlights();
+	}
+
+	private void selectTile(GameBoard board, Tile targetTile) {
+		tileSelected = true;
+		lastSelectedRow = targetTile.getRow();
+		lastSelectedColumn = targetTile.getColumn();
+		board.getTile(lastSelectedRow, lastSelectedColumn).setTypeSafely(
+				TileType.SELECTED);
+		curHighlights = board.getAdjacentTilesArray(lastSelectedRow,
+				lastSelectedColumn);
+		setHighlights();
 	}
 
 	public float getTileSize() {
@@ -175,57 +201,49 @@ public class BoardCanvas extends View {
 		@Override
 		public boolean onDown(MotionEvent event) {
 			Log.d(TAG, "Got motionevent");
+
 			GameBoard board = mParent.getGameboard();
 			int squareRow = getSquareRow(event);
 			int squareColumn = getSquareColumn(event);
-			if ((squareRow >= 0 && squareRow < board.getRows())
-					&& (squareColumn >= 0 && squareColumn < GameBoard.COLUMNS)) {
-				if (board.getTile(squareRow, squareColumn).getType() == TileType.SCRATCHED) {
-					invalidate();
-					return true;
-				}
-				if (squareRow == lastSelectedRow
-						&& squareColumn == lastSelectedColumn
-						&& board.getTile(lastSelectedRow, lastSelectedColumn)
-								.getType() == TileType.SELECTED) {
-					board.getTile(squareRow, squareColumn).setType(
-							TileType.DEFAULT);
-					clearHighlights();
-					invalidate();
-					return true;
-				}
-				if (board.getTile(lastSelectedRow, lastSelectedColumn)
-						.getType() != TileType.SCRATCHED)
-					board.getTile(lastSelectedRow, lastSelectedColumn).setType(
-							TileType.DEFAULT);
-				clearHighlights();
-				lastSelectedRow = squareRow;
-				lastSelectedColumn = squareColumn;
-				board.getTile(squareRow, squareColumn).setType(
-						TileType.SELECTED);
-				curHighlights = board.getAdjacentTilesArray(squareRow,
-						squareColumn);
-				setHighlights();
+
+			if (!isTouchEventWithinBoard(event, board))
+				return true;
+			Tile targetTile = board.getTile(squareRow, squareColumn);
+			if (targetTile.getType() == TileType.SCRATCHED)
+				return true;
+
+			if (!tileSelected) {
+				selectTile(board, targetTile);
 				invalidate();
 				return true;
+			} else {
+				if (lastSelectedColumn == squareColumn
+						&& lastSelectedRow == squareRow) {
+					clearSelection(board);
+					invalidate();
+					return true;
+				} else {
+					if (targetTile.getType() == TileType.DEFAULT) {
+						clearSelection(board);
+						selectTile(board, targetTile);
+						invalidate();
+						return true;
+					} else {
+						Log.d(TAG, "Tile selected, touched highlighted tile");
+						if (board.validateMove(board.getTile(lastSelectedRow,
+								lastSelectedColumn), targetTile)) {
+							board.makeMove(board.getTile(lastSelectedRow,
+									lastSelectedColumn), targetTile);
+							clearSelection(board);
+							invalidate();
+							return true;
+						} else {
+							Toast.makeText(mParent, "Illegal move", Toast.LENGTH_SHORT).show();
+						}
+					}
+				}
 			}
 			return false;
-		}
-
-		@Override
-		public void onLongPress(MotionEvent event) {
-			GameBoard board = mParent.getGameboard();
-			int squareRow = getSquareRow(event);
-			int squareColumn = getSquareColumn(event);
-			if ((squareRow >= 0 && squareRow < board.getRows())
-					&& (squareColumn >= 0 && squareColumn < GameBoard.COLUMNS)) {
-				board.getTile(squareRow, squareColumn)
-						.setType(
-								board.getTile(squareRow, squareColumn)
-										.getType() != TileType.SCRATCHED ? TileType.SCRATCHED
-										: TileType.DEFAULT);
-			}
-			invalidate();
 		}
 
 		@Override
