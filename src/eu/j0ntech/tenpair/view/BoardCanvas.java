@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.WindowManager;
 import eu.j0ntech.tenpair.activity.GameActivity;
 import eu.j0ntech.tenpair.game.GameBoard;
-import eu.j0ntech.tenpair.game.NumberSquare;
+import eu.j0ntech.tenpair.game.Tile;
 
 /**
  * The canvas that displays the game area
@@ -117,7 +117,7 @@ public class BoardCanvas extends View {
 			float startY = j * tileSize;
 			for (int i = 0; i < GameBoard.COLUMNS; i++) {
 				float startX = i * tileSize;
-				NumberSquare tempSquare = board.getNumberSquare(j, i);
+				Tile tempSquare = board.getNumberSquare(j, i);
 				if (tempSquare.isSelected()) {
 					mRectPaint.setColor(COLOR_SELECTED_SQUARE);
 //					Log.d(TAG, "Square is SELECTED");

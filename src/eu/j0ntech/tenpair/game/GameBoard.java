@@ -29,21 +29,21 @@ public class GameBoard {
 	 * Representation of the game board, a two-dimensional ArrayList
 	 * containing all the NumberSquares
 	 */
-	private ArrayList<ArrayList<NumberSquare>> board;
+	private ArrayList<ArrayList<Tile>> board;
 	
 	/**
 	 * Creates a new GameBoard and populates it with the default values
 	 */
 	public GameBoard() {
-		board = new ArrayList<ArrayList<NumberSquare>>(rows);
+		board = new ArrayList<ArrayList<Tile>>(rows);
 		board.ensureCapacity(rows);
 		for (int i = 0; i <= 2; i++) {
-			board.add(i, new ArrayList<NumberSquare>(COLUMNS));
+			board.add(i, new ArrayList<Tile>(COLUMNS));
 		}
 		populateDefaultBoard();
 	}
 	
-	public NumberSquare getNumberSquare(int row, int column) {
+	public Tile getNumberSquare(int row, int column) {
 		return board.get(row).get(column);
 	}
 	
@@ -61,43 +61,43 @@ public class GameBoard {
 	 */
 	private void populateDefaultBoard() {
 		for (int i = 0; i < 9; i++) {
-			board.get(0).add(i, new NumberSquare((byte) (i + 1), 0, i));
+			board.get(0).add(i, new Tile((byte) (i + 1), 0, i));
 			if (i % 2 == 0) {
-				board.get(1).add(i, new NumberSquare((byte) 1, 1, i));
+				board.get(1).add(i, new Tile((byte) 1, 1, i));
 			} else {
 				switch (i) {
 					case 1:
-						board.get(1).add(i, new NumberSquare((byte) 1, 1, i));
+						board.get(1).add(i, new Tile((byte) 1, 1, i));
 						break;
 					case 3:
-						board.get(1).add(i, new NumberSquare((byte) 2, 1, i));
+						board.get(1).add(i, new Tile((byte) 2, 1, i));
 						break;
 					case 5:
-						board.get(1).add(i, new NumberSquare((byte) 3, 1, i));
+						board.get(1).add(i, new Tile((byte) 3, 1, i));
 						break;
 					case 7:
-						board.get(1).add(i, new NumberSquare((byte) 4, 1, i));
+						board.get(1).add(i, new Tile((byte) 4, 1, i));
 						break;
 				}
 			}
 			if (i % 2 != 0) {
-				board.get(2).add(i, new NumberSquare((byte) 1, 2, i));
+				board.get(2).add(i, new Tile((byte) 1, 2, i));
 			} else {
 				switch (i) {
 					case 0:
-						board.get(2).add(i, new NumberSquare((byte) 5, 2, i));
+						board.get(2).add(i, new Tile((byte) 5, 2, i));
 						break;
 					case 2:
-						board.get(2).add(i, new NumberSquare((byte) 6, 2, i));
+						board.get(2).add(i, new Tile((byte) 6, 2, i));
 						break;
 					case 4:
-						board.get(2).add(i, new NumberSquare((byte) 7, 2, i));
+						board.get(2).add(i, new Tile((byte) 7, 2, i));
 						break;
 					case 6:
-						board.get(2).add(i, new NumberSquare((byte) 8, 2, i));
+						board.get(2).add(i, new Tile((byte) 8, 2, i));
 						break;
 					case 8:
-						board.get(2).add(i, new NumberSquare((byte) 9, 2, i));
+						board.get(2).add(i, new Tile((byte) 9, 2, i));
 						break;
 				}
 			}
@@ -111,8 +111,8 @@ public class GameBoard {
 	 * @param column Column of the selected square
 	 * @return An ArrayList of highlighted NumberSquare objects
 	 */
-	public List<NumberSquare> getAdjacentSquares(int row, int column) {
-		ArrayList<NumberSquare> result = new ArrayList<NumberSquare>(4);
+	public List<Tile> getAdjacentSquares(int row, int column) {
+		ArrayList<Tile> result = new ArrayList<Tile>(4);
 		// Top adjacent
 		for (int i = row - 1; i >= 0; i--) {
 			if (!getNumberSquare(i, column).isScratched()) {
@@ -183,7 +183,7 @@ public class GameBoard {
 	 * rows and columns of highlighted squares
 	 */
 	public int[][] getAdjacentSquaresArray(int row, int column) {
-		List<NumberSquare> list = getAdjacentSquares(row, column);
+		List<Tile> list = getAdjacentSquares(row, column);
 		Log.d(TAG, "Got " + list.size() + " adjacent squares");
 		int[][] result = new int[0][0];
 		if (list != null) {

@@ -5,7 +5,7 @@ package eu.j0ntech.tenpair.game;
  * @author Oliver Vaga
  *
  */
-public class NumberSquare {
+public class Tile {
 	
 	// Numeric value of the square
 	private byte value;
@@ -44,12 +44,12 @@ public class NumberSquare {
 	private boolean scratched = false;
 	
 	// Constructor with just the numeric value (byte)
-	public NumberSquare(byte value) {
+	public Tile(byte value) {
 		this.value = value;
 	}
 	
 	// Constructor with numeric value and place on the game board
-	public NumberSquare(byte value, int row, int column) {
+	public Tile(byte value, int row, int column) {
 		this.value = value;
 		this.row = row;
 		this.column = column;
