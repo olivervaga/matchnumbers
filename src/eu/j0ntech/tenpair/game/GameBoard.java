@@ -3,6 +3,8 @@ package eu.j0ntech.tenpair.game;
 import java.util.ArrayList;
 import java.util.List;
 
+import eu.j0ntech.tenpair.game.Tile.TileType;
+
 import android.util.Log;
 
 /**
@@ -43,11 +45,11 @@ public class GameBoard {
 		populateDefaultBoard();
 	}
 	
-	public Tile getNumberSquare(int row, int column) {
+	public Tile getTile(int row, int column) {
 		return board.get(row).get(column);
 	}
 	
-	public byte getSquareValue(int row, int column) {
+	public byte getTileValue(int row, int column) {
 		return board.get(row).get(column).getValue();
 	}
 	
@@ -105,18 +107,18 @@ public class GameBoard {
 	}
 	
 	/**
-	 * Finds all the legally highlightable adjacent squares
-	 * (scratched squares can't be highlighted) BUGGY
-	 * @param row Row of the selected square
-	 * @param column Column of the selected square
-	 * @return An ArrayList of highlighted NumberSquare objects
+	 * Finds all the legally highlightable adjacent tiles
+	 * (scratched tiles can't be highlighted) BUGGY
+	 * @param row Row of the selected tile
+	 * @param column Column of the selected tile
+	 * @return An ArrayList of highlighted Tile objects
 	 */
-	public List<Tile> getAdjacentSquares(int row, int column) {
+	public List<Tile> getAdjacentTiles(int row, int column) {
 		ArrayList<Tile> result = new ArrayList<Tile>(4);
 		// Top adjacent
 		for (int i = row - 1; i >= 0; i--) {
-			if (!getNumberSquare(i, column).isScratched()) {
-				result.add(getNumberSquare(i,column));
+			if (getTile(i, column).getType() != TileType.SCRATCHED) {
+				result.add(getTile(i,column));
 				break;
 			}
 		}
@@ -125,9 +127,9 @@ public class GameBoard {
 		if (column == 0) {
 			for (int i = row - 1; i >= 0; i--) {
 				for (int j = COLUMNS - 1; j >= 0; j--) {
-					Log.d(TAG, String.valueOf(getNumberSquare(row, column).isScratched()));
-					if (!getNumberSquare(row, column).isScratched()) {
-						result.add(getNumberSquare(i, j));
+//					Log.d(TAG, String.valueOf(getNumberSquare(row, column).isScratched()));
+					if (getTile(row, column).getType() != TileType.SCRATCHED) {
+						result.add(getTile(i, j));
 						break leftOuter;
 					}
 				}
@@ -135,9 +137,9 @@ public class GameBoard {
 		} else {
 			for (int i = row; i >= 0; i--) {
 				for (int j = column - 1; j >= 0; j--) {
-					Log.d(TAG, String.valueOf(getNumberSquare(row, column).isScratched()));
-					if (!getNumberSquare(row, column).isScratched()) {
-						result.add(getNumberSquare(i, j));
+//					Log.d(TAG, String.valueOf(getNumberSquare(row, column).isScratched()));
+					if (getTile(row, column).getType() != TileType.SCRATCHED) {
+						result.add(getTile(i, j));
 						break leftOuter;
 					}
 				}
@@ -145,8 +147,8 @@ public class GameBoard {
 		}
 		// Bottom adjacent
 		for (int i = row + 1; i < rows; i++) {
-			if (!getNumberSquare(i, column).isScratched()) {
-				result.add(getNumberSquare(i,column));
+			if (getTile(i, column).getType() != TileType.SCRATCHED) {
+				result.add(getTile(i,column));
 				break;
 			}
 		}
@@ -155,8 +157,8 @@ public class GameBoard {
 		if (column + 1 == COLUMNS) {
 			for (int i = row + 1; i < rows; i++) {
 				for (int j = 0; j < COLUMNS; j++) {
-					if (!getNumberSquare(row, column).isScratched()) {
-						result.add(getNumberSquare(i, j));
+					if (getTile(row, column).getType() != TileType.SCRATCHED) {
+						result.add(getTile(i, j));
 						break rightOuter;
 					}
 				}
@@ -164,8 +166,8 @@ public class GameBoard {
 		} else {
 			for (int i = row; i < rows; i++) {
 				for (int j = column + 1; j < COLUMNS; j++) {
-					if (!getNumberSquare(row, column).isScratched()) {
-						result.add(getNumberSquare(i, j));
+					if (getTile(row, column).getType() != TileType.SCRATCHED) {
+						result.add(getTile(i, j));
 						break rightOuter;
 					}
 				}
@@ -175,15 +177,15 @@ public class GameBoard {
 	}
 	
 	/**
-	 * Finds all the legally highlightable adjacent squares
-	 * (scratched squares can't be highlighted) BUGGY
-	 * @param row Row of the selected square
-	 * @param column Column of the selected square
+	 * Finds all the legally highlightable adjacent tiles
+	 * (scratched tiles can't be highlighted) BUGGY
+	 * @param row Row of the selected tile
+	 * @param column Column of the selected tile
 	 * @return A two-dimensional integer array with the
-	 * rows and columns of highlighted squares
+	 * rows and columns of highlighted tiles
 	 */
-	public int[][] getAdjacentSquaresArray(int row, int column) {
-		List<Tile> list = getAdjacentSquares(row, column);
+	public int[][] getAdjacentTilesArray(int row, int column) {
+		List<Tile> list = getAdjacentTiles(row, column);
 		Log.d(TAG, "Got " + list.size() + " adjacent squares");
 		int[][] result = new int[0][0];
 		if (list != null) {
@@ -207,8 +209,8 @@ public class GameBoard {
 		for (int i = 0; i < rows; i++) {
 			rowString = new StringBuilder(9);
 			for (int j = 0; j < 9; j++) {
-				rowString.append(getSquareValue(i, j));
-				if (getNumberSquare(i, j).isScratched()) rowString.append("*");
+				rowString.append(getTileValue(i, j));
+				if (getTile(i, j).getType() == TileType.SCRATCHED) rowString.append("*");
 				else rowString.append(" ");
 				rowString.append(" ");
 			}
