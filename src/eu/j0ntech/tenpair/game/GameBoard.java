@@ -114,6 +114,7 @@ public class GameBoard {
 	 * @return An ArrayList of highlighted Tile objects
 	 */
 	public List<Tile> getAdjacentTiles(int row, int column) {
+		Log.d(TAG, "Getting new highlights");
 		ArrayList<Tile> result = new ArrayList<Tile>(4);
 		// Top adjacent
 		for (int i = row - 1; i >= 0; i--) {
@@ -128,7 +129,7 @@ public class GameBoard {
 			for (int i = row - 1; i >= 0; i--) {
 				for (int j = COLUMNS - 1; j >= 0; j--) {
 //					Log.d(TAG, String.valueOf(getNumberSquare(row, column).isScratched()));
-					if (getTile(row, column).getType() != TileType.SCRATCHED) {
+					if (getTile(i, j).getType() != TileType.SCRATCHED) {
 						result.add(getTile(i, j));
 						break leftOuter;
 					}
@@ -137,8 +138,8 @@ public class GameBoard {
 		} else {
 			for (int i = row; i >= 0; i--) {
 				for (int j = column - 1; j >= 0; j--) {
-//					Log.d(TAG, String.valueOf(getNumberSquare(row, column).isScratched()));
-					if (getTile(row, column).getType() != TileType.SCRATCHED) {
+					Log.d(TAG, getTile(i, j).getType().toString());
+					if (getTile(i, j).getType() != TileType.SCRATCHED) {
 						result.add(getTile(i, j));
 						break leftOuter;
 					}
@@ -157,7 +158,7 @@ public class GameBoard {
 		if (column + 1 == COLUMNS) {
 			for (int i = row + 1; i < rows; i++) {
 				for (int j = 0; j < COLUMNS; j++) {
-					if (getTile(row, column).getType() != TileType.SCRATCHED) {
+					if (getTile(i, j).getType() != TileType.SCRATCHED) {
 						result.add(getTile(i, j));
 						break rightOuter;
 					}
@@ -166,7 +167,7 @@ public class GameBoard {
 		} else {
 			for (int i = row; i < rows; i++) {
 				for (int j = column + 1; j < COLUMNS; j++) {
-					if (getTile(row, column).getType() != TileType.SCRATCHED) {
+					if (getTile(i, j).getType() != TileType.SCRATCHED) {
 						result.add(getTile(i, j));
 						break rightOuter;
 					}

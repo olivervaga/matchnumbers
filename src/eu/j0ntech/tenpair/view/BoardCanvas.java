@@ -126,6 +126,7 @@ public class BoardCanvas extends View {
 	 */
 	private void clearHighlights() {
 		if (curHighlights != null) {
+			Log.d(TAG, "Clearing highlights");
 			GameBoard board = mParent.getGameboard();
 			for (int i = 0; i < curHighlights.length; i++) {
 				board.getTile(curHighlights[i][0], curHighlights[i][1])
@@ -139,6 +140,7 @@ public class BoardCanvas extends View {
 	 */
 	private void setHighlights() {
 		if (curHighlights != null) {
+			Log.d(TAG, "Setting highlights");
 			GameBoard board = mParent.getGameboard();
 			for (int i = 0; i < curHighlights.length; i++) {
 				board.getTile(curHighlights[i][0], curHighlights[i][1])
@@ -172,12 +174,16 @@ public class BoardCanvas extends View {
 
 		@Override
 		public boolean onDown(MotionEvent event) {
+			Log.d(TAG, "Got motionevent");
 			GameBoard board = mParent.getGameboard();
 			int squareRow = getSquareRow(event);
 			int squareColumn = getSquareColumn(event);
 			if ((squareRow >= 0 && squareRow < board.getRows())
 					&& (squareColumn >= 0 && squareColumn < GameBoard.COLUMNS)) {
-				if (board.getTile(squareRow, squareColumn).getType() == TileType.SCRATCHED) return false;
+				if (board.getTile(squareRow, squareColumn).getType() == TileType.SCRATCHED) {
+					invalidate();
+					return true;
+				}
 				if (squareRow == lastSelectedRow
 						&& squareColumn == lastSelectedColumn
 						&& board.getTile(lastSelectedRow, lastSelectedColumn)
@@ -188,8 +194,10 @@ public class BoardCanvas extends View {
 					invalidate();
 					return true;
 				}
-				board.getTile(lastSelectedRow, lastSelectedColumn).setType(
-						TileType.DEFAULT);
+				if (board.getTile(lastSelectedRow, lastSelectedColumn)
+						.getType() != TileType.SCRATCHED)
+					board.getTile(lastSelectedRow, lastSelectedColumn).setType(
+							TileType.DEFAULT);
 				clearHighlights();
 				lastSelectedRow = squareRow;
 				lastSelectedColumn = squareColumn;
