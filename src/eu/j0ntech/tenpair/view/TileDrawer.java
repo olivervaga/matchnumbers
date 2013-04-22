@@ -66,7 +66,6 @@ public class TileDrawer {
 				(float) (tile.getCenterY() + (mNumberPaint.getTextSize()) / 2.6),
 				mNumberPaint);
 		if (tile.getType() == TileType.SCRATCHED) {
-			Log.d(TAG, "Drawing scratched tile");
 			canvas.drawLine(startX + BoardCanvas.SQUARE_PADDING, startY
 					+ BoardCanvas.SQUARE_PADDING, startX + tileSize, startY
 					+ tileSize, mLinePaint);

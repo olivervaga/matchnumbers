@@ -25,11 +25,6 @@ import eu.j0ntech.tenpair.game.Tile.TileType;
  */
 public class BoardCanvas extends View {
 
-	public final int COLOR_DEFAULT_SQUARE = Color.WHITE;
-	public final int COLOR_SELECTED_SQUARE = Color.rgb(135, 206, 250);
-	public final int COLOR_HIGHLIGHTED_SQUARE = Color.GREEN;
-	public final int COLOR_SCRATCHED_SQUARE = Color.RED;
-	public final int COLOR_NUMBER = Color.BLACK;
 	public final int COLOR_BACKGROUND = Color.DKGRAY;
 
 	private final String TAG = "BoardCanvas";
@@ -104,7 +99,7 @@ public class BoardCanvas extends View {
 
 		for (int j = 0; j < board.getRows(); j++) {
 			float startY = j * tileSize;
-			for (int i = 0; i < GameBoard.COLUMNS; i++) {
+			for (int i = 0; i < board.getRowSize(j); i++) {
 				float startX = i * tileSize;
 				Tile tempTile = board.getTile(j, i);
 				tempTile.setCoordinates(startX + SQUARE_PADDING, startY

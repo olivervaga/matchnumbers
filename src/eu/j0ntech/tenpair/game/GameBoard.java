@@ -1,11 +1,11 @@
 package eu.j0ntech.tenpair.game;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-import eu.j0ntech.tenpair.game.Tile.TileType;
-
 import android.util.Log;
+import eu.j0ntech.tenpair.game.Tile.TileType;
 
 /**
  * Class for holding all the game-related data and logic
@@ -21,24 +21,24 @@ public class GameBoard {
 	 * Maximum number of columns on the board
 	 */
 	public static final int COLUMNS = 9;
-
-	/**
-	 * Current number of rows on the board
-	 */
-	private int rows = 3;
+	
+	private final int INITIAL_ROWS = 3;
 
 	/**
 	 * Representation of the game board, a two-dimensional ArrayList containing
 	 * all the NumberSquares
 	 */
 	private ArrayList<ArrayList<Tile>> board;
+	
+	private int currentTiles = 0;
+	
+	private int currentScratched = 0;
 
 	/**
 	 * Creates a new GameBoard and populates it with the default values
 	 */
 	public GameBoard() {
-		board = new ArrayList<ArrayList<Tile>>(rows);
-		board.ensureCapacity(rows);
+		board = new ArrayList<ArrayList<Tile>>(INITIAL_ROWS);
 		for (int i = 0; i <= 2; i++) {
 			board.add(i, new ArrayList<Tile>(COLUMNS));
 		}
@@ -51,10 +51,6 @@ public class GameBoard {
 
 	public byte getTileValue(int row, int column) {
 		return board.get(row).get(column).getValue();
-	}
-
-	public int getRows() {
-		return rows;
 	}
 
 	/**
@@ -103,6 +99,7 @@ public class GameBoard {
 				}
 			}
 		}
+		currentTiles = INITIAL_ROWS * COLUMNS;
 	}
 
 	/**
@@ -149,7 +146,7 @@ public class GameBoard {
 			}
 		}
 		// Bottom adjacent
-		for (int i = row + 1; i < rows; i++) {
+		for (int i = row + 1; i < board.size(); i++) {
 			if (getTile(i, column).getType() != TileType.SCRATCHED) {
 				result.add(getTile(i, column));
 				break;
@@ -157,7 +154,7 @@ public class GameBoard {
 		}
 		// Right adjacent
 		rightOuter: if (column + 1 == COLUMNS) {
-			for (int i = row + 1; i < rows; i++) {
+			for (int i = row + 1; i < board.size(); i++) {
 				for (int j = 0; j < COLUMNS; j++) {
 					if (getTile(i, j).getType() != TileType.SCRATCHED) {
 						result.add(getTile(i, j));
@@ -167,7 +164,7 @@ public class GameBoard {
 			}
 		} else {
 			int initialRow = row;
-			for (int i = row; i < rows; i++) {
+			for (int i = row; i < board.size(); i++) {
 				int startColumn;
 				if (i > initialRow) startColumn = 0;
 				else startColumn = column + 1;
@@ -206,6 +203,45 @@ public class GameBoard {
 		}
 		return result;
 	}
+	
+	public void addUnunusedTiles() {
+		int newTiles = currentTiles - currentScratched;
+		int currentRows = board.size();;
+		ArrayList<Tile> unusedTiles = new ArrayList<Tile>();
+		ArrayList<Tile> row;
+		for (int i = 0; i < board.size(); i++) {
+			row = board.get(i);
+			for (int j = 0; j < row.size(); j++) {
+				if (row.get(j).getType() != TileType.SCRATCHED) {
+					unusedTiles.add(row.get(j));
+				}
+			}
+		}
+		int addRows;
+		if (((currentTiles % COLUMNS == 0) && (newTiles % COLUMNS > 0))
+				|| ((currentTiles % COLUMNS) + (newTiles % COLUMNS)) > COLUMNS)
+			addRows = newTiles / COLUMNS + 1;
+		else
+			addRows = newTiles / COLUMNS;
+		for (int i = 0; i < addRows; i++) {
+			board.add(new ArrayList<Tile>(COLUMNS));
+		}
+		Iterator<Tile> iterator = unusedTiles.iterator();
+		for (int i = currentRows - 1; i < currentRows + addRows; i++) {
+			int startColumn;
+			if (board.get(i).size() != 0)
+				startColumn = board.get(i).size();
+			else
+				startColumn = 0;
+			for (int j = startColumn; j < COLUMNS; j++) {
+				if (!iterator.hasNext()) break;
+				Tile tempTile = new Tile(iterator.next().getValue(), i, j);
+				board.get(i).add(tempTile);
+				currentTiles++;
+			}	
+		}
+//		displayBoard();
+	}
 
 	public boolean validateMove(Tile tile1, Tile tile2) {
 		if (tile1.getValue() == tile2.getValue()
@@ -218,6 +254,19 @@ public class GameBoard {
 	public void makeMove(Tile tile1, Tile tile2) {
 		tile1.setType(TileType.SCRATCHED);
 		tile2.setType(TileType.SCRATCHED);
+		currentScratched += 2;
+	}
+	
+	public boolean isGameWon() {
+		return currentScratched == currentTiles ? true : false;
+	}
+	
+	public int getRows() {
+		return board.size();
+	}
+	
+	public int getRowSize(int row) {
+		return board.get(row).size();
 	}
 
 	/**
@@ -226,9 +275,9 @@ public class GameBoard {
 	 */
 	public void displayBoard() {
 		StringBuilder rowString;
-		for (int i = 0; i < rows; i++) {
+		for (int i = 0; i < board.size(); i++) {
 			rowString = new StringBuilder(9);
-			for (int j = 0; j < 9; j++) {
+			for (int j = 0; j < getRowSize(i); j++) {
 				rowString.append(getTileValue(i, j));
 				if (getTile(i, j).getType() == TileType.SCRATCHED)
 					rowString.append("*");
