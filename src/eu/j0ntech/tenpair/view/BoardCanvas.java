@@ -275,7 +275,6 @@ public class BoardCanvas extends View {
 		public boolean onScroll(MotionEvent e1, MotionEvent e2,
 				float distanceX, float distanceY) {
 			if (boardSize < BoardCanvas.this.getHeight()) {
-				Log.d("SCROLLSTUFF", "no scroll");
 				return true;
 			}
 			offset -= distanceY;
@@ -283,7 +282,6 @@ public class BoardCanvas extends View {
 				offset = 0;
 			if ((offset - canvasHeight) <= -boardSize)
 				offset = canvasHeight - boardSize;
-			Log.d("SCROLLSTUFF", String.valueOf(offset));
 			invalidate();
 			return true;
 		}

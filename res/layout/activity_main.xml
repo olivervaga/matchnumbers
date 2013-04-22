@@ -27,7 +27,7 @@
 
     <Button
         android:id="@+id/button_start"
-        android:layout_width="200dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView1"
         android:layout_centerHorizontal="true"
@@ -41,7 +41,7 @@
         android:layout_alignLeft="@+id/button_start"
         android:layout_alignRight="@+id/button_start"
         android:layout_below="@+id/button_start"
-        android:text="@string/button_load" />
+        android:text="@string/button_loadgame" />
 
     <Button
         android:id="@+id/button_exit"

@@ -2,16 +2,29 @@
 <resources>
 
     <string name="app_name">TenPair</string>
-    <string name="button_start">Start game</string>
+    <string name="button_start">Start a new game</string>
     <string name="button_pause">Pause</string>
     <string name="button_resume">Resume</string>
     <string name="button_save">Save</string>
+    <string name="button_load">Load</string>
+    <string name="button_delete">Delete</string>
+    <string name="button_cancel">Cancel</string>
     <string name="button_exit">Exit</string>
     <string name="button_restart">Restart</string>
     <string name="button_writeout">Next numbers</string>
     <string name="menu_settings">Pause menu</string>
     <string name="title_activity_game">TenPair</string>
+    <string name="button_loadgame">Load game</string>
+
     <string name="game_desc">That numbers game that eveybody used to play during boring lessons</string>
-    <string name="button_load">Load game</string>
+    <string name="dialog_save">Name your save</string>
+    <string name="dialog_file">Filename</string>
+    <string name="dialog_load">Load a game</string>
+    <string name="dialog_saving">Saving game…</string>
+    <string name="dialog_loading">Loading game…</string>
+    
+    <string name="error_name">Filename too short</string>
+    <string name="error_save">Couldn\'t save file</string>
+    <string name="confirm_save">Game saved</string>
 
 </resources>

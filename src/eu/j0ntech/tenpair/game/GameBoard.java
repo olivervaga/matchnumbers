@@ -45,6 +45,10 @@ public class GameBoard {
 		populateDefaultBoard();
 	}
 
+	public GameBoard(ArrayList<ArrayList<Tile>> savedState) {
+		board = savedState;
+	}
+
 	public Tile getTile(int row, int column) {
 		return board.get(row).get(column);
 	}

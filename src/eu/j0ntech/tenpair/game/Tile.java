@@ -51,6 +51,13 @@ public class Tile {
 		this.column = column;
 		type = TileType.DEFAULT;
 	}
+	
+	public Tile(byte value, int row, int column, boolean scratched) {
+		this.value = value;
+		this.row = row;
+		this.column = column;
+		type = scratched ? TileType.SCRATCHED : TileType.DEFAULT;
+	}
 
 	public byte getValue() {
 		return value;
