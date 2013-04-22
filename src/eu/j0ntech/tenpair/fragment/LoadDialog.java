@@ -19,18 +19,22 @@ public class LoadDialog extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		final FileDetail[] saves = Saver.getAvailableSaves(getActivity());
-		String[] saveNames = new String[saves.length];
-		for (int i = 0; i < saves.length; i++) 
-			saveNames[i] = saves[i].getName();
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle(getString(R.string.dialog_load))
-		.setItems(saveNames, new DialogInterface.OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				mListener.onLoad(saves[which].getPath());
-			}
-		});
+		builder.setTitle(getString(R.string.dialog_load));
+		if (saves != null) {
+			String[] saveNames = new String[saves.length];
+			for (int i = 0; i < saves.length; i++) 
+				saveNames[i] = saves[i].getName();
+			builder.setItems(saveNames, new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					mListener.onLoad(saves[which].getPath());
+				}
+			});	
+		} else {
+			builder.setTitle(getString(R.string.error_no_saves));
+		}
 //		.setPositiveButton(getString(R.string.button_load), new DialogInterface.OnClickListener() {
 //			
 //			@Override
