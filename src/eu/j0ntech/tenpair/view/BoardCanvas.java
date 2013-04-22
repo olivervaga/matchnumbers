@@ -81,18 +81,16 @@ public class BoardCanvas extends View {
 		wm.getDefaultDisplay().getMetrics(displayMetrics);
 		resolutionX = displayMetrics.widthPixels;
 		Log.d(TAG, "Pixels X: " + resolutionX);
-//		canvasHeight = this.getMeasuredHeight();
-		Log.d(TAG, "Canvas Y: " + canvasHeight);
 		tileSize = (resolutionX) / 9;
 		Log.d(TAG, "Tile size: " + tileSize);
 		mBackPaint = new Paint();
 	}
-	
+
 	public void resetCanvas() {
 		offset = 0;
 		tileSelected = false;
 		curHighlights = null;
-		
+		invalidate();
 	}
 
 	/**
@@ -119,10 +117,10 @@ public class BoardCanvas extends View {
 		}
 
 	}
-	
+
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-		canvasHeight = h + mParent.getButtonContainerHeight();
+		canvasHeight = h;
 	}
 
 	/**
@@ -228,15 +226,11 @@ public class BoardCanvas extends View {
 
 		@Override
 		public boolean onSingleTapUp(MotionEvent event) {
-			Log.d(TAG, "Got motionevent");
-			canvasHeight = BoardCanvas.this.getHeight();
-			
 			GameBoard board = mParent.getGameboard();
 			int squareRow = getTileRow(event);
 			int squareColumn = getTileColumn(event);
 
 			if (!isTouchEventWithinBoard(event, board)) {
-				Log.d(TAG, "Outsuide of board");
 				return true;
 			}
 			Tile targetTile = board.getTile(squareRow, squareColumn);
@@ -260,7 +254,6 @@ public class BoardCanvas extends View {
 						invalidate();
 						return true;
 					} else {
-						Log.d(TAG, "Tile selected, touched highlighted tile");
 						if (board.validateMove(board.getTile(lastSelectedRow,
 								lastSelectedColumn), targetTile)) {
 							board.makeMove(board.getTile(lastSelectedRow,
@@ -282,13 +275,15 @@ public class BoardCanvas extends View {
 		public boolean onScroll(MotionEvent e1, MotionEvent e2,
 				float distanceX, float distanceY) {
 			if (boardSize < BoardCanvas.this.getHeight()) {
-				Log.d("SCROLLSTUFF", "No scrolling");
+				Log.d("SCROLLSTUFF", "no scroll");
 				return true;
 			}
 			offset -= distanceY;
-			if (offset > 0) offset = 0;
-			if ((offset - canvasHeight) < -boardSize) offset = canvasHeight - boardSize;
-			Log.d("SCROLLSTUFF", String.valueOf(boardSize) + ", " + String.valueOf(offset));
+			if (offset > 0)
+				offset = 0;
+			if ((offset - canvasHeight) <= -boardSize)
+				offset = canvasHeight - boardSize;
+			Log.d("SCROLLSTUFF", String.valueOf(offset));
 			invalidate();
 			return true;
 		}

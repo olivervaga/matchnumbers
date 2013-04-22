@@ -44,7 +44,7 @@ public class GameActivity extends Activity {
 			public void onClick(View v) {
 				mGameBoard = new GameBoard();
 				mCanvas.recalculateBoardSize();
-				mCanvas.invalidate();
+				mCanvas.resetCanvas();
 			}
 		});
 
