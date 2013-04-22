@@ -21,7 +21,7 @@ public class GameBoard {
 	 * Maximum number of columns on the board
 	 */
 	public static final int COLUMNS = 9;
-	
+
 	private final int INITIAL_ROWS = 3;
 
 	/**
@@ -29,9 +29,9 @@ public class GameBoard {
 	 * all the NumberSquares
 	 */
 	private ArrayList<ArrayList<Tile>> board;
-	
+
 	private int currentTiles = 0;
-	
+
 	private int currentScratched = 0;
 
 	/**
@@ -135,8 +135,10 @@ public class GameBoard {
 			int initialRow = row;
 			for (int i = row; i >= 0; i--) {
 				int startColumn;
-				if (i < initialRow) startColumn = COLUMNS - 1;
-				else startColumn = column - 1;
+				if (i < initialRow)
+					startColumn = COLUMNS - 1;
+				else
+					startColumn = column - 1;
 				for (int j = startColumn; j >= 0; j--) {
 					if (getTile(i, j).getType() != TileType.SCRATCHED) {
 						result.add(getTile(i, j));
@@ -147,6 +149,7 @@ public class GameBoard {
 		}
 		// Bottom adjacent
 		for (int i = row + 1; i < board.size(); i++) {
+			if (column >= board.get(i).size()) break;
 			if (getTile(i, column).getType() != TileType.SCRATCHED) {
 				result.add(getTile(i, column));
 				break;
@@ -155,7 +158,7 @@ public class GameBoard {
 		// Right adjacent
 		rightOuter: if (column + 1 == COLUMNS) {
 			for (int i = row + 1; i < board.size(); i++) {
-				for (int j = 0; j < COLUMNS; j++) {
+				for (int j = 0; j < board.get(i).size(); j++) {
 					if (getTile(i, j).getType() != TileType.SCRATCHED) {
 						result.add(getTile(i, j));
 						break rightOuter;
@@ -166,9 +169,11 @@ public class GameBoard {
 			int initialRow = row;
 			for (int i = row; i < board.size(); i++) {
 				int startColumn;
-				if (i > initialRow) startColumn = 0;
-				else startColumn = column + 1;
-				for (int j = startColumn; j < COLUMNS; j++) {
+				if (i > initialRow)
+					startColumn = 0;
+				else
+					startColumn = column + 1;
+				for (int j = startColumn; j < board.get(i).size(); j++) {
 					if (getTile(i, j).getType() != TileType.SCRATCHED) {
 						result.add(getTile(i, j));
 						break rightOuter;
@@ -192,7 +197,6 @@ public class GameBoard {
 	 */
 	public int[][] getAdjacentTilesArray(int row, int column) {
 		List<Tile> list = getAdjacentTiles(row, column);
-		Log.d(TAG, "Got " + list.size() + " adjacent squares");
 		int[][] result = new int[0][0];
 		if (list != null) {
 			result = new int[list.size()][2];
@@ -203,10 +207,10 @@ public class GameBoard {
 		}
 		return result;
 	}
-	
+
 	public void addUnunusedTiles() {
 		int newTiles = currentTiles - currentScratched;
-		int currentRows = board.size();;
+		int currentRows = board.size();
 		ArrayList<Tile> unusedTiles = new ArrayList<Tile>();
 		ArrayList<Tile> row;
 		for (int i = 0; i < board.size(); i++) {
@@ -234,13 +238,14 @@ public class GameBoard {
 			else
 				startColumn = 0;
 			for (int j = startColumn; j < COLUMNS; j++) {
-				if (!iterator.hasNext()) break;
+				if (!iterator.hasNext())
+					break;
 				Tile tempTile = new Tile(iterator.next().getValue(), i, j);
 				board.get(i).add(tempTile);
 				currentTiles++;
-			}	
+			}
 		}
-//		displayBoard();
+		// displayBoard();
 	}
 
 	public boolean validateMove(Tile tile1, Tile tile2) {
@@ -250,21 +255,21 @@ public class GameBoard {
 		else
 			return false;
 	}
-	
+
 	public void makeMove(Tile tile1, Tile tile2) {
 		tile1.setType(TileType.SCRATCHED);
 		tile2.setType(TileType.SCRATCHED);
 		currentScratched += 2;
 	}
-	
+
 	public boolean isGameWon() {
 		return currentScratched == currentTiles ? true : false;
 	}
-	
+
 	public int getRows() {
 		return board.size();
 	}
-	
+
 	public int getRowSize(int row) {
 		return board.get(row).size();
 	}

@@ -35,7 +35,8 @@ public class BoardCanvas extends View {
 	private Paint mBackPaint;
 
 	private int resolutionX;
-	private int resolutionY;
+	private int canvasHeight;
+	private float offset = 0;
 
 	private boolean tileSelected = false;
 	private int lastSelectedRow;
@@ -45,6 +46,7 @@ public class BoardCanvas extends View {
 	public static int SQUARE_PADDING = 5;
 
 	private float tileSize;
+	private float boardSize;
 
 	public BoardCanvas(Context context) {
 		super(context);
@@ -79,10 +81,18 @@ public class BoardCanvas extends View {
 		wm.getDefaultDisplay().getMetrics(displayMetrics);
 		resolutionX = displayMetrics.widthPixels;
 		Log.d(TAG, "Pixels X: " + resolutionX);
-		resolutionY = displayMetrics.heightPixels;
+//		canvasHeight = this.getMeasuredHeight();
+		Log.d(TAG, "Canvas Y: " + canvasHeight);
 		tileSize = (resolutionX) / 9;
 		Log.d(TAG, "Tile size: " + tileSize);
 		mBackPaint = new Paint();
+	}
+	
+	public void resetCanvas() {
+		offset = 0;
+		tileSelected = false;
+		curHighlights = null;
+		
 	}
 
 	/**
@@ -104,10 +114,15 @@ public class BoardCanvas extends View {
 				Tile tempTile = board.getTile(j, i);
 				tempTile.setCoordinates(startX + SQUARE_PADDING, startY
 						+ SQUARE_PADDING, startX + tileSize, startY + tileSize);
-				TileDrawer.draw(this, canvas, tempTile);
+				TileDrawer.draw(this, canvas, tempTile, offset);
 			}
 		}
 
+	}
+	
+	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		canvasHeight = h + mParent.getButtonContainerHeight();
 	}
 
 	/**
@@ -145,8 +160,8 @@ public class BoardCanvas extends View {
 	}
 
 	private boolean isTouchEventWithinBoard(MotionEvent event, GameBoard board) {
-		int squareRow = getSquareRow(event);
-		int squareColumn = getSquareColumn(event);
+		int squareRow = getTileRow(event);
+		int squareColumn = getTileColumn(event);
 		if ((squareRow >= 0 && squareRow < board.getRows())
 				&& (squareColumn >= 0 && squareColumn < GameBoard.COLUMNS))
 			return true;
@@ -157,7 +172,7 @@ public class BoardCanvas extends View {
 	private void clearSelection(GameBoard board) {
 		tileSelected = false;
 		board.getTile(lastSelectedRow, lastSelectedColumn).setTypeSafely(
-					TileType.DEFAULT);
+				TileType.DEFAULT);
 		clearHighlights();
 	}
 
@@ -176,12 +191,25 @@ public class BoardCanvas extends View {
 		return tileSize;
 	}
 
-	private int getSquareRow(MotionEvent event) {
-		return (int) (event.getY() / tileSize);
+	private int getTileRow(MotionEvent event) {
+		return (int) ((event.getY() - offset) / tileSize);
 	}
 
-	private int getSquareColumn(MotionEvent event) {
+	private int getTileColumn(MotionEvent event) {
 		return (int) (event.getX() / tileSize);
+	}
+
+	public void recalculateBoardSize() {
+		boardSize = mParent.getGameboard().getRows()
+				* (tileSize + SQUARE_PADDING);
+	}
+
+	public int getCanvasHeight() {
+		return canvasHeight;
+	}
+
+	public void setCanvasHeight(int canvasHeight) {
+		this.canvasHeight = canvasHeight;
 	}
 
 	/**
@@ -193,22 +221,24 @@ public class BoardCanvas extends View {
 	private class GestureListener extends
 			GestureDetector.SimpleOnGestureListener {
 
-		
 		@Override
 		public boolean onDown(MotionEvent e) {
 			return true;
 		}
-		
+
 		@Override
 		public boolean onSingleTapUp(MotionEvent event) {
 			Log.d(TAG, "Got motionevent");
-
+			canvasHeight = BoardCanvas.this.getHeight();
+			
 			GameBoard board = mParent.getGameboard();
-			int squareRow = getSquareRow(event);
-			int squareColumn = getSquareColumn(event);
+			int squareRow = getTileRow(event);
+			int squareColumn = getTileColumn(event);
 
-			if (!isTouchEventWithinBoard(event, board))
+			if (!isTouchEventWithinBoard(event, board)) {
+				Log.d(TAG, "Outsuide of board");
 				return true;
+			}
 			Tile targetTile = board.getTile(squareRow, squareColumn);
 			if (targetTile.getType() == TileType.SCRATCHED)
 				return true;
@@ -239,7 +269,8 @@ public class BoardCanvas extends View {
 							invalidate();
 							return true;
 						} else {
-							Toast.makeText(mParent, "Illegal move", Toast.LENGTH_SHORT).show();
+							Toast.makeText(mParent, "Illegal move",
+									Toast.LENGTH_SHORT).show();
 						}
 					}
 				}
@@ -250,8 +281,16 @@ public class BoardCanvas extends View {
 		@Override
 		public boolean onScroll(MotionEvent e1, MotionEvent e2,
 				float distanceX, float distanceY) {
-			// TODO Scrolling
-			return super.onScroll(e1, e2, distanceX, distanceY);
+			if (boardSize < BoardCanvas.this.getHeight()) {
+				Log.d("SCROLLSTUFF", "No scrolling");
+				return true;
+			}
+			offset -= distanceY;
+			if (offset > 0) offset = 0;
+			if ((offset - canvasHeight) < -boardSize) offset = canvasHeight - boardSize;
+			Log.d("SCROLLSTUFF", String.valueOf(boardSize) + ", " + String.valueOf(offset));
+			invalidate();
+			return true;
 		}
 
 	}

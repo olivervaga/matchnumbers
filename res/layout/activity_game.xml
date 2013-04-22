@@ -30,7 +30,7 @@
     <eu.j0ntech.tenpair.view.BoardCanvas
         android:id="@+id/boardcanvas"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_below="@+id/button_container" />
 
 </RelativeLayout>
