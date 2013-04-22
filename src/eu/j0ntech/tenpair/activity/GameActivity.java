@@ -1,17 +1,21 @@
 package eu.j0ntech.tenpair.activity;
 
-import android.app.Activity;
+import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
-import android.view.Menu;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import eu.j0ntech.tenpair.R;
+import eu.j0ntech.tenpair.fragment.PauseDialog;
+import eu.j0ntech.tenpair.fragment.PauseDialog.PauseDialogListener;
 import eu.j0ntech.tenpair.game.GameBoard;
 import eu.j0ntech.tenpair.view.BoardCanvas;
 
-public class GameActivity extends Activity {
+public class GameActivity extends FragmentActivity implements PauseDialogListener {
 
 	private GameBoard mGameBoard;
 
@@ -19,9 +23,11 @@ public class GameActivity extends Activity {
 	
 	private RelativeLayout mButtonContainer;
 
-	private Button mRestartButton;
+	private Button mPauseButton;
 
 	private Button mWriteOutButton;
+	
+	private PauseDialog mPauseDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,16 +41,22 @@ public class GameActivity extends Activity {
 		
 		mButtonContainer = (RelativeLayout) findViewById(R.id.button_container);
 
-		mRestartButton = (Button) findViewById(R.id.restart);
+		mPauseButton = (Button) findViewById(R.id.pause);
 		mWriteOutButton = (Button) findViewById(R.id.writeout);
 
-		mRestartButton.setOnClickListener(new View.OnClickListener() {
+		mPauseButton.setOnClickListener(new View.OnClickListener() {
 
+			@SuppressLint("InlinedApi")
 			@Override
 			public void onClick(View v) {
-				mGameBoard = new GameBoard();
-				mCanvas.recalculateBoardSize();
-				mCanvas.resetCanvas();
+				mPauseDialog = new PauseDialog();
+				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+					mPauseDialog.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Dialog);
+				} else {
+					mPauseDialog.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_DeviceDefault_Dialog);
+				}
+				mPauseDialog.setCancelable(false);
+				mPauseDialog.show(getSupportFragmentManager(), "pause");
 			}
 		});
 
@@ -61,19 +73,39 @@ public class GameActivity extends Activity {
 		// mGameboard.displayBoard();
 	}
 	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_game, menu);
-		return true;
+	private void resetGame() {
+		mGameBoard = new GameBoard();
+		mCanvas.recalculateBoardSize();
+		mCanvas.resetCanvas();
 	}
-
 	
 	public int getButtonContainerHeight() {
 		return mButtonContainer.getHeight();
 	}
 	public GameBoard getGameboard() {
 		return mGameBoard;
+	}
+
+	@Override
+	public void onResumeClicked() {
+		if (mPauseDialog.isVisible()) mPauseDialog.dismiss();
+	}
+	
+	@Override
+	public void onRestartClicked() {
+		resetGame();
+		if (mPauseDialog.isVisible()) mPauseDialog.dismiss();		
+	}
+
+	@Override
+	public void onSaveClicked() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onExitClicked() {
+		finish();
 	}
 
 }

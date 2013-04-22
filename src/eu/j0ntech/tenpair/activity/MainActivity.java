@@ -3,7 +3,6 @@ package eu.j0ntech.tenpair.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -12,6 +11,8 @@ import eu.j0ntech.tenpair.R;
 public class MainActivity extends Activity {
 	
 	private Button mStartButton;
+	private Button mLoadButton;
+	private Button mExitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +20,9 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         
         mStartButton = (Button) findViewById(R.id.button_start);
+        mLoadButton = (Button) findViewById(R.id.button_load);
+        mExitButton = (Button) findViewById(R.id.button_exit);
+        
         mStartButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -27,13 +31,14 @@ public class MainActivity extends Activity {
 				
 			}
 		});
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.activity_main, menu);
-        return true;
+        
+        mExitButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();	
+			}
+		});
     }
     
 }

@@ -273,6 +273,10 @@ public class GameBoard {
 	public int getRowSize(int row) {
 		return board.get(row).size();
 	}
+	
+	public ArrayList<ArrayList<Tile>> getInternalBoard() {
+		return board;
+	}
 
 	/**
 	 * Displays the current game board state in LogCat (for debugging purposes),
