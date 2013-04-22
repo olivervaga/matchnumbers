@@ -47,6 +47,11 @@ public class GameBoard {
 
 	public GameBoard(ArrayList<ArrayList<Tile>> savedState) {
 		board = savedState;
+		currentTiles = (board.size() - 1) * 9 + board.get(board.size() - 1).size();
+		for (ArrayList<Tile> row : board)
+			for (Tile t : row)
+				if (t.getType() == TileType.SCRATCHED)
+					currentScratched++;
 	}
 
 	public Tile getTile(int row, int column) {
@@ -213,6 +218,7 @@ public class GameBoard {
 	}
 
 	public void addUnunusedTiles() {
+		displayBoard();
 		int newTiles = currentTiles - currentScratched;
 		int currentRows = board.size();
 		ArrayList<Tile> unusedTiles = new ArrayList<Tile>();
@@ -249,7 +255,7 @@ public class GameBoard {
 				currentTiles++;
 			}
 		}
-		// displayBoard();
+		displayBoard();
 	}
 
 	public boolean validateMove(Tile tile1, Tile tile2) {
