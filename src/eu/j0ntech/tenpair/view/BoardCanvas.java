@@ -193,8 +193,14 @@ public class BoardCanvas extends View {
 	private class GestureListener extends
 			GestureDetector.SimpleOnGestureListener {
 
+		
 		@Override
-		public boolean onDown(MotionEvent event) {
+		public boolean onDown(MotionEvent e) {
+			return true;
+		}
+		
+		@Override
+		public boolean onSingleTapUp(MotionEvent event) {
 			Log.d(TAG, "Got motionevent");
 
 			GameBoard board = mParent.getGameboard();
