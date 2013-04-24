@@ -99,7 +99,7 @@ public class BoardCanvas extends View {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		GameBoard board = mParent.getGameboard();
+		GameBoard board = mParent.getGameBoard();
 		// board.displayBoard();
 		mBackPaint.setStyle(Paint.Style.FILL);
 		mBackPaint.setColor(COLOR_BACKGROUND);
@@ -136,7 +136,7 @@ public class BoardCanvas extends View {
 	 */
 	private void clearHighlights() {
 		if (curHighlights != null) {
-			GameBoard board = mParent.getGameboard();
+			GameBoard board = mParent.getGameBoard();
 			for (int i = 0; i < curHighlights.length; i++) {
 				board.getTile(curHighlights[i][0], curHighlights[i][1])
 						.setTypeSafely(TileType.DEFAULT);
@@ -149,7 +149,7 @@ public class BoardCanvas extends View {
 	 */
 	private void setHighlights() {
 		if (curHighlights != null) {
-			GameBoard board = mParent.getGameboard();
+			GameBoard board = mParent.getGameBoard();
 			for (int i = 0; i < curHighlights.length; i++) {
 				board.getTile(curHighlights[i][0], curHighlights[i][1])
 						.setTypeSafely(TileType.HIGHLIGHTED);
@@ -198,7 +198,7 @@ public class BoardCanvas extends View {
 	}
 
 	public void recalculateBoardSize() {
-		boardSize = mParent.getGameboard().getRows()
+		boardSize = mParent.getGameBoard().getRows()
 				* (tileSize + SQUARE_PADDING);
 	}
 
@@ -226,7 +226,7 @@ public class BoardCanvas extends View {
 
 		@Override
 		public boolean onSingleTapUp(MotionEvent event) {
-			GameBoard board = mParent.getGameboard();
+			GameBoard board = mParent.getGameBoard();
 			int squareRow = getTileRow(event);
 			int squareColumn = getTileColumn(event);
 

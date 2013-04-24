@@ -1,6 +1,7 @@
 package eu.j0ntech.tenpair.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -8,14 +9,15 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import eu.j0ntech.tenpair.R;
-import eu.j0ntech.tenpair.TenPairApp;
 import eu.j0ntech.tenpair.fragment.PauseDialog;
 import eu.j0ntech.tenpair.fragment.PauseDialog.PauseDialogListener;
 import eu.j0ntech.tenpair.fragment.SaveNameDialog;
 import eu.j0ntech.tenpair.fragment.SaveNameDialog.SaveDialogListener;
 import eu.j0ntech.tenpair.game.GameBoard;
+import eu.j0ntech.tenpair.save.LoadTask;
 import eu.j0ntech.tenpair.save.SaveTask;
 import eu.j0ntech.tenpair.view.BoardCanvas;
 
@@ -29,26 +31,21 @@ public class GameActivity extends FragmentActivity implements
 	private RelativeLayout mButtonContainer;
 
 	private Button mPauseButton;
-
 	private Button mWriteOutButton;
+	private ProgressBar mLoadingIndicator;
 
 	private PauseDialog mPauseDialog;
 	private SaveNameDialog mSaveDialog;
-	
+
 	public static final String LOAD_GAME_TAG = "load_game";
+	public static final String LOAD_GAME_PATH = "load_game_path";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_game);
-		
-		if (getIntent().getBooleanExtra(LOAD_GAME_TAG, false)) {
-			mGameBoard = ((TenPairApp) getApplication()).startLoadedGame();
-		} else {
-			mGameBoard = ((TenPairApp) getApplication()).startNewGame();			
-		}
-
+		Intent incoming = getIntent();
 
 		mCanvas = (BoardCanvas) findViewById(R.id.boardcanvas);
 
@@ -56,6 +53,15 @@ public class GameActivity extends FragmentActivity implements
 
 		mPauseButton = (Button) findViewById(R.id.pause);
 		mWriteOutButton = (Button) findViewById(R.id.writeout);
+		mLoadingIndicator = (ProgressBar) findViewById(R.id.loading_indicator);
+
+		if (incoming.getBooleanExtra(LOAD_GAME_TAG, false)) {
+			(new LoadTask(this)).execute(incoming
+					.getStringExtra(LOAD_GAME_PATH));
+		} else {
+			mGameBoard = new GameBoard();
+			mCanvas.recalculateBoardSize();
+		}
 
 		mPauseButton.setOnClickListener(new View.OnClickListener() {
 
@@ -84,7 +90,6 @@ public class GameActivity extends FragmentActivity implements
 				mCanvas.invalidate();
 			}
 		});
-		mCanvas.recalculateBoardSize();
 		// mGameboard.displayBoard();
 	}
 
@@ -98,8 +103,23 @@ public class GameActivity extends FragmentActivity implements
 		return mButtonContainer.getHeight();
 	}
 
-	public GameBoard getGameboard() {
+	public GameBoard getGameBoard() {
 		return mGameBoard;
+	}
+
+	public void setGameBoard(GameBoard board) {
+		mGameBoard = board;
+	}
+
+	public void showAsLoading() {
+		mCanvas.setVisibility(View.INVISIBLE);
+		mLoadingIndicator.setVisibility(View.VISIBLE);
+	}
+
+	public void showAsNormal() {
+		mCanvas.recalculateBoardSize();
+		mCanvas.setVisibility(View.VISIBLE);
+		mLoadingIndicator.setVisibility(View.INVISIBLE);
 	}
 
 	@Override
@@ -141,7 +161,6 @@ public class GameActivity extends FragmentActivity implements
 	public void onCancel() {
 		if (mSaveDialog.isVisible())
 			mSaveDialog.dismiss();
-
 	}
 
 	@Override

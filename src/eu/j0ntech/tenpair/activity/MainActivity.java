@@ -13,7 +13,6 @@ import android.widget.Button;
 import eu.j0ntech.tenpair.R;
 import eu.j0ntech.tenpair.fragment.LoadDialog;
 import eu.j0ntech.tenpair.fragment.LoadDialog.LoadDialogListener;
-import eu.j0ntech.tenpair.save.LoadTask;
 
 public class MainActivity extends FragmentActivity implements LoadDialogListener{
 
@@ -74,7 +73,10 @@ public class MainActivity extends FragmentActivity implements LoadDialogListener
 		if (mLoadDialog.isVisible()) {
 			mLoadDialog.dismiss();
 		}
-		(new LoadTask(this)).execute(filepath);
+		Intent loadIntent = new Intent(this, GameActivity.class);
+		loadIntent.putExtra(GameActivity.LOAD_GAME_TAG, true);
+		loadIntent.putExtra(GameActivity.LOAD_GAME_PATH, filepath);
+		startActivity(loadIntent);
 	}
 
 	@Override

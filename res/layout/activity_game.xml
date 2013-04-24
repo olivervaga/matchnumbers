@@ -25,6 +25,14 @@
             android:layout_alignParentTop="true"
             android:text="@string/button_writeout" />
 
+        <ProgressBar
+            android:id="@+id/loading_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/writeout"
+            android:visibility="invisible" />
+
     </RelativeLayout>
 
     <eu.j0ntech.tenpair.view.BoardCanvas

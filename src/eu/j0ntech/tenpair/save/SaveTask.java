@@ -38,7 +38,7 @@ public class SaveTask extends AsyncTask<String, Void, Integer> {
 		if (params.length == 1) {
 			boolean result;
 			try {
-				result = Saver.saveGame(mParent.getGameboard(), params[0], mParent);
+				result = Saver.saveGame(mParent.getGameBoard(), params[0], mParent);
 			} catch (FileNotFoundException e) {
 				return SaveResult.MEDIA_UNAVAILABLE;
 			} catch (FileAlreadyExistsException e) {
