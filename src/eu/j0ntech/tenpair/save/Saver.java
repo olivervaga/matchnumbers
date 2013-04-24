@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
@@ -111,10 +112,11 @@ public class Saver {
 		try {
 			br = new BufferedReader(new FileReader(filePath));
 			save = br.readLine();
-			br.close();
 		} catch (Exception e) {
 			Log.e(TAG, e.getMessage(), e);
 			return null;
+		} finally {
+			try { br.close(); } catch (IOException e) {}			
 		}
 		Log.d(TAG, save);
 		result = parseSaveData(save);
