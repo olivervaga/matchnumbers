@@ -11,14 +11,13 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.os.Environment;
-import android.util.Log;
 import eu.j0ntech.tenpair.game.GameBoard;
 import eu.j0ntech.tenpair.game.Tile;
 import eu.j0ntech.tenpair.game.Tile.TileType;
 
 public class Saver {
 
-	private static final String FILE_EXTENSION = ".tps";
+	public static final String FILE_EXTENSION = ".tps";
 	private static final String COLUMN_DENOMINATOR = " ";
 	private static final String SCRATCHED_INDICATOR = "*";
 	private static final String ROW_DENOMINATOR = "nl";
@@ -41,6 +40,13 @@ public class Saver {
 		if (!checkExternalStorage())
 			return null;
 		return readFromSaveFile(filepath);
+	}
+	
+	public static boolean deleteSave(String filePath) {
+		if (!checkExternalStorage())
+			return false;
+		File file = new File(filePath);
+		return file.delete();
 	}
 
 	public static FileDetail[] getAvailableSaves(Context context) {
@@ -93,7 +99,6 @@ public class Saver {
 		File fileDir = context.getExternalFilesDir(null);
 		File saveFile = new File(fileDir, saveName + FILE_EXTENSION);
 		if (saveFile.exists()) throw new FileAlreadyExistsException();
-		Log.d(TAG, saveFile.getAbsolutePath());
 		PrintWriter writer = null;
 		try {
 			writer = new PrintWriter(saveFile);
@@ -113,7 +118,6 @@ public class Saver {
 			br = new BufferedReader(new FileReader(filePath));
 			save = br.readLine();
 		} catch (Exception e) {
-			Log.e(TAG, e.getMessage(), e);
 			return null;
 		} finally {
 			try {
@@ -121,7 +125,6 @@ public class Saver {
 			} catch (IOException e) {
 			}
 		}
-		Log.d(TAG, save);
 		result = parseSaveData(save);
 		return new GameBoard(result);
 	}

@@ -1,4 +1,4 @@
-* A new LoadDialog - needs the ability to also delete saves, remove ".tps" file extension from list
+* Fix bug with LoadDialog layout (scrolling makes things disappear)
 * Scratched numbers need to be "more" scratched - easier to play
 * Check if adding unused tiles works correctly (it's suspicious as the board grows)
 * A tutorial thingie

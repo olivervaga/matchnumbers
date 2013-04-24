@@ -80,9 +80,7 @@ public class BoardCanvas extends View {
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		wm.getDefaultDisplay().getMetrics(displayMetrics);
 		resolutionX = displayMetrics.widthPixels;
-		Log.d(TAG, "Pixels X: " + resolutionX);
 		tileSize = (resolutionX) / 9;
-		Log.d(TAG, "Tile size: " + tileSize);
 		mBackPaint = new Paint();
 	}
 

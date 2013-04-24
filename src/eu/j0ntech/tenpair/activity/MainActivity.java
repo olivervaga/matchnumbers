@@ -6,13 +6,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import eu.j0ntech.tenpair.R;
 import eu.j0ntech.tenpair.fragment.LoadDialog;
 import eu.j0ntech.tenpair.fragment.LoadDialog.LoadDialogListener;
+import eu.j0ntech.tenpair.save.DeleteTask;
 
 public class MainActivity extends FragmentActivity implements LoadDialogListener{
 
@@ -25,6 +26,7 @@ public class MainActivity extends FragmentActivity implements LoadDialogListener
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
 
 		mStartButton = (Button) findViewById(R.id.button_start);
@@ -69,10 +71,7 @@ public class MainActivity extends FragmentActivity implements LoadDialogListener
 
 	@Override
 	public void onLoad(String filepath) {
-		Log.d("Loadstuff", filepath);
-		if (mLoadDialog.isVisible()) {
-			mLoadDialog.dismiss();
-		}
+		mLoadDialog.dismiss();
 		Intent loadIntent = new Intent(this, GameActivity.class);
 		loadIntent.putExtra(GameActivity.LOAD_GAME_TAG, true);
 		loadIntent.putExtra(GameActivity.LOAD_GAME_PATH, filepath);
@@ -81,10 +80,7 @@ public class MainActivity extends FragmentActivity implements LoadDialogListener
 
 	@Override
 	public void onDelete(String filepath) {
-		if (mLoadDialog.isVisible()) {
-			mLoadDialog.dismiss();
-		}
-		
+		(new DeleteTask(mLoadDialog)).execute(filepath);
 	}
 
 }
