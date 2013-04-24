@@ -61,7 +61,7 @@ public class SaveNameDialog extends DialogFragment {
 							nameDialog.dismiss();
 						} else
 							Toast.makeText(getActivity(),
-									getString(R.string.error_name),
+									getString(R.string.error_name_short),
 									Toast.LENGTH_LONG).show();
 						
 					}

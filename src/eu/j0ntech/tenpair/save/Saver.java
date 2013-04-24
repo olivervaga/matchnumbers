@@ -2,6 +2,7 @@ package eu.j0ntech.tenpair.save;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -25,9 +26,11 @@ public class Saver {
 	private static final String TAG = "Saver";
 
 	public static boolean saveGame(GameBoard board, String saveName,
-			Context context) {
+			Context context) throws FileNotFoundException,
+			FileAlreadyExistsException {
 		String save = createSave(board);
-		if (checkExternalStorage() && writeSaveToFile(save, saveName, context)) {
+		if (checkExternalStorage()) {
+			writeSaveToFile(save, saveName, context);
 			return true;
 		} else {
 			return false;
@@ -85,20 +88,17 @@ public class Saver {
 		}
 	}
 
-	private static boolean writeSaveToFile(String save, String saveName,
-			Context context) {
+	private static void writeSaveToFile(String save, String saveName,
+			Context context) throws FileNotFoundException, FileAlreadyExistsException {
 		File fileDir = context.getExternalFilesDir(null);
 		File saveFile = new File(fileDir, saveName + FILE_EXTENSION);
+		if (saveFile.exists()) throw new FileAlreadyExistsException();
 		Log.d(TAG, saveFile.getAbsolutePath());
 		PrintWriter writer = null;
 		try {
 			writer = new PrintWriter(saveFile);
 			writer.write(save);
 			writer.flush();
-			return true;
-		} catch (Exception e) {
-			Log.e(TAG, e.getMessage(), e);
-			return false;
 		} finally {
 			if (writer != null)
 				writer.close();
@@ -116,7 +116,10 @@ public class Saver {
 			Log.e(TAG, e.getMessage(), e);
 			return null;
 		} finally {
-			try { br.close(); } catch (IOException e) {}			
+			try {
+				br.close();
+			} catch (IOException e) {
+			}
 		}
 		Log.d(TAG, save);
 		result = parseSaveData(save);

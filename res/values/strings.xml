@@ -23,7 +23,8 @@
     <string name="dialog_saving">Saving game…</string>
     <string name="dialog_loading">Loading game…</string>
     
-    <string name="error_name">Filename too short</string>
+    <string name="error_name_short">Filename too short</string>
+    <string name="error_name_duplicate">Filename taken</string>
     <string name="error_no_saves">No saved games</string>
     <string name="error_save">Couldn\'t save file</string>
     <string name="confirm_save">Game saved</string>
