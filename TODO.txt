@@ -1,3 +1,2 @@
-* Scratched numbers need to be "more" scratched - easier to play
 * Check if adding unused tiles works correctly (it's suspicious as the board grows)
 * A tutorial thingie

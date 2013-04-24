@@ -28,7 +28,7 @@ public class TileDrawer {
 
 		mLinePaint.setStyle(Paint.Style.STROKE);
 		mLinePaint.setColor(COLOR_NUMBER);
-		mLinePaint.setStrokeWidth(3f);
+		mLinePaint.setStrokeWidth(6f);
 		mLinePaint.setAntiAlias(true);
 
 		mNumberPaint.setStyle(Paint.Style.STROKE);
@@ -67,12 +67,37 @@ public class TileDrawer {
 				(float) (tile.getCenterY() + (mNumberPaint.getTextSize()) / 2.6 + offset),
 				mNumberPaint);
 		if (tile.getType() == TileType.SCRATCHED) {
+			int tile3rd = (int) (tileSize / 3);
+			int tile2_3rds = (int) ((tileSize / 3) * 2);
 			canvas.drawLine(startX + BoardCanvas.SQUARE_PADDING,
-					startY + BoardCanvas.SQUARE_PADDING + offset, startX + tileSize, startY + tileSize + offset, mLinePaint);
-			canvas.drawLine(startX + tileSize, startY
-					+ BoardCanvas.SQUARE_PADDING + offset, startX
-					+ BoardCanvas.SQUARE_PADDING, startY + tileSize + offset,
-					mLinePaint);
+					startY + BoardCanvas.SQUARE_PADDING + offset,
+					startX + tileSize,
+					startY + tile3rd + offset, mLinePaint);
+			
+			canvas.drawLine(startX + tileSize,
+					startY + tile3rd + offset,
+					startX + BoardCanvas.SQUARE_PADDING,
+					startY + tile2_3rds + offset, mLinePaint);
+			
+			canvas.drawLine(startX + BoardCanvas.SQUARE_PADDING,
+					startY + tile2_3rds + offset,
+					startX + tileSize,
+					startY + tileSize + offset, mLinePaint);
+			
+			canvas.drawLine(startX + tileSize,
+					startY + BoardCanvas.SQUARE_PADDING + offset,
+					startX + BoardCanvas.SQUARE_PADDING,
+					startY + tile3rd + offset, mLinePaint);
+			
+			canvas.drawLine(startX + BoardCanvas.SQUARE_PADDING,
+					startY + tile3rd + offset,
+					startX + tileSize,
+					startY + tile2_3rds + offset, mLinePaint);
+			
+			canvas.drawLine(startX + tileSize,
+					startY + tile2_3rds + offset,
+					startX + BoardCanvas.SQUARE_PADDING,
+					startY + tileSize + offset, mLinePaint);
 		}
 	}
 
