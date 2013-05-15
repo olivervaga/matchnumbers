@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import android.util.Log;
 import eu.j0ntech.tenpair.game.Tile.TileType;
 
 /**
@@ -14,8 +13,6 @@ import eu.j0ntech.tenpair.game.Tile.TileType;
  * 
  */
 public class GameBoard {
-
-	private final String TAG = "Gameboard";
 
 	/**
 	 * Maximum number of columns on the board
@@ -254,7 +251,6 @@ public class GameBoard {
 				currentTiles++;
 			}
 		}
-		Log.d(TAG, "Current rows: " + getRows());
 	}
 
 	public boolean validateMove(Tile tile1, Tile tile2) {
@@ -303,7 +299,6 @@ public class GameBoard {
 					rowString.append(" ");
 				rowString.append(" ");
 			}
-			Log.d(TAG, rowString.toString());
 		}
 	}
 

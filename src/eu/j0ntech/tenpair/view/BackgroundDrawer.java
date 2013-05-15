@@ -3,7 +3,6 @@ package eu.j0ntech.tenpair.view;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 import eu.j0ntech.tenpair.game.GameBoard;
 
 public class BackgroundDrawer {
@@ -19,8 +18,6 @@ public class BackgroundDrawer {
 
 	private float tileSize;
 	
-	private final String TAG = "BackgroundDrawer";
-
 	public BackgroundDrawer(BoardView boardView) {
 		tileSize = boardView.getTileSize();
 
@@ -41,9 +38,6 @@ public class BackgroundDrawer {
 					+ LINE_PADDING, rows * tileSize + LINE_PADDING + 4,
 					mLinePaint);
 		}
-		Log.d(TAG, "Current rows: " + rows);
-		Log.d(TAG, "Current height: " + rows * tileSize);
-		Log.d(TAG, "Current position: " + (offset - boardCanvas.getHeight()));
 		int screenWidth = (int) (tileSize + BoardView.SQUARE_PADDING)
 				* GameBoard.COLUMNS;
 		for (int i = 0; i <= rows; i++) {

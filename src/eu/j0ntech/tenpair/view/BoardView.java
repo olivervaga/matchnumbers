@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,8 +24,6 @@ import eu.j0ntech.tenpair.game.Tile.TileType;
 public class BoardView extends View {
 
 	public final int COLOR_BACKGROUND = Color.DKGRAY;
-
-	private final String TAG = "BoardCanvas";
 
 	private GestureDetector mGestureDetector;
 
@@ -82,7 +79,6 @@ public class BoardView extends View {
 		wm.getDefaultDisplay().getMetrics(displayMetrics);
 		resolutionX = displayMetrics.widthPixels;
 		tileSize = (resolutionX) / GameBoard.COLUMNS - 1;
-		Log.d(TAG, "Tile size: " + tileSize);
 		mTileDrawer = new TileDrawer(this);
 		mBackgroundDrawer = new BackgroundDrawer(this);
 	}

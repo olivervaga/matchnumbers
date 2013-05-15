@@ -8,8 +8,6 @@ import eu.j0ntech.tenpair.game.Tile.TileType;
 
 public class TileDrawer {
 
-	private final static String TAG = "TileDrawer";
-
 	public static final int COLOR_DEFAULT_SQUARE = Color.WHITE;
 	public static final int COLOR_SELECTED_SQUARE = Color.rgb(135, 206, 250); // Light
 																				// blue

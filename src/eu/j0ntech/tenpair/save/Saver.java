@@ -21,8 +21,6 @@ public class Saver {
 	private static final String COLUMN_DENOMINATOR = " ";
 	private static final String SCRATCHED_INDICATOR = "*";
 	private static final String ROW_DENOMINATOR = "nl";
-
-	private static final String TAG = "Saver";
 	
 	private Saver() {}
 
