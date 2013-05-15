@@ -1,2 +1,5 @@
-* Check if adding unused tiles works correctly (it's suspicious as the board grows)
+* Endgame stuff
+  - Check for win condition
+  - Game won screen
+* Remaining tiles counter
 * A tutorial thingie
