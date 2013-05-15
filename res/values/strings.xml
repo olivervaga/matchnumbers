@@ -11,7 +11,7 @@
     <string name="button_cancel">Cancel</string>
     <string name="button_exit">Exit</string>
     <string name="button_restart">Restart</string>
-    <string name="button_writeout">Next numbers</string>
+    <string name="button_writeout">Deal</string>
     <string name="menu_settings">Pause menu</string>
     <string name="title_activity_game">TenPair</string>
     <string name="button_loadgame">Load game</string>

@@ -3,9 +3,9 @@ package eu.j0ntech.tenpair.view;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -31,9 +31,9 @@ public class BoardView extends View {
 	private GestureDetector mGestureDetector;
 
 	private GameActivity mParent;
-	private Paint mBackPaint;
 	
 	private TileDrawer mTileDrawer;
+	private BackgroundDrawer mBackgroundDrawer;
 
 	private int resolutionX;
 	private int canvasHeight;
@@ -81,9 +81,10 @@ public class BoardView extends View {
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		wm.getDefaultDisplay().getMetrics(displayMetrics);
 		resolutionX = displayMetrics.widthPixels;
-		tileSize = (resolutionX) / 9;
-		mBackPaint = new Paint();
+		tileSize = (resolutionX) / GameBoard.COLUMNS - 1;
+		Log.d(TAG, "Tile size: " + tileSize);
 		mTileDrawer = new TileDrawer(this);
+		mBackgroundDrawer = new BackgroundDrawer(this);
 	}
 
 	public void resetCanvas() {
@@ -101,9 +102,7 @@ public class BoardView extends View {
 		super.onDraw(canvas);
 		GameBoard board = mParent.getGameBoard();
 		// board.displayBoard();
-		mBackPaint.setStyle(Paint.Style.FILL);
-		mBackPaint.setColor(COLOR_BACKGROUND);
-		canvas.drawPaint(mBackPaint);
+		mBackgroundDrawer.draw(canvas, board.getRows(), offset);
 
 		for (int j = 0; j < board.getRows(); j++) {
 			float startY = j * tileSize;
@@ -199,7 +198,7 @@ public class BoardView extends View {
 
 	public void recalculateBoardSize() {
 		boardSize = mParent.getGameBoard().getRows()
-				* (tileSize + SQUARE_PADDING);
+				* tileSize + SQUARE_PADDING + 2;
 	}
 
 	public int getCanvasHeight() {

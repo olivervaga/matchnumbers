@@ -218,7 +218,6 @@ public class GameBoard {
 	}
 
 	public void addUnunusedTiles() {
-		displayBoard();
 		int newTiles = currentTiles - currentScratched;
 		int currentRows = board.size();
 		ArrayList<Tile> unusedTiles = new ArrayList<Tile>();
@@ -255,7 +254,7 @@ public class GameBoard {
 				currentTiles++;
 			}
 		}
-		displayBoard();
+		Log.d(TAG, "Current rows: " + getRows());
 	}
 
 	public boolean validateMove(Tile tile1, Tile tile2) {
