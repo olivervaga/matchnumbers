@@ -23,6 +23,8 @@ public class Saver {
 	private static final String ROW_DENOMINATOR = "nl";
 
 	private static final String TAG = "Saver";
+	
+	private Saver() {}
 
 	public static boolean saveGame(GameBoard board, String saveName,
 			Context context) throws FileNotFoundException,
