@@ -19,14 +19,14 @@ import eu.j0ntech.tenpair.fragment.SaveNameDialog.SaveDialogListener;
 import eu.j0ntech.tenpair.game.GameBoard;
 import eu.j0ntech.tenpair.save.LoadTask;
 import eu.j0ntech.tenpair.save.SaveTask;
-import eu.j0ntech.tenpair.view.BoardCanvas;
+import eu.j0ntech.tenpair.view.BoardView;
 
 public class GameActivity extends FragmentActivity implements
 		PauseDialogListener, SaveDialogListener {
 
 	private GameBoard mGameBoard;
 
-	private BoardCanvas mCanvas;
+	private BoardView mCanvas;
 
 	private RelativeLayout mButtonContainer;
 
@@ -47,7 +47,7 @@ public class GameActivity extends FragmentActivity implements
 		setContentView(R.layout.activity_game);
 		Intent incoming = getIntent();
 
-		mCanvas = (BoardCanvas) findViewById(R.id.boardcanvas);
+		mCanvas = (BoardView) findViewById(R.id.boardcanvas);
 
 		mButtonContainer = (RelativeLayout) findViewById(R.id.button_container);
 

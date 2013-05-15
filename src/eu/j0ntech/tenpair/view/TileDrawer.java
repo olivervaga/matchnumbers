@@ -18,11 +18,21 @@ public class TileDrawer {
 	public static final int COLOR_NUMBER = Color.BLACK;
 	public static final int COLOR_BACKGROUND = Color.DKGRAY;
 
-	private static Paint mRectPaint = new Paint();;
-	private static Paint mNumberPaint = new Paint();;
-	private static Paint mLinePaint = new Paint();;
+	private Paint mRectPaint = new Paint();
+	private Paint mNumberPaint = new Paint();
+	private Paint mLinePaint = new Paint();
+	
+	private float tileSize;
+	private int tile3rd;
+	private int tile2_3rds;
 
-	static {
+	public TileDrawer(BoardView boardView) {
+		
+		tileSize = boardView.getTileSize();
+		tile3rd = (int) (tileSize / 3);
+		tile2_3rds = (int) ((tileSize / 3) * 2);
+		
+		
 		mRectPaint.setStyle(Paint.Style.FILL);
 		mRectPaint.setAntiAlias(true);
 
@@ -37,13 +47,12 @@ public class TileDrawer {
 		mNumberPaint.setTextAlign(Paint.Align.CENTER);
 	}
 
-	public static void draw(BoardCanvas board, Canvas canvas, Tile tile,
+	public void draw(Tile tile, Canvas boardCanvas,
 			float offset) {
-		float tileSize = board.getTileSize();
-		float startX = tile.getStartX() - BoardCanvas.SQUARE_PADDING;
-		float startY = tile.getStartY() - BoardCanvas.SQUARE_PADDING;
+		float startX = tile.getStartX() - BoardView.SQUARE_PADDING;
+		float startY = tile.getStartY() - BoardView.SQUARE_PADDING;
 
-		mNumberPaint.setTextSize(tileSize - BoardCanvas.SQUARE_PADDING);
+		mNumberPaint.setTextSize(tileSize - BoardView.SQUARE_PADDING);
 
 		switch (tile.getType()) {
 		case DEFAULT:
@@ -59,44 +68,42 @@ public class TileDrawer {
 			mRectPaint.setColor(COLOR_SELECTED_SQUARE);
 			break;
 		}
-		canvas.drawRect(tile.getStartX(), tile.getStartY() + offset,
+		boardCanvas.drawRect(tile.getStartX(), tile.getStartY() + offset,
 				tile.getEndX(), tile.getEndY() + offset, mRectPaint);
-		canvas.drawText(
+		boardCanvas.drawText(
 				String.valueOf(tile.getValue()),
 				tile.getCenterX(),
 				(float) (tile.getCenterY() + (mNumberPaint.getTextSize()) / 2.6 + offset),
 				mNumberPaint);
 		if (tile.getType() == TileType.SCRATCHED) {
-			int tile3rd = (int) (tileSize / 3);
-			int tile2_3rds = (int) ((tileSize / 3) * 2);
-			canvas.drawLine(startX + BoardCanvas.SQUARE_PADDING,
-					startY + BoardCanvas.SQUARE_PADDING + offset,
+			boardCanvas.drawLine(startX + BoardView.SQUARE_PADDING,
+					startY + BoardView.SQUARE_PADDING + offset,
 					startX + tileSize,
 					startY + tile3rd + offset, mLinePaint);
 			
-			canvas.drawLine(startX + tileSize,
+			boardCanvas.drawLine(startX + tileSize,
 					startY + tile3rd + offset,
-					startX + BoardCanvas.SQUARE_PADDING,
+					startX + BoardView.SQUARE_PADDING,
 					startY + tile2_3rds + offset, mLinePaint);
 			
-			canvas.drawLine(startX + BoardCanvas.SQUARE_PADDING,
+			boardCanvas.drawLine(startX + BoardView.SQUARE_PADDING,
 					startY + tile2_3rds + offset,
 					startX + tileSize,
 					startY + tileSize + offset, mLinePaint);
 			
-			canvas.drawLine(startX + tileSize,
-					startY + BoardCanvas.SQUARE_PADDING + offset,
-					startX + BoardCanvas.SQUARE_PADDING,
+			boardCanvas.drawLine(startX + tileSize,
+					startY + BoardView.SQUARE_PADDING + offset,
+					startX + BoardView.SQUARE_PADDING,
 					startY + tile3rd + offset, mLinePaint);
 			
-			canvas.drawLine(startX + BoardCanvas.SQUARE_PADDING,
+			boardCanvas.drawLine(startX + BoardView.SQUARE_PADDING,
 					startY + tile3rd + offset,
 					startX + tileSize,
 					startY + tile2_3rds + offset, mLinePaint);
 			
-			canvas.drawLine(startX + tileSize,
+			boardCanvas.drawLine(startX + tileSize,
 					startY + tile2_3rds + offset,
-					startX + BoardCanvas.SQUARE_PADDING,
+					startX + BoardView.SQUARE_PADDING,
 					startY + tileSize + offset, mLinePaint);
 		}
 	}

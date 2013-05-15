@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,7 +22,7 @@ import eu.j0ntech.tenpair.game.Tile.TileType;
  * @author Oliver Vaga
  * 
  */
-public class BoardCanvas extends View {
+public class BoardView extends View {
 
 	public final int COLOR_BACKGROUND = Color.DKGRAY;
 
@@ -33,6 +32,8 @@ public class BoardCanvas extends View {
 
 	private GameActivity mParent;
 	private Paint mBackPaint;
+	
+	private TileDrawer mTileDrawer;
 
 	private int resolutionX;
 	private int canvasHeight;
@@ -48,18 +49,18 @@ public class BoardCanvas extends View {
 	private float tileSize;
 	private float boardSize;
 
-	public BoardCanvas(Context context) {
+	public BoardView(Context context) {
 		super(context);
 		initCanvas(context);
 	}
 
-	public BoardCanvas(Context context, AttributeSet attrs) {
+	public BoardView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		initCanvas(context);
 
 	}
 
-	public BoardCanvas(Context context, AttributeSet attrs, int defStyle) {
+	public BoardView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		initCanvas(context);
 
@@ -82,6 +83,7 @@ public class BoardCanvas extends View {
 		resolutionX = displayMetrics.widthPixels;
 		tileSize = (resolutionX) / 9;
 		mBackPaint = new Paint();
+		mTileDrawer = new TileDrawer(this);
 	}
 
 	public void resetCanvas() {
@@ -110,7 +112,7 @@ public class BoardCanvas extends View {
 				Tile tempTile = board.getTile(j, i);
 				tempTile.setCoordinates(startX + SQUARE_PADDING, startY
 						+ SQUARE_PADDING, startX + tileSize, startY + tileSize);
-				TileDrawer.draw(this, canvas, tempTile, offset);
+				mTileDrawer.draw(tempTile, canvas, offset);
 			}
 		}
 
@@ -272,7 +274,7 @@ public class BoardCanvas extends View {
 		@Override
 		public boolean onScroll(MotionEvent e1, MotionEvent e2,
 				float distanceX, float distanceY) {
-			if (boardSize < BoardCanvas.this.getHeight()) {
+			if (boardSize < BoardView.this.getHeight()) {
 				return true;
 			}
 			offset -= distanceY;

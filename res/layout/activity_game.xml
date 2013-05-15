@@ -35,7 +35,7 @@
 
     </RelativeLayout>
 
-    <eu.j0ntech.tenpair.view.BoardCanvas
+    <eu.j0ntech.tenpair.view.BoardView
         android:id="@+id/boardcanvas"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
