@@ -11,18 +11,20 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import eu.j0ntech.tenpair.R;
 import eu.j0ntech.tenpair.fragment.PauseDialog;
 import eu.j0ntech.tenpair.fragment.PauseDialog.PauseDialogListener;
 import eu.j0ntech.tenpair.fragment.SaveNameDialog;
 import eu.j0ntech.tenpair.fragment.SaveNameDialog.SaveDialogListener;
 import eu.j0ntech.tenpair.game.GameBoard;
+import eu.j0ntech.tenpair.game.GameBoard.BoardChangeListener;
 import eu.j0ntech.tenpair.save.LoadTask;
 import eu.j0ntech.tenpair.save.SaveTask;
 import eu.j0ntech.tenpair.view.BoardView;
 
 public class GameActivity extends FragmentActivity implements
-		PauseDialogListener, SaveDialogListener {
+		PauseDialogListener, SaveDialogListener, BoardChangeListener {
 
 	private GameBoard mGameBoard;
 
@@ -36,6 +38,8 @@ public class GameActivity extends FragmentActivity implements
 
 	private PauseDialog mPauseDialog;
 	private SaveNameDialog mSaveDialog;
+
+	private TextView mRemainingCount;
 
 	public static final String LOAD_GAME_TAG = "load_game";
 	public static final String LOAD_GAME_PATH = "load_game_path";
@@ -55,11 +59,13 @@ public class GameActivity extends FragmentActivity implements
 		mWriteOutButton = (Button) findViewById(R.id.writeout);
 		mLoadingIndicator = (ProgressBar) findViewById(R.id.loading_indicator);
 
+		mRemainingCount = (TextView) findViewById(R.id.number_remaining);
+
 		if (incoming.getBooleanExtra(LOAD_GAME_TAG, false)) {
 			(new LoadTask(this)).execute(incoming
 					.getStringExtra(LOAD_GAME_PATH));
 		} else {
-			mGameBoard = new GameBoard();
+			mGameBoard = new GameBoard(this);
 			mCanvas.recalculateBoardSize();
 		}
 
@@ -94,7 +100,7 @@ public class GameActivity extends FragmentActivity implements
 	}
 
 	private void resetGame() {
-		mGameBoard = new GameBoard();
+		mGameBoard = new GameBoard(this);
 		mCanvas.recalculateBoardSize();
 		mCanvas.resetCanvas();
 	}
@@ -169,6 +175,16 @@ public class GameActivity extends FragmentActivity implements
 			mSaveDialog.dismiss();
 		(new SaveTask(this)).execute(saveName);
 
+	}
+
+	@Override
+	public void onBoardChanged(int newCount) {
+		mRemainingCount.setText(String.valueOf(newCount));
+	}
+
+	@Override
+	public void onGameWon() {
+		// TODO Auto-generated method stub
 	}
 
 }

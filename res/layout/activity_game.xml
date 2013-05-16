@@ -33,6 +33,24 @@
             android:layout_toLeftOf="@+id/writeout"
             android:visibility="invisible" />
 
+        <TextView
+            android:id="@+id/number_remaining"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/writeout"
+            android:layout_alignBottom="@+id/writeout"
+            android:layout_toRightOf="@+id/text_remaining"
+            android:text="@string/default_remaining_count" />
+
+        <TextView
+            android:id="@+id/text_remaining"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/number_remaining"
+            android:layout_alignBottom="@+id/number_remaining"
+            android:layout_toRightOf="@+id/pause"
+            android:text="@string/remaining" />
+
     </RelativeLayout>
 
     <eu.j0ntech.tenpair.view.BoardView

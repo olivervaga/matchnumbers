@@ -1,5 +1,4 @@
 * Endgame stuff
   - Check for win condition
   - Game won screen
-* Remaining tiles counter
 * A tutorial thingie

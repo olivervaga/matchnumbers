@@ -280,7 +280,5 @@ public class BoardView extends View {
 			invalidate();
 			return true;
 		}
-
 	}
-
 }

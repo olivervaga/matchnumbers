@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import eu.j0ntech.tenpair.activity.GameActivity;
 import eu.j0ntech.tenpair.game.Tile.TileType;
 
 /**
@@ -31,24 +32,39 @@ public class GameBoard {
 
 	private int currentScratched = 0;
 
+	private BoardChangeListener mBoardChangeListener;
+
 	/**
 	 * Creates a new GameBoard and populates it with the default values
 	 */
-	public GameBoard() {
+	public GameBoard(BoardChangeListener listener) {
 		board = new ArrayList<ArrayList<Tile>>(INITIAL_ROWS);
 		for (int i = 0; i <= 2; i++) {
 			board.add(i, new ArrayList<Tile>(COLUMNS));
 		}
+		mBoardChangeListener = listener;
 		populateDefaultBoard();
+		mBoardChangeListener.onBoardChanged(getRemainingCount());
 	}
 
-	public GameBoard(ArrayList<ArrayList<Tile>> savedState) {
+	public GameBoard(BoardChangeListener listener,
+			ArrayList<ArrayList<Tile>> savedState) {
 		board = savedState;
-		currentTiles = (board.size() - 1) * 9 + board.get(board.size() - 1).size();
+		currentTiles = (board.size() - 1) * 9
+				+ board.get(board.size() - 1).size();
 		for (ArrayList<Tile> row : board)
 			for (Tile t : row)
 				if (t.getType() == TileType.SCRATCHED)
 					currentScratched++;
+		mBoardChangeListener = listener;
+		((GameActivity) listener).runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				mBoardChangeListener.onBoardChanged(getRemainingCount());
+				// TODO Auto-generated method stub				
+			}
+		});
 	}
 
 	public Tile getTile(int row, int column) {
@@ -155,7 +171,8 @@ public class GameBoard {
 		}
 		// Bottom adjacent
 		for (int i = row + 1; i < board.size(); i++) {
-			if (column >= board.get(i).size()) break;
+			if (column >= board.get(i).size())
+				break;
 			if (getTile(i, column).getType() != TileType.SCRATCHED) {
 				result.add(getTile(i, column));
 				break;
@@ -251,6 +268,7 @@ public class GameBoard {
 				currentTiles++;
 			}
 		}
+		mBoardChangeListener.onBoardChanged(getRemainingCount());
 	}
 
 	public boolean validateMove(Tile tile1, Tile tile2) {
@@ -265,10 +283,15 @@ public class GameBoard {
 		tile1.setType(TileType.SCRATCHED);
 		tile2.setType(TileType.SCRATCHED);
 		currentScratched += 2;
+		if (isGameWon()) {
+			mBoardChangeListener.onGameWon();
+		} else {
+			mBoardChangeListener.onBoardChanged(getRemainingCount());			
+		}
 	}
 
 	public boolean isGameWon() {
-		return currentScratched == currentTiles ? true : false;
+		return (currentTiles - currentScratched) == 0 ? true : false;
 	}
 
 	public int getRows() {
@@ -278,9 +301,13 @@ public class GameBoard {
 	public int getRowSize(int row) {
 		return board.get(row).size();
 	}
-	
+
 	public ArrayList<ArrayList<Tile>> getInternalBoard() {
 		return board;
+	}
+
+	public int getRemainingCount() {
+		return currentTiles - currentScratched;
 	}
 
 	/**
@@ -302,4 +329,9 @@ public class GameBoard {
 		}
 	}
 
+	public interface BoardChangeListener {
+		public void onBoardChanged(int newCount);
+
+		public void onGameWon();
+	}
 }

@@ -15,7 +15,7 @@
         android:textSize="50sp" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/text_remaining"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView2"
@@ -29,7 +29,7 @@
         android:id="@+id/button_start"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
+        android:layout_below="@+id/text_remaining"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:text="@string/button_start" />

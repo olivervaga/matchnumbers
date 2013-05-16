@@ -24,7 +24,7 @@ public class LoadTask extends AsyncTask<String, Void, GameBoard> {
 	@Override
 	protected GameBoard doInBackground(String... params) {
 		if (params != null && params.length == 1) {
-			return Saver.loadGame(params[0]);
+			return Saver.loadGame(params[0], mParent);
 		}
 		return null;
 	}

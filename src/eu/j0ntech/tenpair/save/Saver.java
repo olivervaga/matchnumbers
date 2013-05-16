@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.os.Environment;
 import eu.j0ntech.tenpair.game.GameBoard;
+import eu.j0ntech.tenpair.game.GameBoard.BoardChangeListener;
 import eu.j0ntech.tenpair.game.Tile;
 import eu.j0ntech.tenpair.game.Tile.TileType;
 
@@ -36,10 +37,10 @@ public class Saver {
 		}
 	}
 
-	public static GameBoard loadGame(String filepath) {
+	public static GameBoard loadGame(String filepath, BoardChangeListener listener) {
 		if (!checkExternalStorage())
 			return null;
-		return readFromSaveFile(filepath);
+		return readFromSaveFile(filepath, listener);
 	}
 	
 	public static boolean deleteSave(String filePath) {
@@ -110,7 +111,7 @@ public class Saver {
 		}
 	}
 
-	private static GameBoard readFromSaveFile(String filePath) {
+	private static GameBoard readFromSaveFile(String filePath, BoardChangeListener listener) {
 		ArrayList<ArrayList<Tile>> result;
 		BufferedReader br = null;
 		String save = null;
@@ -126,7 +127,7 @@ public class Saver {
 			}
 		}
 		result = parseSaveData(save);
-		return new GameBoard(result);
+		return new GameBoard(listener, result);
 	}
 
 	private static ArrayList<ArrayList<Tile>> parseSaveData(String saveData) {
