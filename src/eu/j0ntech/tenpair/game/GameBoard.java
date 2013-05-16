@@ -58,11 +58,11 @@ public class GameBoard {
 					currentScratched++;
 		mBoardChangeListener = listener;
 		((GameActivity) listener).runOnUiThread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				mBoardChangeListener.onBoardChanged(getRemainingCount());
-				// TODO Auto-generated method stub				
+				// TODO Auto-generated method stub
 			}
 		});
 	}
@@ -283,11 +283,9 @@ public class GameBoard {
 		tile1.setType(TileType.SCRATCHED);
 		tile2.setType(TileType.SCRATCHED);
 		currentScratched += 2;
-		if (isGameWon()) {
+		mBoardChangeListener.onBoardChanged(getRemainingCount());
+		if (isGameWon())
 			mBoardChangeListener.onGameWon();
-		} else {
-			mBoardChangeListener.onBoardChanged(getRemainingCount());			
-		}
 	}
 
 	public boolean isGameWon() {

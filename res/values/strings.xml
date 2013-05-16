@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">TenPair</string>
+    <string name="app_name">Match Numbers</string>
+    <string name="title_activity_game">Match Numbers</string>
+    <string name="title_game_won">Game over</string>
+    <string name="text_game_over">Congratulations!\nYou matched every number!</string>
+    
     <string name="button_start">Start a new game</string>
     <string name="button_pause">Pause</string>
     <string name="button_resume">Resume</string>
@@ -13,7 +17,6 @@
     <string name="button_restart">Restart</string>
     <string name="button_writeout">Deal</string>
     <string name="menu_settings">Pause menu</string>
-    <string name="title_activity_game">TenPair</string>
     <string name="button_loadgame">Load game</string>
 
     <string name="game_desc">That numbers game that eveybody used to play during boring lessons</string>

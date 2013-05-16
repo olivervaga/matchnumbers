@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import eu.j0ntech.tenpair.R;
+import eu.j0ntech.tenpair.fragment.GameWonDialog;
 import eu.j0ntech.tenpair.fragment.PauseDialog;
 import eu.j0ntech.tenpair.fragment.PauseDialog.PauseDialogListener;
 import eu.j0ntech.tenpair.fragment.SaveNameDialog;
@@ -182,9 +183,18 @@ public class GameActivity extends FragmentActivity implements
 		mRemainingCount.setText(String.valueOf(newCount));
 	}
 
+	@SuppressLint("InlinedApi")
 	@Override
 	public void onGameWon() {
-		// TODO Auto-generated method stub
+		GameWonDialog gameWonDialog = new GameWonDialog();
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+			gameWonDialog.setStyle(DialogFragment.STYLE_NORMAL,
+					android.R.style.Theme_Dialog);
+		} else {
+			gameWonDialog.setStyle(DialogFragment.STYLE_NORMAL,
+					android.R.style.Theme_DeviceDefault_Dialog);
+		}
+		gameWonDialog.show(getSupportFragmentManager(), "game over");
 	}
 
 }
