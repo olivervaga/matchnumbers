@@ -55,8 +55,8 @@
 
     <eu.j0ntech.tenpair.view.BoardView
         android:id="@+id/boardcanvas"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@+id/button_container" />
 
 </RelativeLayout>

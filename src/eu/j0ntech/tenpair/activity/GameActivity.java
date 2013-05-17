@@ -83,7 +83,7 @@ public class GameActivity extends FragmentActivity implements
 					mPauseDialog.setStyle(DialogFragment.STYLE_NORMAL,
 							android.R.style.Theme_DeviceDefault_Dialog);
 				}
-				mPauseDialog.setCancelable(false);
+				mPauseDialog.setCancelable(true);
 				mPauseDialog.show(getSupportFragmentManager(), "pause");
 			}
 		});
@@ -155,7 +155,7 @@ public class GameActivity extends FragmentActivity implements
 			mSaveDialog.setStyle(DialogFragment.STYLE_NORMAL,
 					android.R.style.Theme_DeviceDefault_Dialog);
 		}
-		mSaveDialog.setCancelable(false);
+		mSaveDialog.setCancelable(true);
 		mSaveDialog.show(getSupportFragmentManager(), "save");
 	}
 

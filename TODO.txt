@@ -1,4 +1,1 @@
-* Endgame stuff
-  - Check for win condition
-  - Game won screen
 * A tutorial thingie

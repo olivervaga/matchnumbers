@@ -122,6 +122,7 @@ public class LoadDialog extends DialogFragment {
 		mFilenameContainer.setVisibility(View.VISIBLE);
 		mButtonContainer.setVisibility(View.VISIBLE);
 		mDeleteProgress.setVisibility(View.GONE);
+		selectedItemPath = null;
 		final FileDetail[] saves = Saver.getAvailableSaves(getActivity());
 		if (saves != null)
 			createLoadList(saves);
