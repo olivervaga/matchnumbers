@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import eu.j0ntech.tenpair.activity.GameActivity;
 import eu.j0ntech.tenpair.game.Tile.TileType;
 
 /**

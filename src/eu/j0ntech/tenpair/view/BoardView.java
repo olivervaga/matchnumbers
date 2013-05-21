@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
+import eu.j0ntech.tenpair.R;
 import eu.j0ntech.tenpair.activity.GameActivity;
 import eu.j0ntech.tenpair.game.GameBoard;
 import eu.j0ntech.tenpair.game.Tile;
@@ -257,8 +258,7 @@ public class BoardView extends View {
 							invalidate();
 							return true;
 						} else {
-							Toast.makeText(mParent, "Illegal move",
-									Toast.LENGTH_SHORT).show();
+							ToastUtil.showToast(R.string.error_illegal_move, Toast.LENGTH_SHORT, mParent);
 						}
 					}
 				}

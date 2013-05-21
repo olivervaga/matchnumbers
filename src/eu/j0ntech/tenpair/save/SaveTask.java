@@ -6,10 +6,10 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.view.Gravity;
 import android.widget.Toast;
 import eu.j0ntech.tenpair.R;
 import eu.j0ntech.tenpair.activity.GameActivity;
+import eu.j0ntech.tenpair.view.ToastUtil;
 
 public class SaveTask extends AsyncTask<String, Void, Integer> {
 	
@@ -51,22 +51,17 @@ public class SaveTask extends AsyncTask<String, Void, Integer> {
 	
 	@Override
 	protected void onPostExecute(Integer result) {
-		Toast toast = Toast.makeText(mParent, null, Toast.LENGTH_SHORT);
-		toast.setGravity(Gravity.TOP, 0, mParent.getButtonContainerHeight());
 		mProgressDialog.dismiss();
 		switch (result) {
 		case SaveResult.FILE_EXISTS:
-			toast.setText(R.string.error_name_duplicate);
-			toast.show();
+			ToastUtil.showToast(R.string.error_name_duplicate, Toast.LENGTH_SHORT, mParent);
 			mParent.onSaveClicked();
 			break;
 		case SaveResult.MEDIA_UNAVAILABLE:
-			toast.setText(R.string.error_save);
-			toast.show();
+			ToastUtil.showToast(R.string.error_save, Toast.LENGTH_SHORT, mParent);
 			break;
 		case SaveResult.OK:
-			toast.setText(R.string.confirm_save);
-			toast.show();
+			ToastUtil.showToast(R.string.confirm_save, Toast.LENGTH_SHORT, mParent);
 			break;
 		}
 	}

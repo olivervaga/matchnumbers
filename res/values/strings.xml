@@ -31,6 +31,7 @@
     <string name="error_no_saves">No saved games</string>
     <string name="error_save">Couldn\'t save file</string>
     <string name="error_load">Couldn\'t load game</string>
+    <string name="error_illegal_move">Illegal move</string>
     <string name="confirm_save">Game saved</string>
     <string name="remaining">Remaining tiles:</string>
     <string name="default_remaining_count">27</string>
