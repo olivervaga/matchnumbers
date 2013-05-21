@@ -57,14 +57,13 @@ public class GameBoard {
 				if (t.getType() == TileType.SCRATCHED)
 					currentScratched++;
 		mBoardChangeListener = listener;
-		((GameActivity) listener).runOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-				mBoardChangeListener.onBoardChanged(getRemainingCount());
-				// TODO Auto-generated method stub
-			}
-		});
+//		((GameActivity) listener).runOnUiThread(new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				mBoardChangeListener.onBoardChanged(getRemainingCount());
+//			}
+//		});
 	}
 
 	public Tile getTile(int row, int column) {
@@ -269,6 +268,37 @@ public class GameBoard {
 			}
 		}
 		mBoardChangeListener.onBoardChanged(getRemainingCount());
+	}
+	
+	public void removeScratchedRows() {
+		ArrayList<ArrayList<Tile>> rowsToRemove = new ArrayList<ArrayList<Tile>>();
+		int scratchedTiles;
+		for (ArrayList<Tile> row : board) {
+			scratchedTiles = 0;
+			for (Tile tile : row)
+				if (tile.getType() == Tile.TileType.SCRATCHED)
+					scratchedTiles++;
+			if (scratchedTiles == COLUMNS)
+				rowsToRemove.add(row);
+		}
+		if (rowsToRemove.size() == 0) return;
+		for (ArrayList<Tile> row : rowsToRemove) {
+			board.remove(row);
+			currentScratched -= COLUMNS;
+			currentTiles -= COLUMNS;
+		}
+		resetCoordinates();
+		mBoardChangeListener.onBoardChanged(getRemainingCount());
+	}
+	
+	public void resetCoordinates() {
+		ArrayList<Tile> row;
+		for (int i = 0; i < board.size(); i++) {
+			row = board.get(i);
+			for (int j = 0; j < row.size(); j++) {
+				row.get(j).setRow(i).setColumn(j);
+			}
+		}
 	}
 
 	public boolean validateMove(Tile tile1, Tile tile2) {

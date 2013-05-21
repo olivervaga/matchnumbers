@@ -34,5 +34,6 @@
     <string name="confirm_save">Game saved</string>
     <string name="remaining">Remaining tiles:</string>
     <string name="default_remaining_count">27</string>
+    <string name="button_remove_scratched">Remove&#10;rows</string>
 
 </resources>

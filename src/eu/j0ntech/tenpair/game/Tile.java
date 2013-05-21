@@ -134,16 +134,18 @@ public class Tile {
 		return row;
 	}
 
-	public void setRow(int row) {
+	public Tile setRow(int row) {
 		this.row = row;
+		return this;
 	}
 
 	public int getColumn() {
 		return column;
 	}
 
-	public void setColumn(int column) {
+	public Tile setColumn(int column) {
 		this.column = column;
+		return this;
 	}
 
 	public TileType getType() {

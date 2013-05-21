@@ -34,7 +34,9 @@ public class GameActivity extends FragmentActivity implements
 	private RelativeLayout mButtonContainer;
 
 	private Button mPauseButton;
-	private Button mWriteOutButton;
+	private Button mDealButton;
+	private Button mRemoveRowsButton;
+	
 	private ProgressBar mLoadingIndicator;
 
 	private PauseDialog mPauseDialog;
@@ -57,7 +59,9 @@ public class GameActivity extends FragmentActivity implements
 		mButtonContainer = (RelativeLayout) findViewById(R.id.button_container);
 
 		mPauseButton = (Button) findViewById(R.id.pause);
-		mWriteOutButton = (Button) findViewById(R.id.writeout);
+		mDealButton = (Button) findViewById(R.id.writeout);
+		mRemoveRowsButton = (Button) findViewById(R.id.button_remove_scratched);
+		
 		mLoadingIndicator = (ProgressBar) findViewById(R.id.loading_indicator);
 
 		mRemainingCount = (TextView) findViewById(R.id.number_remaining);
@@ -88,11 +92,21 @@ public class GameActivity extends FragmentActivity implements
 			}
 		});
 
-		mWriteOutButton.setOnClickListener(new View.OnClickListener() {
+		mDealButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				mGameBoard.addUnunusedTiles();
+				mCanvas.recalculateBoardSize();
+				mCanvas.invalidate();
+			}
+		});
+		
+		mRemoveRowsButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				mGameBoard.removeScratchedRows();
 				mCanvas.recalculateBoardSize();
 				mCanvas.invalidate();
 			}

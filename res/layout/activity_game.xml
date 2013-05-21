@@ -17,14 +17,6 @@
             android:layout_alignParentTop="true"
             android:text="@string/button_pause" />
 
-        <Button
-            android:id="@+id/writeout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:text="@string/button_writeout" />
-
         <ProgressBar
             android:id="@+id/loading_indicator"
             android:layout_width="wrap_content"
@@ -50,6 +42,23 @@
             android:layout_alignBottom="@+id/number_remaining"
             android:layout_toRightOf="@+id/pause"
             android:text="@string/remaining" />
+
+        <Button
+            android:id="@+id/button_remove_scratched"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/button_remove_scratched"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/writeout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/button_remove_scratched"
+            android:text="@string/button_writeout" />
 
     </RelativeLayout>
 
