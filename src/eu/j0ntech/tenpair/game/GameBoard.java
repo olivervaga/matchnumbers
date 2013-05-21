@@ -288,6 +288,7 @@ public class GameBoard {
 		}
 		resetCoordinates();
 		mBoardChangeListener.onBoardChanged(getRemainingCount());
+		mBoardChangeListener.onRowsRemoved();
 	}
 	
 	public void resetCoordinates() {
@@ -358,6 +359,8 @@ public class GameBoard {
 
 	public interface BoardChangeListener {
 		public void onBoardChanged(int newCount);
+		
+		public void onRowsRemoved();
 
 		public void onGameWon();
 	}

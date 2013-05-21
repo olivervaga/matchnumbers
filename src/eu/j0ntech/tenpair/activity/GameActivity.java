@@ -196,6 +196,11 @@ public class GameActivity extends FragmentActivity implements
 	public void onBoardChanged(int newCount) {
 		mRemainingCount.setText(String.valueOf(newCount));
 	}
+	
+	@Override
+	public void onRowsRemoved() {
+		mCanvas.resetScroll();
+	}
 
 	@SuppressLint("InlinedApi")
 	@Override

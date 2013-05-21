@@ -205,6 +205,11 @@ public class BoardView extends View {
 	public void setCanvasHeight(int canvasHeight) {
 		this.canvasHeight = canvasHeight;
 	}
+	
+	public void resetScroll() {
+		offset = 0;
+		invalidate();
+	}
 
 	/**
 	 * The GestureListener class that consumes to touch events
