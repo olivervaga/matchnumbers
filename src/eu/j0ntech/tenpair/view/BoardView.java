@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,14 +30,14 @@ public class BoardView extends View {
 	private GestureDetector mGestureDetector;
 
 	private GameActivity mParent;
-	
+
 	private TileDrawer mTileDrawer;
 	private BackgroundDrawer mBackgroundDrawer;
 
 	private int resolutionX;
 	private int canvasHeight;
 	private float offset = 0;
-
+	
 	private boolean tileSelected = false;
 	private int lastSelectedRow;
 	private int lastSelectedColumn;
@@ -55,13 +56,11 @@ public class BoardView extends View {
 	public BoardView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		initCanvas(context);
-
 	}
 
 	public BoardView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		initCanvas(context);
-
 	}
 
 	/**
@@ -111,12 +110,12 @@ public class BoardView extends View {
 				mTileDrawer.draw(tempTile, canvas, offset);
 			}
 		}
-
 	}
 
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		canvasHeight = h;
+		mParent.setScrollBar(h);
 	}
 
 	/**
@@ -194,8 +193,12 @@ public class BoardView extends View {
 	}
 
 	public void recalculateBoardSize() {
-		boardSize = mParent.getGameBoard().getRows()
-				* tileSize + SQUARE_PADDING + 2;
+		boardSize = mParent.getGameBoard().getRows() * tileSize
+				+ SQUARE_PADDING + 2;
+	}
+	
+	public float getBoardSize() {
+		return boardSize;
 	}
 
 	public int getCanvasHeight() {
@@ -205,7 +208,7 @@ public class BoardView extends View {
 	public void setCanvasHeight(int canvasHeight) {
 		this.canvasHeight = canvasHeight;
 	}
-	
+
 	public void resetScroll() {
 		offset = 0;
 		invalidate();
@@ -263,7 +266,8 @@ public class BoardView extends View {
 							invalidate();
 							return true;
 						} else {
-							ToastUtil.showToast(R.string.error_illegal_move, Toast.LENGTH_SHORT, mParent);
+							ToastUtil.showToast(R.string.error_illegal_move,
+									Toast.LENGTH_SHORT, mParent);
 						}
 					}
 				}
@@ -282,6 +286,7 @@ public class BoardView extends View {
 				offset = 0;
 			if ((offset - canvasHeight) <= -boardSize)
 				offset = canvasHeight - boardSize;
+			mParent.onScroll(offset);
 			invalidate();
 			return true;
 		}

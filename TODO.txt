@@ -1,1 +1,4 @@
 * A tutorial thingie
+* Art style (more like actual paper)
+* Kinetic scrolling
+* Scrollbar

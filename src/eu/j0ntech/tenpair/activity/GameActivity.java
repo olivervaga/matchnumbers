@@ -23,13 +23,16 @@ import eu.j0ntech.tenpair.game.GameBoard.BoardChangeListener;
 import eu.j0ntech.tenpair.save.LoadTask;
 import eu.j0ntech.tenpair.save.SaveTask;
 import eu.j0ntech.tenpair.view.BoardView;
+import eu.j0ntech.tenpair.view.ScrollBar;
+import eu.j0ntech.tenpair.view.ScrollBar.ScrollListener;
 
 public class GameActivity extends FragmentActivity implements
-		PauseDialogListener, SaveDialogListener, BoardChangeListener {
+		PauseDialogListener, SaveDialogListener, BoardChangeListener, ScrollListener {
 
 	private GameBoard mGameBoard;
 
 	private BoardView mCanvas;
+	private ScrollBar mScrollBar;
 
 	private RelativeLayout mButtonContainer;
 
@@ -43,7 +46,7 @@ public class GameActivity extends FragmentActivity implements
 	private SaveNameDialog mSaveDialog;
 
 	private TextView mRemainingCount;
-
+	
 	public static final String LOAD_GAME_TAG = "load_game";
 	public static final String LOAD_GAME_PATH = "load_game_path";
 
@@ -55,6 +58,8 @@ public class GameActivity extends FragmentActivity implements
 		Intent incoming = getIntent();
 
 		mCanvas = (BoardView) findViewById(R.id.boardcanvas);
+		
+		mScrollBar = (ScrollBar) findViewById(R.id.scrollbar);
 
 		mButtonContainer = (RelativeLayout) findViewById(R.id.button_container);
 
@@ -96,10 +101,10 @@ public class GameActivity extends FragmentActivity implements
 
 			@Override
 			public void onClick(View v) {
-//				mGameBoard.addUnunusedTiles();
-//				mCanvas.recalculateBoardSize();
-//				mCanvas.invalidate();
-				throw new RuntimeException("Testing error reporting");
+				mGameBoard.addUnunusedTiles();
+				mCanvas.recalculateBoardSize();
+				mScrollBar.setHeight(mCanvas.getHeight());
+				mCanvas.invalidate();
 			}
 		});
 		
@@ -124,6 +129,10 @@ public class GameActivity extends FragmentActivity implements
 	public int getButtonContainerHeight() {
 		return mButtonContainer.getHeight();
 	}
+	
+	public int getBoardHeight() {
+		return mCanvas.getHeight();
+	}
 
 	public GameBoard getGameBoard() {
 		return mGameBoard;
@@ -131,6 +140,10 @@ public class GameActivity extends FragmentActivity implements
 
 	public void setGameBoard(GameBoard board) {
 		mGameBoard = board;
+	}
+	
+	public void setScrollBar(int height) {
+		mScrollBar.setHeight(height);
 	}
 
 	public void showAsLoading() {
@@ -216,5 +229,11 @@ public class GameActivity extends FragmentActivity implements
 		}
 		gameWonDialog.show(getSupportFragmentManager(), "game over");
 	}
+
+	@Override
+	public void onScroll(float offset) {
+		mScrollBar.drawScroll(offset, mCanvas.getBoardSize());	
+	}
+
 
 }

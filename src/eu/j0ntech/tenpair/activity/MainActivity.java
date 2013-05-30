@@ -39,7 +39,7 @@ public class MainActivity extends FragmentActivity implements LoadDialogListener
 		    crittercismConfig.put("includeVersionCode", true);
 		}
 		catch (JSONException je){}
-		Crittercism.init(getApplicationContext(), "51a6f610558d6a4774000004", crittercismConfig);
+//		Crittercism.init(getApplicationContext(), "51a6f610558d6a4774000004", crittercismConfig);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
 

@@ -59,13 +59,23 @@
             android:layout_alignParentTop="true"
             android:layout_toLeftOf="@+id/button_remove_scratched"
             android:text="@string/button_writeout" />
-
     </RelativeLayout>
 
-    <eu.j0ntech.tenpair.view.BoardView
-        android:id="@+id/boardcanvas"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/button_container" />
+        android:layout_below="@+id/button_container" >
+
+        <eu.j0ntech.tenpair.view.BoardView
+            android:id="@+id/boardcanvas"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <eu.j0ntech.tenpair.view.ScrollBar
+            android:id="@+id/scrollbar"
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
 
 </RelativeLayout>
