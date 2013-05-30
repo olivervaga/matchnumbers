@@ -96,9 +96,10 @@ public class GameActivity extends FragmentActivity implements
 
 			@Override
 			public void onClick(View v) {
-				mGameBoard.addUnunusedTiles();
-				mCanvas.recalculateBoardSize();
-				mCanvas.invalidate();
+//				mGameBoard.addUnunusedTiles();
+//				mCanvas.recalculateBoardSize();
+//				mCanvas.invalidate();
+				throw new RuntimeException("Testing error reporting");
 			}
 		});
 		
