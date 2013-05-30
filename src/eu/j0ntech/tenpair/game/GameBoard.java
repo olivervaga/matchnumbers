@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import android.util.Log;
 import eu.j0ntech.tenpair.game.Tile.TileType;
 
 /**
@@ -66,6 +67,8 @@ public class GameBoard {
 	}
 
 	public Tile getTile(int row, int column) {
+//		Log.d("GameBoard", "In this row: " + board.get(row).size());
+//		displayBoard();
 		return board.get(row).get(column);
 	}
 
@@ -287,8 +290,6 @@ public class GameBoard {
 			currentTiles -= COLUMNS;
 		}
 		resetCoordinates();
-		mBoardChangeListener.onBoardChanged(getRemainingCount());
-		mBoardChangeListener.onRowsRemoved();
 	}
 	
 	public void resetCoordinates() {
@@ -348,12 +349,13 @@ public class GameBoard {
 			rowString = new StringBuilder(9);
 			for (int j = 0; j < getRowSize(i); j++) {
 				rowString.append(getTileValue(i, j));
-				if (getTile(i, j).getType() == TileType.SCRATCHED)
+				if (board.get(i).get(j).getType() == TileType.SCRATCHED)
 					rowString.append("*");
 				else
 					rowString.append(" ");
 				rowString.append(" ");
 			}
+			Log.d("GameBoard", rowString.toString());
 		}
 	}
 

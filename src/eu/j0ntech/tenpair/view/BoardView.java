@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -210,7 +209,9 @@ public class BoardView extends View {
 	}
 
 	public void resetScroll() {
-		offset = 0;
+		if ((offset - canvasHeight) <= -boardSize) {
+			offset = canvasHeight - boardSize;
+		}
 		invalidate();
 	}
 

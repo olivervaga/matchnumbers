@@ -114,6 +114,7 @@ public class GameActivity extends FragmentActivity implements
 			public void onClick(View v) {
 				mGameBoard.removeScratchedRows();
 				mCanvas.recalculateBoardSize();
+				onRowsRemoved();
 				mCanvas.invalidate();
 			}
 		});

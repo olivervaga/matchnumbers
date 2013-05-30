@@ -5,9 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
-import eu.j0ntech.tenpair.activity.GameActivity;
 
 public class ScrollBar extends View {
 	
@@ -19,8 +17,6 @@ public class ScrollBar extends View {
 	
 	private Paint mLinePaint;
 	private Paint mScrollPaint;
-	
-	private GameActivity mParent;
 	
 	private int height;
 	private float position;
@@ -43,7 +39,6 @@ public class ScrollBar extends View {
 	}
 	
 	private void initScrollBar(Context context) {
-		mParent = (GameActivity) context;
 		mLinePaint = new Paint();
 		mScrollPaint = new Paint();
 		mLinePaint.setStyle(Paint.Style.STROKE);
