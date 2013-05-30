@@ -112,9 +112,9 @@ public class GameActivity extends FragmentActivity implements
 			
 			@Override
 			public void onClick(View v) {
-				mGameBoard.removeScratchedRows();
+				int removedRows = mGameBoard.removeScratchedRows();
 				mCanvas.recalculateBoardSize();
-				onRowsRemoved();
+				onRowsRemoved(removedRows);
 				mCanvas.invalidate();
 			}
 		});
@@ -213,8 +213,9 @@ public class GameActivity extends FragmentActivity implements
 	}
 	
 	@Override
-	public void onRowsRemoved() {
-		mCanvas.resetScroll();
+	public void onRowsRemoved(int removedRows) {
+		if (removedRows > 0)
+			mCanvas.resetScroll(removedRows);
 	}
 
 	@SuppressLint("InlinedApi")

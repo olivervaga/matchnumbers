@@ -208,8 +208,10 @@ public class BoardView extends View {
 		this.canvasHeight = canvasHeight;
 	}
 
-	public void resetScroll() {
-		if ((offset - canvasHeight) <= -boardSize) {
+	public void resetScroll(int removedRows) {
+		if (boardSize <= canvasHeight)
+			offset = 0;
+		else if ((offset - canvasHeight) <= -boardSize) {
 			offset = canvasHeight - boardSize;
 		}
 		invalidate();

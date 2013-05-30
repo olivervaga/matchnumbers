@@ -67,8 +67,6 @@ public class GameBoard {
 	}
 
 	public Tile getTile(int row, int column) {
-//		Log.d("GameBoard", "In this row: " + board.get(row).size());
-//		displayBoard();
 		return board.get(row).get(column);
 	}
 
@@ -272,7 +270,7 @@ public class GameBoard {
 		mBoardChangeListener.onBoardChanged(getRemainingCount());
 	}
 	
-	public void removeScratchedRows() {
+	public int removeScratchedRows() {
 		ArrayList<ArrayList<Tile>> rowsToRemove = new ArrayList<ArrayList<Tile>>();
 		int scratchedTiles;
 		for (ArrayList<Tile> row : board) {
@@ -283,13 +281,14 @@ public class GameBoard {
 			if (scratchedTiles == COLUMNS)
 				rowsToRemove.add(row);
 		}
-		if (rowsToRemove.size() == 0) return;
+		if (rowsToRemove.size() == 0) return 0;
 		for (ArrayList<Tile> row : rowsToRemove) {
 			board.remove(row);
 			currentScratched -= COLUMNS;
 			currentTiles -= COLUMNS;
 		}
 		resetCoordinates();
+		return rowsToRemove.size();
 	}
 	
 	public void resetCoordinates() {
@@ -362,7 +361,7 @@ public class GameBoard {
 	public interface BoardChangeListener {
 		public void onBoardChanged(int newCount);
 		
-		public void onRowsRemoved();
+		public void onRowsRemoved(int removedRows);
 
 		public void onGameWon();
 	}
