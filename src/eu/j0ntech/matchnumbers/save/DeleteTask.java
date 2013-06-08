@@ -1,7 +1,7 @@
-package eu.j0ntech.tenpair.save;
+package eu.j0ntech.matchnumbers.save;
 
 import android.os.AsyncTask;
-import eu.j0ntech.tenpair.fragment.LoadDialog;
+import eu.j0ntech.matchnumbers.fragment.LoadDialog;
 
 public class DeleteTask extends AsyncTask<String, Void, Boolean> {
 

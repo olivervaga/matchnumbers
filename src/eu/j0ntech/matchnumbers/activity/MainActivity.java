@@ -1,4 +1,4 @@
-package eu.j0ntech.tenpair.activity;
+package eu.j0ntech.matchnumbers.activity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,10 +16,10 @@ import android.widget.Button;
 
 import com.crittercism.app.Crittercism;
 
+import eu.j0ntech.matchnumbers.fragment.LoadDialog;
+import eu.j0ntech.matchnumbers.fragment.LoadDialog.LoadDialogListener;
+import eu.j0ntech.matchnumbers.save.DeleteTask;
 import eu.j0ntech.tenpair.R;
-import eu.j0ntech.tenpair.fragment.LoadDialog;
-import eu.j0ntech.tenpair.fragment.LoadDialog.LoadDialogListener;
-import eu.j0ntech.tenpair.save.DeleteTask;
 
 public class MainActivity extends FragmentActivity implements LoadDialogListener{
 

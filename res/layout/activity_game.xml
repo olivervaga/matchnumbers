@@ -66,12 +66,12 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/button_container" >
 
-        <eu.j0ntech.tenpair.view.BoardView
+        <eu.j0ntech.matchnumbers.view.BoardView
             android:id="@+id/boardcanvas"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <eu.j0ntech.tenpair.view.ScrollBar
+        <eu.j0ntech.matchnumbers.view.ScrollBar
             android:id="@+id/scrollbar"
             android:layout_width="10dp"
             android:layout_height="match_parent"

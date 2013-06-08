@@ -1,8 +1,8 @@
-package eu.j0ntech.tenpair.view;
+package eu.j0ntech.matchnumbers.view;
 
 import android.view.Gravity;
 import android.widget.Toast;
-import eu.j0ntech.tenpair.activity.GameActivity;
+import eu.j0ntech.matchnumbers.activity.GameActivity;
 
 public class ToastUtil {
 	

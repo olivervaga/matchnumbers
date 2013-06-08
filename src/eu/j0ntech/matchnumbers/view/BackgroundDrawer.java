@@ -1,9 +1,9 @@
-package eu.j0ntech.tenpair.view;
+package eu.j0ntech.matchnumbers.view;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import eu.j0ntech.tenpair.game.GameBoard;
+import eu.j0ntech.matchnumbers.game.GameBoard;
 
 public class BackgroundDrawer {
 

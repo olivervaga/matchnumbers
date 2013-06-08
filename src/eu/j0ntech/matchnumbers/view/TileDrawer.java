@@ -1,10 +1,10 @@
-package eu.j0ntech.tenpair.view;
+package eu.j0ntech.matchnumbers.view;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import eu.j0ntech.tenpair.game.Tile;
-import eu.j0ntech.tenpair.game.Tile.TileType;
+import eu.j0ntech.matchnumbers.game.Tile;
+import eu.j0ntech.matchnumbers.game.Tile.TileType;
 
 public class TileDrawer {
 

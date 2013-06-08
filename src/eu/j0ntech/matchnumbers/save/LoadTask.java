@@ -1,12 +1,12 @@
-package eu.j0ntech.tenpair.save;
+package eu.j0ntech.matchnumbers.save;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.view.Gravity;
 import android.widget.Toast;
+import eu.j0ntech.matchnumbers.activity.GameActivity;
+import eu.j0ntech.matchnumbers.game.GameBoard;
 import eu.j0ntech.tenpair.R;
-import eu.j0ntech.tenpair.activity.GameActivity;
-import eu.j0ntech.tenpair.game.GameBoard;
 
 public class LoadTask extends AsyncTask<String, Void, GameBoard> {
 	

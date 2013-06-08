@@ -1,4 +1,4 @@
-package eu.j0ntech.tenpair.view;
+package eu.j0ntech.matchnumbers.view;
 
 import android.content.Context;
 import android.graphics.Canvas;

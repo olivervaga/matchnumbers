@@ -19,7 +19,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="eu.j0ntech.tenpair.activity.MainActivity"
+            android:name="eu.j0ntech.matchnumbers.activity.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="eu.j0ntech.tenpair.activity.GameActivity"
+            android:name="eu.j0ntech.matchnumbers.activity.GameActivity"
             android:label="@string/title_activity_game"
             android:screenOrientation="portrait" >
         </activity>

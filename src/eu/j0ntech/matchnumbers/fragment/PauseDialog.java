@@ -1,4 +1,4 @@
-package eu.j0ntech.tenpair.fragment;
+package eu.j0ntech.matchnumbers.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
