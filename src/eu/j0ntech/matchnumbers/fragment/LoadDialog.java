@@ -11,10 +11,10 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TableLayout.LayoutParams;
+import eu.j0ntech.matchnumbers.R;
 import eu.j0ntech.matchnumbers.save.FileDetail;
 import eu.j0ntech.matchnumbers.save.Saver;
 import eu.j0ntech.matchnumbers.view.LoadTextView;
-import eu.j0ntech.tenpair.R;
 
 public class LoadDialog extends DialogFragment {
 

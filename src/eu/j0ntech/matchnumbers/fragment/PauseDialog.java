@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import eu.j0ntech.tenpair.R;
+import eu.j0ntech.matchnumbers.R;
 
 public class PauseDialog extends DialogFragment {
 

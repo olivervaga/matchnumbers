@@ -12,8 +12,8 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import eu.j0ntech.matchnumbers.R;
 import eu.j0ntech.matchnumbers.fragment.TutorialFragment;
-import eu.j0ntech.tenpair.R;
 
 public class TutorialActivity extends FragmentActivity {
 	

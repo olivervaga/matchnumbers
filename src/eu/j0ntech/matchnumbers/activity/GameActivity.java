@@ -12,10 +12,11 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import eu.j0ntech.matchnumbers.R;
 import eu.j0ntech.matchnumbers.fragment.GameWonDialog;
 import eu.j0ntech.matchnumbers.fragment.PauseDialog;
-import eu.j0ntech.matchnumbers.fragment.SaveNameDialog;
 import eu.j0ntech.matchnumbers.fragment.PauseDialog.PauseDialogListener;
+import eu.j0ntech.matchnumbers.fragment.SaveNameDialog;
 import eu.j0ntech.matchnumbers.fragment.SaveNameDialog.SaveDialogListener;
 import eu.j0ntech.matchnumbers.game.GameBoard;
 import eu.j0ntech.matchnumbers.game.GameBoard.BoardChangeListener;
@@ -24,7 +25,6 @@ import eu.j0ntech.matchnumbers.save.SaveTask;
 import eu.j0ntech.matchnumbers.view.BoardView;
 import eu.j0ntech.matchnumbers.view.ScrollBar;
 import eu.j0ntech.matchnumbers.view.ScrollBar.ScrollListener;
-import eu.j0ntech.tenpair.R;
 
 public class GameActivity extends FragmentActivity implements
 		PauseDialogListener, SaveDialogListener, BoardChangeListener, ScrollListener {

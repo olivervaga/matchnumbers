@@ -10,11 +10,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
+import eu.j0ntech.matchnumbers.R;
 import eu.j0ntech.matchnumbers.activity.GameActivity;
 import eu.j0ntech.matchnumbers.game.GameBoard;
 import eu.j0ntech.matchnumbers.game.Tile;
 import eu.j0ntech.matchnumbers.game.Tile.TileType;
-import eu.j0ntech.tenpair.R;
 
 /**
  * The canvas that displays the game area

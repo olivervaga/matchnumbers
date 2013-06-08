@@ -8,7 +8,7 @@ import android.support.v4.app.DialogFragment;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import eu.j0ntech.tenpair.R;
+import eu.j0ntech.matchnumbers.R;
 
 public class GameWonDialog extends DialogFragment {
 	

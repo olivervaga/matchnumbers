@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import eu.j0ntech.tenpair.R;
+import eu.j0ntech.matchnumbers.R;
 
 public class TutorialFragment extends Fragment {
 
