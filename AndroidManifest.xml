@@ -18,6 +18,7 @@
         <activity
             android:name="eu.j0ntech.matchnumbers.activity.MainActivity"
             android:label="@string/app_name"
+            
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,6 +29,11 @@
         <activity
             android:name="eu.j0ntech.matchnumbers.activity.GameActivity"
             android:label="@string/title_activity_game"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="eu.j0ntech.matchnumbers.activity.TutorialActivity"
+            android:label="@string/title_tutorial"
             android:screenOrientation="portrait" >
         </activity>
     </application>

@@ -20,6 +20,7 @@ public class MainActivity extends FragmentActivity implements LoadDialogListener
 	private Button mStartButton;
 	private Button mLoadButton;
 	private Button mExitButton;
+	private Button mTutorialButton;
 	
 	private LoadDialog mLoadDialog;
 
@@ -32,6 +33,7 @@ public class MainActivity extends FragmentActivity implements LoadDialogListener
 		mStartButton = (Button) findViewById(R.id.button_start);
 		mLoadButton = (Button) findViewById(R.id.button_load);
 		mExitButton = (Button) findViewById(R.id.button_exit);
+		mTutorialButton = (Button) findViewById(R.id.button_tutorial);
 
 		mStartButton.setOnClickListener(new OnClickListener() {
 
@@ -65,6 +67,15 @@ public class MainActivity extends FragmentActivity implements LoadDialogListener
 			@Override
 			public void onClick(View v) {
 				finish();
+			}
+		});
+		
+		mTutorialButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(MainActivity.this, TutorialActivity.class));
+				
 			}
 		});
 	}
