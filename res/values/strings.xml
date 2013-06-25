@@ -21,7 +21,7 @@
     <string name="button_next">NEXT</string>
     <string name="button_previous">PREVIOUS</string>
     <string name="button_tutorial">How to play</string>
-    <string name="button_remove_scratched">Remove&#10;rows</string>
+    <string name="button_remove_scratched">Remove\nrows</string>
 
     <string name="game_desc">That numbers game that eveybody used to play during boring lessons</string>
     <string name="dialog_save">Name your save</string>
@@ -37,7 +37,7 @@
     <string name="error_load">Couldn\'t load game</string>
     <string name="error_illegal_move">Illegal move</string>
     <string name="confirm_save">Game saved</string>
-    <string name="remaining">Remaining tiles:</string>
+    <string name="remaining">Tiles left:</string>
     <string name="default_remaining_count">27</string>
     <string name="title_tutorial">Tutorial</string>
     <string name="image_description">Tutorial image</string>
