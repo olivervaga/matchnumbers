@@ -267,6 +267,7 @@ public class GameBoard {
 				currentTiles++;
 			}
 		}
+		resetCoordinates();
 		mBoardChangeListener.onBoardChanged(getRemainingCount());
 	}
 	
