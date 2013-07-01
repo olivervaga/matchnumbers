@@ -1,4 +1,4 @@
-package eu.j0ntech.matchnumbers.save;
+package eu.j0ntech.matchnumberssiim.save;
 
 public class FileDetail {
 

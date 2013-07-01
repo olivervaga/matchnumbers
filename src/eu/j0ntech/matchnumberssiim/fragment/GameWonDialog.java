@@ -1,4 +1,4 @@
-package eu.j0ntech.matchnumbers.fragment;
+package eu.j0ntech.matchnumberssiim.fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -8,7 +8,7 @@ import android.support.v4.app.DialogFragment;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import eu.j0ntech.matchnumbers.R;
+import eu.j0ntech.matchnumberssiim.R;
 
 public class GameWonDialog extends DialogFragment {
 	

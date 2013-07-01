@@ -1,4 +1,4 @@
-package eu.j0ntech.matchnumbers.activity;
+package eu.j0ntech.matchnumberssiim.activity;
 
 import java.util.ArrayList;
 
@@ -12,8 +12,8 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import eu.j0ntech.matchnumbers.R;
-import eu.j0ntech.matchnumbers.fragment.TutorialFragment;
+import eu.j0ntech.matchnumberssiim.R;
+import eu.j0ntech.matchnumberssiim.fragment.TutorialFragment;
 
 public class TutorialActivity extends FragmentActivity {
 	

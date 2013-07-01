@@ -1,4 +1,4 @@
-package eu.j0ntech.matchnumbers.fragment;
+package eu.j0ntech.matchnumberssiim.fragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import eu.j0ntech.matchnumbers.R;
+import eu.j0ntech.matchnumberssiim.R;
 
 public class SaveNameDialog extends DialogFragment {
 

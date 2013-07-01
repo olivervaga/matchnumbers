@@ -1,4 +1,4 @@
-package eu.j0ntech.matchnumbers.save;
+package eu.j0ntech.matchnumberssiim.save;
 
 /**
  * Use homemade exception, because Java 6 doesn't have this exception.

@@ -1,11 +1,11 @@
-package eu.j0ntech.matchnumbers.game;
+package eu.j0ntech.matchnumberssiim.game;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import android.util.Log;
-import eu.j0ntech.matchnumbers.game.Tile.TileType;
+import eu.j0ntech.matchnumberssiim.game.Tile.TileType;
 
 /**
  * Class for holding all the game-related data and logic

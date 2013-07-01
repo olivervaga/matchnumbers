@@ -1,4 +1,4 @@
-package eu.j0ntech.matchnumbers.view;
+package eu.j0ntech.matchnumberssiim.view;
 
 import android.R.color;
 import android.content.Context;

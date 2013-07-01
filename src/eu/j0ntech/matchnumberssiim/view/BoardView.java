@@ -1,4 +1,4 @@
-package eu.j0ntech.matchnumbers.view;
+package eu.j0ntech.matchnumberssiim.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -10,11 +10,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
-import eu.j0ntech.matchnumbers.R;
-import eu.j0ntech.matchnumbers.activity.GameActivity;
-import eu.j0ntech.matchnumbers.game.GameBoard;
-import eu.j0ntech.matchnumbers.game.Tile;
-import eu.j0ntech.matchnumbers.game.Tile.TileType;
+import eu.j0ntech.matchnumberssiim.R;
+import eu.j0ntech.matchnumberssiim.activity.GameActivity;
+import eu.j0ntech.matchnumberssiim.game.GameBoard;
+import eu.j0ntech.matchnumberssiim.game.Tile;
+import eu.j0ntech.matchnumberssiim.game.Tile.TileType;
 
 /**
  * The canvas that displays the game area

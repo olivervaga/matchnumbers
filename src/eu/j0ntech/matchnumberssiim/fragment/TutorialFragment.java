@@ -1,4 +1,4 @@
-package eu.j0ntech.matchnumbers.fragment;
+package eu.j0ntech.matchnumberssiim.fragment;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import eu.j0ntech.matchnumbers.R;
+import eu.j0ntech.matchnumberssiim.R;
 
 public class TutorialFragment extends Fragment {
 

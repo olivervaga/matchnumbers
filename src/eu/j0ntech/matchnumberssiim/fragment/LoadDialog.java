@@ -1,4 +1,4 @@
-package eu.j0ntech.matchnumbers.fragment;
+package eu.j0ntech.matchnumberssiim.fragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,10 +11,10 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TableLayout.LayoutParams;
-import eu.j0ntech.matchnumbers.R;
-import eu.j0ntech.matchnumbers.save.FileDetail;
-import eu.j0ntech.matchnumbers.save.Saver;
-import eu.j0ntech.matchnumbers.view.LoadTextView;
+import eu.j0ntech.matchnumberssiim.R;
+import eu.j0ntech.matchnumberssiim.save.FileDetail;
+import eu.j0ntech.matchnumberssiim.save.Saver;
+import eu.j0ntech.matchnumberssiim.view.LoadTextView;
 
 public class LoadDialog extends DialogFragment {
 

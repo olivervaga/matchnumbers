@@ -1,4 +1,4 @@
-package eu.j0ntech.matchnumbers.activity;
+package eu.j0ntech.matchnumberssiim.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -10,10 +10,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
-import eu.j0ntech.matchnumbers.R;
-import eu.j0ntech.matchnumbers.fragment.LoadDialog;
-import eu.j0ntech.matchnumbers.fragment.LoadDialog.LoadDialogListener;
-import eu.j0ntech.matchnumbers.save.DeleteTask;
+import eu.j0ntech.matchnumberssiim.R;
+import eu.j0ntech.matchnumberssiim.fragment.LoadDialog;
+import eu.j0ntech.matchnumberssiim.fragment.LoadDialog.LoadDialogListener;
+import eu.j0ntech.matchnumberssiim.save.DeleteTask;
 
 public class MainActivity extends FragmentActivity implements LoadDialogListener{
 

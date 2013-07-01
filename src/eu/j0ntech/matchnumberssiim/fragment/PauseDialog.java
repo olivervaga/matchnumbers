@@ -1,4 +1,4 @@
-package eu.j0ntech.matchnumbers.fragment;
+package eu.j0ntech.matchnumberssiim.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import eu.j0ntech.matchnumbers.R;
+import eu.j0ntech.matchnumberssiim.R;
 
 public class PauseDialog extends DialogFragment {
 

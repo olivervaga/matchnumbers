@@ -1,4 +1,4 @@
-package eu.j0ntech.matchnumbers.game;
+package eu.j0ntech.matchnumberssiim.game;
 
 /**
  * A data class for holding info about a number square

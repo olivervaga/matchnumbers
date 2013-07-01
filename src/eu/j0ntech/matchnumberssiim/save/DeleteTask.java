@@ -1,7 +1,7 @@
-package eu.j0ntech.matchnumbers.save;
+package eu.j0ntech.matchnumberssiim.save;
 
 import android.os.AsyncTask;
-import eu.j0ntech.matchnumbers.fragment.LoadDialog;
+import eu.j0ntech.matchnumberssiim.fragment.LoadDialog;
 
 public class DeleteTask extends AsyncTask<String, Void, Boolean> {
 

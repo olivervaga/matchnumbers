@@ -1,4 +1,4 @@
-package eu.j0ntech.matchnumbers.activity;
+package eu.j0ntech.matchnumberssiim.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -12,19 +12,19 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import eu.j0ntech.matchnumbers.R;
-import eu.j0ntech.matchnumbers.fragment.GameWonDialog;
-import eu.j0ntech.matchnumbers.fragment.PauseDialog;
-import eu.j0ntech.matchnumbers.fragment.PauseDialog.PauseDialogListener;
-import eu.j0ntech.matchnumbers.fragment.SaveNameDialog;
-import eu.j0ntech.matchnumbers.fragment.SaveNameDialog.SaveDialogListener;
-import eu.j0ntech.matchnumbers.game.GameBoard;
-import eu.j0ntech.matchnumbers.game.GameBoard.BoardChangeListener;
-import eu.j0ntech.matchnumbers.save.LoadTask;
-import eu.j0ntech.matchnumbers.save.SaveTask;
-import eu.j0ntech.matchnumbers.view.BoardView;
-import eu.j0ntech.matchnumbers.view.ScrollBar;
-import eu.j0ntech.matchnumbers.view.ScrollBar.ScrollListener;
+import eu.j0ntech.matchnumberssiim.R;
+import eu.j0ntech.matchnumberssiim.fragment.GameWonDialog;
+import eu.j0ntech.matchnumberssiim.fragment.PauseDialog;
+import eu.j0ntech.matchnumberssiim.fragment.PauseDialog.PauseDialogListener;
+import eu.j0ntech.matchnumberssiim.fragment.SaveNameDialog;
+import eu.j0ntech.matchnumberssiim.fragment.SaveNameDialog.SaveDialogListener;
+import eu.j0ntech.matchnumberssiim.game.GameBoard;
+import eu.j0ntech.matchnumberssiim.game.GameBoard.BoardChangeListener;
+import eu.j0ntech.matchnumberssiim.save.LoadTask;
+import eu.j0ntech.matchnumberssiim.save.SaveTask;
+import eu.j0ntech.matchnumberssiim.view.BoardView;
+import eu.j0ntech.matchnumberssiim.view.ScrollBar;
+import eu.j0ntech.matchnumberssiim.view.ScrollBar.ScrollListener;
 
 public class GameActivity extends FragmentActivity implements
 		PauseDialogListener, SaveDialogListener, BoardChangeListener, ScrollListener {
