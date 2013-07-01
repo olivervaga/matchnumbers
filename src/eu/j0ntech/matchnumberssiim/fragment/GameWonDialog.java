@@ -5,9 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.view.Gravity;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
 import eu.j0ntech.matchnumberssiim.R;
 
 public class GameWonDialog extends DialogFragment {
@@ -17,17 +15,14 @@ public class GameWonDialog extends DialogFragment {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		
 		builder.setTitle(R.string.title_game_won);
-		TextView tv = new TextView(getActivity());
-		tv.setText(R.string.text_game_over);
-		tv.setTextSize(20);
-		tv.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-		tv.setGravity(Gravity.CENTER);
-		builder.setView(tv);
+		ImageView iv = new ImageView(getActivity());
+		iv.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.naked_congrats));
+		builder.setView(iv);
 		builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// Dialog is dismissed
+				getActivity().finish();
 			}
 		});
 		
