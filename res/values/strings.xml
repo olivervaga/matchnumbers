@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Match Numbers</string>
+    <string name="app_name">Match Numbers for Siim</string>
     <string name="title_activity_game">Match Numbers</string>
     <string name="title_game_won">Game over</string>
     <string name="text_game_over">Congratulations!\nYou matched every number!</string>
@@ -41,5 +41,6 @@
     <string name="default_remaining_count">27</string>
     <string name="title_tutorial">Tutorial</string>
     <string name="image_description">Tutorial image</string>
+    <string name="text_siim">for Siim</string>
 
 </resources>

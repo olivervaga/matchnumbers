@@ -12,15 +12,16 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
         android:gravity="center_horizontal"
-        android:text="@string/app_name"
+        android:text="@string/title_activity_game"
         android:textSize="50sp" />
 
     <TextView
         android:id="@+id/text_remaining"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
         android:layout_below="@+id/text_name"
-        android:layout_centerHorizontal="true"
+        android:layout_marginTop="34dp"
         android:gravity="center_horizontal"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
@@ -32,7 +33,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/text_remaining"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
         android:text="@string/button_start" />
 
     <Button
@@ -48,7 +48,7 @@
         android:id="@+id/button_load"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button_start"
+        android:layout_alignLeft="@+id/button_tutorial"
         android:layout_alignRight="@+id/button_tutorial"
         android:layout_below="@+id/button_tutorial"
         android:text="@string/button_loadgame" />
@@ -61,5 +61,14 @@
         android:layout_alignRight="@+id/button_load"
         android:layout_below="@+id/button_load"
         android:text="@string/button_exit" />
+
+    <TextView
+        android:id="@+id/text_siim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_name"
+        android:layout_centerHorizontal="true"
+        android:text="@string/text_siim"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>
