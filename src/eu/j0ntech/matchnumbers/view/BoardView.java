@@ -36,7 +36,7 @@ public class BoardView extends View {
 	private int resolutionX;
 	private int canvasHeight;
 	private float offset = 0;
-	
+
 	private boolean tileSelected = false;
 	private int lastSelectedRow;
 	private int lastSelectedColumn;
@@ -154,8 +154,9 @@ public class BoardView extends View {
 	private boolean isTouchEventWithinBoard(MotionEvent event, GameBoard board) {
 		int squareRow = getTileRow(event);
 		int squareColumn = getTileColumn(event);
-		if ((squareRow >= 0 && squareRow < board.getRows())
-				&& (squareColumn >= 0 && squareColumn < GameBoard.COLUMNS))
+		if ((squareRow >= 0 && (squareRow < board.getRows() - 1) && (squareColumn >= 0 && squareColumn < GameBoard.COLUMNS))
+				|| (squareRow == (board.getRows() - 1) && (squareColumn >= 0 && squareColumn < board
+						.getRowSize(board.getRows() - 1))))
 			return true;
 		else
 			return false;
@@ -195,7 +196,7 @@ public class BoardView extends View {
 		boardSize = mParent.getGameBoard().getRows() * tileSize
 				+ SQUARE_PADDING + 2;
 	}
-	
+
 	public float getBoardSize() {
 		return boardSize;
 	}
