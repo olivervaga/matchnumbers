@@ -1,7 +1,9 @@
 package eu.j0ntech.matchnumbers.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -22,6 +24,7 @@ import eu.j0ntech.matchnumbers.game.GameBoard;
 import eu.j0ntech.matchnumbers.game.GameBoard.BoardChangeListener;
 import eu.j0ntech.matchnumbers.save.LoadTask;
 import eu.j0ntech.matchnumbers.save.SaveTask;
+import eu.j0ntech.matchnumbers.save.Saver;
 import eu.j0ntech.matchnumbers.view.BoardView;
 import eu.j0ntech.matchnumbers.view.ScrollBar;
 import eu.j0ntech.matchnumbers.view.ScrollBar.ScrollListener;
@@ -47,15 +50,18 @@ public class GameActivity extends FragmentActivity implements
 
 	private TextView mRemainingCount;
 	
+	private boolean saveContinue = true;
+	
 	public static final String LOAD_GAME_TAG = "load_game";
+	public static final String CONTINUE_GAME_TAG = "continue_game";
 	public static final String LOAD_GAME_PATH = "load_game_path";
+	public static final String CONTINUE_DATA = "continue_data";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_game);
-		Intent incoming = getIntent();
 
 		mCanvas = (BoardView) findViewById(R.id.boardcanvas);
 		
@@ -70,14 +76,6 @@ public class GameActivity extends FragmentActivity implements
 		mLoadingIndicator = (ProgressBar) findViewById(R.id.loading_indicator);
 
 		mRemainingCount = (TextView) findViewById(R.id.number_remaining);
-
-		if (incoming.getBooleanExtra(LOAD_GAME_TAG, false)) {
-			(new LoadTask(this)).execute(incoming
-					.getStringExtra(LOAD_GAME_PATH));
-		} else {
-			mGameBoard = new GameBoard(this);
-			mCanvas.recalculateBoardSize();
-		}
 
 		mPauseButton.setOnClickListener(new View.OnClickListener() {
 
@@ -119,6 +117,40 @@ public class GameActivity extends FragmentActivity implements
 			}
 		});
 		// mGameboard.displayBoard();
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if (saveContinue) {
+			SharedPreferences prefs = this.getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
+			SharedPreferences.Editor editor = prefs.edit();
+			editor.putBoolean(CONTINUE_GAME_TAG, true);
+			editor.putString(CONTINUE_DATA, Saver.createSave(mGameBoard));
+			editor.commit();
+		}
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Intent incoming = getIntent();
+		
+		if (incoming.getBooleanExtra(LOAD_GAME_TAG, false)) {
+			(new LoadTask(this)).execute(incoming
+					.getStringExtra(LOAD_GAME_PATH));
+			return;
+		} else if (incoming.getBooleanExtra(CONTINUE_GAME_TAG, false)) {
+			SharedPreferences prefs = this.getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
+			String saveData = prefs.getString(CONTINUE_DATA, null);
+			if (saveData != null) {
+				mGameBoard = Saver.readFromPreferences(saveData, this);
+				mCanvas.recalculateBoardSize();
+				return;
+			}
+		}
+		mGameBoard = new GameBoard(this);
+		mCanvas.recalculateBoardSize();
 	}
 
 	private void resetGame() {

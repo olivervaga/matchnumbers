@@ -1,7 +1,9 @@
 package eu.j0ntech.matchnumbers.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -17,6 +19,7 @@ import eu.j0ntech.matchnumbers.save.DeleteTask;
 
 public class MainActivity extends FragmentActivity implements LoadDialogListener{
 
+	private Button mContinueButton;
 	private Button mStartButton;
 	private Button mLoadButton;
 	private Button mExitButton;
@@ -30,10 +33,21 @@ public class MainActivity extends FragmentActivity implements LoadDialogListener
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
 
+		mContinueButton = (Button) findViewById(R.id.button_continue);
 		mStartButton = (Button) findViewById(R.id.button_start);
 		mLoadButton = (Button) findViewById(R.id.button_load);
 		mExitButton = (Button) findViewById(R.id.button_exit);
 		mTutorialButton = (Button) findViewById(R.id.button_tutorial);
+		
+		mContinueButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent continueIntent = new Intent(MainActivity.this, GameActivity.class);
+				continueIntent.putExtra(GameActivity.CONTINUE_GAME_TAG, true);
+				startActivity(continueIntent);
+			}
+		});
 
 		mStartButton.setOnClickListener(new OnClickListener() {
 
@@ -79,7 +93,18 @@ public class MainActivity extends FragmentActivity implements LoadDialogListener
 			}
 		});
 	}
-
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		SharedPreferences prefs = this.getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
+		if (!prefs.getBoolean(GameActivity.CONTINUE_GAME_TAG, false)) {
+			mContinueButton.setVisibility(View.INVISIBLE);
+		} else {
+			mContinueButton.setVisibility(View.VISIBLE);
+		}
+	}
+	
 	@Override
 	public void onLoad(String filepath) {
 		mLoadDialog.dismiss();

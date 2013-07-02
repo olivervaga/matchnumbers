@@ -66,7 +66,7 @@ public class Saver {
 		return result;
 	}
 
-	private static String createSave(GameBoard board) {
+	public static String createSave(GameBoard board) {
 		StringBuilder result = new StringBuilder();
 		for (ArrayList<Tile> row : board.getInternalBoard()) {
 			for (Tile column : row) {
@@ -127,6 +127,12 @@ public class Saver {
 			}
 		}
 		result = parseSaveData(save);
+		return new GameBoard(listener, result);
+	}
+	
+	public static GameBoard readFromPreferences(String saveString, BoardChangeListener listener) {
+		ArrayList<ArrayList<Tile>> result;
+		result = parseSaveData(saveString);
 		return new GameBoard(listener, result);
 	}
 
