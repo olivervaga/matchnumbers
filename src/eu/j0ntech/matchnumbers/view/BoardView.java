@@ -72,8 +72,7 @@ public class BoardView extends View {
 	private void initCanvas(Context context) {
 		mParent = (GameActivity) context;
 		mGestureDetector = new GestureDetector(context, new GestureListener());
-		WindowManager wm = (WindowManager) context
-				.getSystemService(Context.WINDOW_SERVICE);
+		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		wm.getDefaultDisplay().getMetrics(displayMetrics);
 		resolutionX = displayMetrics.widthPixels;
@@ -104,8 +103,8 @@ public class BoardView extends View {
 			for (int i = 0; i < board.getRowSize(j); i++) {
 				float startX = i * tileSize;
 				Tile tempTile = board.getTile(j, i);
-				tempTile.setCoordinates(startX + SQUARE_PADDING, startY
-						+ SQUARE_PADDING, startX + tileSize, startY + tileSize);
+				tempTile.setCoordinates(startX + SQUARE_PADDING, startY + SQUARE_PADDING, startX + tileSize, startY
+						+ tileSize);
 				mTileDrawer.draw(tempTile, canvas, offset);
 			}
 		}
@@ -132,8 +131,7 @@ public class BoardView extends View {
 		if (curHighlights != null) {
 			GameBoard board = mParent.getGameBoard();
 			for (int i = 0; i < curHighlights.length; i++) {
-				board.getTile(curHighlights[i][0], curHighlights[i][1])
-						.setTypeSafely(TileType.DEFAULT);
+				board.getTile(curHighlights[i][0], curHighlights[i][1]).setTypeSafely(TileType.DEFAULT);
 			}
 		}
 	}
@@ -145,8 +143,7 @@ public class BoardView extends View {
 		if (curHighlights != null) {
 			GameBoard board = mParent.getGameBoard();
 			for (int i = 0; i < curHighlights.length; i++) {
-				board.getTile(curHighlights[i][0], curHighlights[i][1])
-						.setTypeSafely(TileType.HIGHLIGHTED);
+				board.getTile(curHighlights[i][0], curHighlights[i][1]).setTypeSafely(TileType.HIGHLIGHTED);
 			}
 		}
 	}
@@ -155,8 +152,8 @@ public class BoardView extends View {
 		int squareRow = getTileRow(event);
 		int squareColumn = getTileColumn(event);
 		if ((squareRow >= 0 && (squareRow < board.getRows() - 1) && (squareColumn >= 0 && squareColumn < GameBoard.COLUMNS))
-				|| (squareRow == (board.getRows() - 1) && (squareColumn >= 0 && squareColumn < board
-						.getRowSize(board.getRows() - 1))))
+				|| (squareRow == (board.getRows() - 1) && (squareColumn >= 0 && squareColumn < board.getRowSize(board
+						.getRows() - 1))))
 			return true;
 		else
 			return false;
@@ -164,8 +161,7 @@ public class BoardView extends View {
 
 	private void clearSelection(GameBoard board) {
 		tileSelected = false;
-		board.getTile(lastSelectedRow, lastSelectedColumn).setTypeSafely(
-				TileType.DEFAULT);
+		board.getTile(lastSelectedRow, lastSelectedColumn).setTypeSafely(TileType.DEFAULT);
 		clearHighlights();
 	}
 
@@ -173,10 +169,8 @@ public class BoardView extends View {
 		tileSelected = true;
 		lastSelectedRow = targetTile.getRow();
 		lastSelectedColumn = targetTile.getColumn();
-		board.getTile(lastSelectedRow, lastSelectedColumn).setTypeSafely(
-				TileType.SELECTED);
-		curHighlights = board.getAdjacentTilesArray(lastSelectedRow,
-				lastSelectedColumn);
+		board.getTile(lastSelectedRow, lastSelectedColumn).setTypeSafely(TileType.SELECTED);
+		curHighlights = board.getAdjacentTilesArray(lastSelectedRow, lastSelectedColumn);
 		setHighlights();
 	}
 
@@ -193,8 +187,7 @@ public class BoardView extends View {
 	}
 
 	public void recalculateBoardSize() {
-		boardSize = mParent.getGameBoard().getRows() * tileSize
-				+ SQUARE_PADDING + 2;
+		boardSize = mParent.getGameBoard().getRows() * tileSize + SQUARE_PADDING + 2;
 	}
 
 	public float getBoardSize() {
@@ -224,8 +217,7 @@ public class BoardView extends View {
 	 * @author Oliver Vaga
 	 * 
 	 */
-	private class GestureListener extends
-			GestureDetector.SimpleOnGestureListener {
+	private class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
 		@Override
 		public boolean onDown(MotionEvent e) {
@@ -250,8 +242,7 @@ public class BoardView extends View {
 				invalidate();
 				return true;
 			} else {
-				if (lastSelectedColumn == squareColumn
-						&& lastSelectedRow == squareRow) {
+				if (lastSelectedColumn == squareColumn && lastSelectedRow == squareRow) {
 					clearSelection(board);
 					invalidate();
 					return true;
@@ -262,16 +253,13 @@ public class BoardView extends View {
 						invalidate();
 						return true;
 					} else {
-						if (board.validateMove(board.getTile(lastSelectedRow,
-								lastSelectedColumn), targetTile)) {
-							board.makeMove(board.getTile(lastSelectedRow,
-									lastSelectedColumn), targetTile);
+						if (board.validateMove(board.getTile(lastSelectedRow, lastSelectedColumn), targetTile)) {
+							board.makeMove(board.getTile(lastSelectedRow, lastSelectedColumn), targetTile);
 							clearSelection(board);
 							invalidate();
 							return true;
 						} else {
-							ToastUtil.showToast(R.string.error_illegal_move,
-									Toast.LENGTH_SHORT, mParent);
+							ToastUtil.showToast(R.string.error_illegal_move, Toast.LENGTH_SHORT, mParent);
 						}
 					}
 				}
@@ -280,8 +268,7 @@ public class BoardView extends View {
 		}
 
 		@Override
-		public boolean onScroll(MotionEvent e1, MotionEvent e2,
-				float distanceX, float distanceY) {
+		public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
 			if (boardSize < BoardView.this.getHeight()) {
 				return true;
 			}

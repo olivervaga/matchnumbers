@@ -9,13 +9,13 @@ import eu.j0ntech.matchnumbers.activity.GameActivity;
 import eu.j0ntech.matchnumbers.game.GameBoard;
 
 public class LoadTask extends AsyncTask<String, Void, GameBoard> {
-	
+
 	GameActivity mParent;
-	
+
 	public LoadTask(Context context) {
 		mParent = (GameActivity) context;
 	}
-	
+
 	@Override
 	protected void onPreExecute() {
 		mParent.showAsLoading();
@@ -28,10 +28,10 @@ public class LoadTask extends AsyncTask<String, Void, GameBoard> {
 		}
 		return null;
 	}
-	
+
 	@Override
 	protected void onPostExecute(GameBoard result) {
-		if (result != null) 
+		if (result != null)
 			mParent.setGameBoard(result);
 		else {
 			Toast toast = Toast.makeText(mParent, R.string.error_load, Toast.LENGTH_SHORT);
@@ -40,6 +40,5 @@ public class LoadTask extends AsyncTask<String, Void, GameBoard> {
 		}
 		mParent.showAsNormal();
 	}
-
 
 }

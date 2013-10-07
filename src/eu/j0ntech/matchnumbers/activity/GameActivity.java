@@ -29,8 +29,8 @@ import eu.j0ntech.matchnumbers.view.BoardView;
 import eu.j0ntech.matchnumbers.view.ScrollBar;
 import eu.j0ntech.matchnumbers.view.ScrollBar.ScrollListener;
 
-public class GameActivity extends FragmentActivity implements
-		PauseDialogListener, SaveDialogListener, BoardChangeListener, ScrollListener {
+public class GameActivity extends FragmentActivity implements PauseDialogListener, SaveDialogListener,
+		BoardChangeListener, ScrollListener {
 
 	private GameBoard mGameBoard;
 
@@ -42,16 +42,16 @@ public class GameActivity extends FragmentActivity implements
 	private Button mPauseButton;
 	private Button mDealButton;
 	private Button mRemoveRowsButton;
-	
+
 	private ProgressBar mLoadingIndicator;
 
 	private PauseDialog mPauseDialog;
 	private SaveNameDialog mSaveDialog;
 
 	private TextView mRemainingCount;
-	
+
 	private boolean saveContinue = true;
-	
+
 	public static final String LOAD_GAME_TAG = "load_game";
 	public static final String CONTINUE_GAME_TAG = "continue_game";
 	public static final String LOAD_GAME_PATH = "load_game_path";
@@ -64,7 +64,7 @@ public class GameActivity extends FragmentActivity implements
 		setContentView(R.layout.activity_game);
 
 		mCanvas = (BoardView) findViewById(R.id.boardcanvas);
-		
+
 		mScrollBar = (ScrollBar) findViewById(R.id.scrollbar);
 
 		mButtonContainer = (RelativeLayout) findViewById(R.id.button_container);
@@ -72,7 +72,7 @@ public class GameActivity extends FragmentActivity implements
 		mPauseButton = (Button) findViewById(R.id.pause);
 		mDealButton = (Button) findViewById(R.id.writeout);
 		mRemoveRowsButton = (Button) findViewById(R.id.button_remove_scratched);
-		
+
 		mLoadingIndicator = (ProgressBar) findViewById(R.id.loading_indicator);
 
 		mRemainingCount = (TextView) findViewById(R.id.number_remaining);
@@ -84,11 +84,9 @@ public class GameActivity extends FragmentActivity implements
 			public void onClick(View v) {
 				mPauseDialog = new PauseDialog();
 				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-					mPauseDialog.setStyle(DialogFragment.STYLE_NORMAL,
-							android.R.style.Theme_Dialog);
+					mPauseDialog.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Dialog);
 				} else {
-					mPauseDialog.setStyle(DialogFragment.STYLE_NORMAL,
-							android.R.style.Theme_DeviceDefault_Dialog);
+					mPauseDialog.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_DeviceDefault_Dialog);
 				}
 				mPauseDialog.setCancelable(true);
 				mPauseDialog.show(getSupportFragmentManager(), "pause");
@@ -105,9 +103,9 @@ public class GameActivity extends FragmentActivity implements
 				mCanvas.invalidate();
 			}
 		});
-		
+
 		mRemoveRowsButton.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				int removedRows = mGameBoard.removeScratchedRows();
@@ -118,7 +116,7 @@ public class GameActivity extends FragmentActivity implements
 		});
 		// mGameboard.displayBoard();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -130,15 +128,14 @@ public class GameActivity extends FragmentActivity implements
 			editor.commit();
 		}
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
 		Intent incoming = getIntent();
-		
+
 		if (incoming.getBooleanExtra(LOAD_GAME_TAG, false)) {
-			(new LoadTask(this)).execute(incoming
-					.getStringExtra(LOAD_GAME_PATH));
+			(new LoadTask(this)).execute(incoming.getStringExtra(LOAD_GAME_PATH));
 			return;
 		} else if (incoming.getBooleanExtra(CONTINUE_GAME_TAG, false)) {
 			SharedPreferences prefs = this.getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
@@ -162,7 +159,7 @@ public class GameActivity extends FragmentActivity implements
 	public int getButtonContainerHeight() {
 		return mButtonContainer.getHeight();
 	}
-	
+
 	public int getBoardHeight() {
 		return mCanvas.getHeight();
 	}
@@ -174,7 +171,7 @@ public class GameActivity extends FragmentActivity implements
 	public void setGameBoard(GameBoard board) {
 		mGameBoard = board;
 	}
-	
+
 	public void setScrollBar(int height) {
 		mScrollBar.setHeight(height);
 	}
@@ -210,11 +207,9 @@ public class GameActivity extends FragmentActivity implements
 			mPauseDialog.dismiss();
 		mSaveDialog = new SaveNameDialog();
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-			mSaveDialog.setStyle(DialogFragment.STYLE_NORMAL,
-					android.R.style.Theme_Dialog);
+			mSaveDialog.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Dialog);
 		} else {
-			mSaveDialog.setStyle(DialogFragment.STYLE_NORMAL,
-					android.R.style.Theme_DeviceDefault_Dialog);
+			mSaveDialog.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_DeviceDefault_Dialog);
 		}
 		mSaveDialog.setCancelable(true);
 		mSaveDialog.show(getSupportFragmentManager(), "save");
@@ -243,7 +238,7 @@ public class GameActivity extends FragmentActivity implements
 	public void onBoardChanged(int newCount) {
 		mRemainingCount.setText(String.valueOf(newCount));
 	}
-	
+
 	@Override
 	public void onRowsRemoved(int removedRows) {
 		if (removedRows > 0)
@@ -255,19 +250,16 @@ public class GameActivity extends FragmentActivity implements
 	public void onGameWon() {
 		GameWonDialog gameWonDialog = new GameWonDialog();
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-			gameWonDialog.setStyle(DialogFragment.STYLE_NORMAL,
-					android.R.style.Theme_Dialog);
+			gameWonDialog.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Dialog);
 		} else {
-			gameWonDialog.setStyle(DialogFragment.STYLE_NORMAL,
-					android.R.style.Theme_DeviceDefault_Dialog);
+			gameWonDialog.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_DeviceDefault_Dialog);
 		}
 		gameWonDialog.show(getSupportFragmentManager(), "game over");
 	}
 
 	@Override
 	public void onScroll(float offset) {
-		mScrollBar.drawScroll(offset, mCanvas.getBoardSize());	
+		mScrollBar.drawScroll(offset, mCanvas.getBoardSize());
 	}
-
 
 }

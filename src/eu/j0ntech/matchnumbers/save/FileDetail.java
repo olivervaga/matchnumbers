@@ -3,7 +3,7 @@ package eu.j0ntech.matchnumbers.save;
 public class FileDetail {
 
 	private String path;
-	
+
 	private String name;
 
 	public FileDetail(String fileName, String filePath) {

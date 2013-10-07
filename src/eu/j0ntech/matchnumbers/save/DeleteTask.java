@@ -23,7 +23,7 @@ public class DeleteTask extends AsyncTask<String, Void, Boolean> {
 		} else
 			return false;
 	}
-	
+
 	@Override
 	protected void onPostExecute(Boolean result) {
 		mDialog.setAsNormal();

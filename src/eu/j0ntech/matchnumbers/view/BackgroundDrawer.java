@@ -17,7 +17,7 @@ public class BackgroundDrawer {
 	private Paint mBackPaint = new Paint();
 
 	private float tileSize;
-	
+
 	public BackgroundDrawer(BoardView boardView) {
 		tileSize = boardView.getTileSize();
 
@@ -34,16 +34,13 @@ public class BackgroundDrawer {
 	public void draw(Canvas boardCanvas, int rows, float offset) {
 		boardCanvas.drawPaint(mBackPaint);
 		for (int i = 0; i <= GameBoard.COLUMNS; i++) {
-			boardCanvas.drawLine(i * tileSize + LINE_PADDING, 0, i * tileSize
-					+ LINE_PADDING, rows * tileSize + LINE_PADDING + 4,
-					mLinePaint);
+			boardCanvas.drawLine(i * tileSize + LINE_PADDING, 0, i * tileSize + LINE_PADDING, rows * tileSize
+					+ LINE_PADDING + 4, mLinePaint);
 		}
-		int screenWidth = (int) (tileSize + BoardView.SQUARE_PADDING)
-				* GameBoard.COLUMNS;
+		int screenWidth = (int) (tileSize + BoardView.SQUARE_PADDING) * GameBoard.COLUMNS;
 		for (int i = 0; i <= rows; i++) {
-			boardCanvas.drawLine(0, i * tileSize + LINE_PADDING + offset,
-					screenWidth, i * tileSize + LINE_PADDING + offset,
-					mLinePaint);
+			boardCanvas.drawLine(0, i * tileSize + LINE_PADDING + offset, screenWidth, i * tileSize + LINE_PADDING
+					+ offset, mLinePaint);
 		}
 	}
 

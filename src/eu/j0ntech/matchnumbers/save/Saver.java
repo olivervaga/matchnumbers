@@ -22,11 +22,11 @@ public class Saver {
 	private static final String COLUMN_DENOMINATOR = " ";
 	private static final String SCRATCHED_INDICATOR = "*";
 	private static final String ROW_DENOMINATOR = "nl";
-	
-	private Saver() {}
 
-	public static boolean saveGame(GameBoard board, String saveName,
-			Context context) throws FileNotFoundException,
+	private Saver() {
+	}
+
+	public static boolean saveGame(GameBoard board, String saveName, Context context) throws FileNotFoundException,
 			FileAlreadyExistsException {
 		String save = createSave(board);
 		if (checkExternalStorage()) {
@@ -42,7 +42,7 @@ public class Saver {
 			return null;
 		return readFromSaveFile(filepath, listener);
 	}
-	
+
 	public static boolean deleteSave(String filePath) {
 		if (!checkExternalStorage())
 			return false;
@@ -59,8 +59,7 @@ public class Saver {
 		if (files != null && files.length > 0) {
 			result = new FileDetail[files.length];
 			for (int i = 0; i < files.length; i++) {
-				result[i] = new FileDetail(files[i].getName(),
-						files[i].getAbsolutePath());
+				result[i] = new FileDetail(files[i].getName(), files[i].getAbsolutePath());
 			}
 		}
 		return result;
@@ -95,11 +94,12 @@ public class Saver {
 		}
 	}
 
-	private static void writeSaveToFile(String save, String saveName,
-			Context context) throws FileNotFoundException, FileAlreadyExistsException {
+	private static void writeSaveToFile(String save, String saveName, Context context) throws FileNotFoundException,
+			FileAlreadyExistsException {
 		File fileDir = context.getExternalFilesDir(null);
 		File saveFile = new File(fileDir, saveName + FILE_EXTENSION);
-		if (saveFile.exists()) throw new FileAlreadyExistsException();
+		if (saveFile.exists())
+			throw new FileAlreadyExistsException();
 		PrintWriter writer = null;
 		try {
 			writer = new PrintWriter(saveFile);
@@ -129,7 +129,7 @@ public class Saver {
 		result = parseSaveData(save);
 		return new GameBoard(listener, result);
 	}
-	
+
 	public static GameBoard readFromPreferences(String saveString, BoardChangeListener listener) {
 		ArrayList<ArrayList<Tile>> result;
 		result = parseSaveData(saveString);
@@ -144,8 +144,8 @@ public class Saver {
 			result.add(row);
 			String[] columns = rows[i].split(COLUMN_DENOMINATOR);
 			for (int j = 0; j < columns.length; j++) {
-				row.add(new Tile(Byte.parseByte(columns[j].substring(0, 1)), i,
-						j, columns[j].contains(SCRATCHED_INDICATOR)));
+				row.add(new Tile(Byte.parseByte(columns[j].substring(0, 1)), i, j, columns[j]
+						.contains(SCRATCHED_INDICATOR)));
 			}
 		}
 		return result;

@@ -47,23 +47,21 @@ public class GameBoard {
 		mBoardChangeListener.onBoardChanged(getRemainingCount());
 	}
 
-	public GameBoard(BoardChangeListener listener,
-			ArrayList<ArrayList<Tile>> savedState) {
+	public GameBoard(BoardChangeListener listener, ArrayList<ArrayList<Tile>> savedState) {
 		board = savedState;
-		currentTiles = (board.size() - 1) * 9
-				+ board.get(board.size() - 1).size();
+		currentTiles = (board.size() - 1) * 9 + board.get(board.size() - 1).size();
 		for (ArrayList<Tile> row : board)
 			for (Tile t : row)
 				if (t.getType() == TileType.SCRATCHED)
 					currentScratched++;
 		mBoardChangeListener = listener;
-//		((GameActivity) listener).runOnUiThread(new Runnable() {
-//
-//			@Override
-//			public void run() {
-//				mBoardChangeListener.onBoardChanged(getRemainingCount());
-//			}
-//		});
+		// ((GameActivity) listener).runOnUiThread(new Runnable() {
+		//
+		// @Override
+		// public void run() {
+		// mBoardChangeListener.onBoardChanged(getRemainingCount());
+		// }
+		// });
 	}
 
 	public Tile getTile(int row, int column) {
@@ -270,7 +268,7 @@ public class GameBoard {
 		resetCoordinates();
 		mBoardChangeListener.onBoardChanged(getRemainingCount());
 	}
-	
+
 	public int removeScratchedRows() {
 		ArrayList<ArrayList<Tile>> rowsToRemove = new ArrayList<ArrayList<Tile>>();
 		int scratchedTiles;
@@ -282,7 +280,8 @@ public class GameBoard {
 			if (scratchedTiles == COLUMNS)
 				rowsToRemove.add(row);
 		}
-		if (rowsToRemove.size() == 0) return 0;
+		if (rowsToRemove.size() == 0)
+			return 0;
 		for (ArrayList<Tile> row : rowsToRemove) {
 			board.remove(row);
 			currentScratched -= COLUMNS;
@@ -291,7 +290,7 @@ public class GameBoard {
 		resetCoordinates();
 		return rowsToRemove.size();
 	}
-	
+
 	public void resetCoordinates() {
 		ArrayList<Tile> row;
 		for (int i = 0; i < board.size(); i++) {
@@ -303,8 +302,7 @@ public class GameBoard {
 	}
 
 	public boolean validateMove(Tile tile1, Tile tile2) {
-		if (tile1.getValue() == tile2.getValue()
-				|| tile1.getValue() + tile2.getValue() == 10)
+		if (tile1.getValue() == tile2.getValue() || tile1.getValue() + tile2.getValue() == 10)
 			return true;
 		else
 			return false;
@@ -361,7 +359,7 @@ public class GameBoard {
 
 	public interface BoardChangeListener {
 		public void onBoardChanged(int newCount);
-		
+
 		public void onRowsRemoved(int removedRows);
 
 		public void onGameWon();

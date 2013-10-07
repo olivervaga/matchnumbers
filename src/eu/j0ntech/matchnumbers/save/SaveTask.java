@@ -12,17 +12,17 @@ import eu.j0ntech.matchnumbers.activity.GameActivity;
 import eu.j0ntech.matchnumbers.view.ToastUtil;
 
 public class SaveTask extends AsyncTask<String, Void, Integer> {
-	
+
 	GameActivity mParent;
-	
+
 	ProgressDialog mProgressDialog;
-	
+
 	AlertDialog mOverwriteDialog;
-	
+
 	public SaveTask(Context context) {
 		mParent = (GameActivity) context;
 	}
-	
+
 	@Override
 	protected void onPreExecute() {
 		mProgressDialog = new ProgressDialog(mParent);
@@ -30,7 +30,7 @@ public class SaveTask extends AsyncTask<String, Void, Integer> {
 		mProgressDialog.setCancelable(false);
 		mProgressDialog.setIndeterminate(true);
 		mProgressDialog.show();
-		
+
 	}
 
 	@Override
@@ -44,11 +44,14 @@ public class SaveTask extends AsyncTask<String, Void, Integer> {
 			} catch (FileAlreadyExistsException e) {
 				return SaveResult.FILE_EXISTS;
 			}
-			if (!result) return SaveResult.MEDIA_UNAVAILABLE;
-			else return SaveResult.OK;
-		} else return SaveResult.MEDIA_UNAVAILABLE;
+			if (!result)
+				return SaveResult.MEDIA_UNAVAILABLE;
+			else
+				return SaveResult.OK;
+		} else
+			return SaveResult.MEDIA_UNAVAILABLE;
 	}
-	
+
 	@Override
 	protected void onPostExecute(Integer result) {
 		mProgressDialog.dismiss();
@@ -65,13 +68,12 @@ public class SaveTask extends AsyncTask<String, Void, Integer> {
 			break;
 		}
 	}
-	
+
 	public interface SaveResult {
-		
+
 		public static final int OK = 0;
 		public static final int MEDIA_UNAVAILABLE = 1;
 		public static final int FILE_EXISTS = 2;
 	}
-
 
 }

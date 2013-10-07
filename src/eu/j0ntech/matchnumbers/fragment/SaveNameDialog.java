@@ -24,50 +24,42 @@ public class SaveNameDialog extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		View v = getActivity().getLayoutInflater().inflate(
-				R.layout.dialog_save, null);
+		View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_save, null);
 		mSaveName = (EditText) v.findViewById(R.id.save_name);
 		mSaveName.setImeOptions(EditorInfo.IME_ACTION_DONE);
 		builder.setView(v);
 		builder.setTitle(getString(R.string.dialog_save))
-				.setPositiveButton(R.string.button_save,
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								// This is handled in OnShowListener
-							}
-						})
-				.setNegativeButton(R.string.button_cancel,
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								mListener.onCancel();
-
-							}
-						}).setCancelable(false);
-		final AlertDialog nameDialog = builder.create();
-		mSaveName
-				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+				.setPositiveButton(R.string.button_save, new DialogInterface.OnClickListener() {
 
 					@Override
-					public boolean onEditorAction(TextView v, int actionId,
-							KeyEvent event) {
-						if (actionId == EditorInfo.IME_ACTION_DONE);
-							onSaveAction(nameDialog);
-						return true;
+					public void onClick(DialogInterface dialog, int which) {
+						// This is handled in OnShowListener
 					}
-				});
+				}).setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						mListener.onCancel();
+
+					}
+				}).setCancelable(false);
+		final AlertDialog nameDialog = builder.create();
+		mSaveName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_DONE)
+					;
+				onSaveAction(nameDialog);
+				return true;
+			}
+		});
 
 		nameDialog.setOnShowListener(new DialogInterface.OnShowListener() {
 
 			@Override
 			public void onShow(DialogInterface dialog) {
-				Button positive = nameDialog
-						.getButton(AlertDialog.BUTTON_POSITIVE);
+				Button positive = nameDialog.getButton(AlertDialog.BUTTON_POSITIVE);
 				positive.setOnClickListener(new View.OnClickListener() {
 
 					@Override
@@ -94,8 +86,7 @@ public class SaveNameDialog extends DialogFragment {
 			mListener.onSave(saveName);
 			nameDialog.dismiss();
 		} else
-			Toast.makeText(getActivity(), getString(R.string.error_name_short),
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(getActivity(), getString(R.string.error_name_short), Toast.LENGTH_LONG).show();
 	}
 
 	public interface SaveDialogListener {

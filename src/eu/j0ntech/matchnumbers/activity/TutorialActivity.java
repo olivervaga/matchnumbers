@@ -16,77 +16,75 @@ import eu.j0ntech.matchnumbers.R;
 import eu.j0ntech.matchnumbers.fragment.TutorialFragment;
 
 public class TutorialActivity extends FragmentActivity {
-	
+
 	private static final int NUM_PAGES = 5;
-	
+
 	private ViewPager mPager;
 
-    private PagerAdapter mPagerAdapter;
-    
-    private ArrayList<TutorialFragment> mFragmentList;
-    
-    private Button mNextButton;
-    
-    private Button mPrevButton;
-    
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-    	super.onCreate(savedInstanceState);
+	private PagerAdapter mPagerAdapter;
+
+	private ArrayList<TutorialFragment> mFragmentList;
+
+	private Button mNextButton;
+
+	private Button mPrevButton;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_tutorial);
-		
+
 		mPager = (ViewPager) findViewById(R.id.pager);
-		
+
 		mPagerAdapter = new TutorialPagerAdapter(getSupportFragmentManager(), this);
-		
+
 		mPager.setAdapter(mPagerAdapter);
-		
+
 		mNextButton = (Button) findViewById(R.id.button_next);
 		mPrevButton = (Button) findViewById(R.id.button_previous);
-		
+
 		mNextButton.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				int currentItem = mPager.getCurrentItem();
 				if (currentItem < NUM_PAGES - 1)
-					mPager.setCurrentItem(currentItem + 1);	
+					mPager.setCurrentItem(currentItem + 1);
 			}
 		});
-		
+
 		mPrevButton.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				int currentItem = mPager.getCurrentItem();
 				if (currentItem > 0)
 					mPager.setCurrentItem(currentItem - 1);
-				
+
 			}
 		});
-    }
-    
-    @Override
-    public void onBackPressed() {
-        if (mPager.getCurrentItem() == 0) {
-            super.onBackPressed();
-        } else {
-            mPager.setCurrentItem(mPager.getCurrentItem() - 1);
-        }
-    }
-    
-    
-    
-    private class TutorialPagerAdapter extends FragmentPagerAdapter {
-    	
-    	TutorialActivity mParent;
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (mPager.getCurrentItem() == 0) {
+			super.onBackPressed();
+		} else {
+			mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+		}
+	}
+
+	private class TutorialPagerAdapter extends FragmentPagerAdapter {
+
+		TutorialActivity mParent;
 
 		public TutorialPagerAdapter(FragmentManager fm, TutorialActivity parent) {
 			super(fm);
 			mParent = parent;
 			initFragments();
 		}
-		
+
 		private void initFragments() {
 			mFragmentList = new ArrayList<TutorialFragment>();
 			TutorialFragment page1 = new TutorialFragment();
@@ -105,20 +103,17 @@ public class TutorialActivity extends FragmentActivity {
 			mFragmentList.add(page4);
 			mFragmentList.add(page5);
 		}
-		
-		
 
 		@Override
 		public int getCount() {
 			return NUM_PAGES;
 		}
-		
+
 		@Override
 		public Fragment getItem(int position) {
 			return mFragmentList.get(position);
 		}
 
-    	
-    }
+	}
 
 }

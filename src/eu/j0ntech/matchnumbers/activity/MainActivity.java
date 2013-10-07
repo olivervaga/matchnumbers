@@ -17,14 +17,14 @@ import eu.j0ntech.matchnumbers.fragment.LoadDialog;
 import eu.j0ntech.matchnumbers.fragment.LoadDialog.LoadDialogListener;
 import eu.j0ntech.matchnumbers.save.DeleteTask;
 
-public class MainActivity extends FragmentActivity implements LoadDialogListener{
+public class MainActivity extends FragmentActivity implements LoadDialogListener {
 
 	private Button mContinueButton;
 	private Button mStartButton;
 	private Button mLoadButton;
 	private Button mExitButton;
 	private Button mTutorialButton;
-	
+
 	private LoadDialog mLoadDialog;
 
 	@Override
@@ -38,9 +38,9 @@ public class MainActivity extends FragmentActivity implements LoadDialogListener
 		mLoadButton = (Button) findViewById(R.id.button_load);
 		mExitButton = (Button) findViewById(R.id.button_exit);
 		mTutorialButton = (Button) findViewById(R.id.button_tutorial);
-		
+
 		mContinueButton.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				Intent continueIntent = new Intent(MainActivity.this, GameActivity.class);
@@ -65,11 +65,9 @@ public class MainActivity extends FragmentActivity implements LoadDialogListener
 			public void onClick(View v) {
 				mLoadDialog = new LoadDialog();
 				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-					mLoadDialog.setStyle(DialogFragment.STYLE_NORMAL,
-							android.R.style.Theme_Dialog);
+					mLoadDialog.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Dialog);
 				} else {
-					mLoadDialog.setStyle(DialogFragment.STYLE_NORMAL,
-							android.R.style.Theme_DeviceDefault_Dialog);
+					mLoadDialog.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_DeviceDefault_Dialog);
 				}
 				mLoadDialog.setCancelable(true);
 				mLoadDialog.show(getSupportFragmentManager(), "load");
@@ -83,17 +81,17 @@ public class MainActivity extends FragmentActivity implements LoadDialogListener
 				finish();
 			}
 		});
-		
+
 		mTutorialButton.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				startActivity(new Intent(MainActivity.this, TutorialActivity.class));
-				
+
 			}
 		});
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -104,7 +102,7 @@ public class MainActivity extends FragmentActivity implements LoadDialogListener
 			mContinueButton.setVisibility(View.VISIBLE);
 		}
 	}
-	
+
 	@Override
 	public void onLoad(String filepath) {
 		mLoadDialog.dismiss();

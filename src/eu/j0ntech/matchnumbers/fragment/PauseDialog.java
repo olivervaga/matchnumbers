@@ -19,8 +19,7 @@ public class PauseDialog extends DialogFragment {
 	private PauseDialogListener mListener;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		getDialog().setTitle(getString(R.string.menu_settings));
 		View v = inflater.inflate(R.layout.dialog_pause, container, false);
 
@@ -52,7 +51,7 @@ public class PauseDialog extends DialogFragment {
 				mListener.onExitClicked();
 			}
 		});
-		
+
 		mRestartButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -63,7 +62,7 @@ public class PauseDialog extends DialogFragment {
 
 		return v;
 	}
-	
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);

@@ -35,15 +35,11 @@ public class LoadDialog extends DialogFragment {
 		if (saves != null) {
 			builder.setTitle(getString(R.string.dialog_load));
 
-			View view = getActivity().getLayoutInflater().inflate(
-					R.layout.dialog_load, null);
+			View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_load, null);
 
-			mDeleteProgress = (ProgressBar) view
-					.findViewById(R.id.delete_progress);
-			mFilenameContainer = (LinearLayout) view
-					.findViewById(R.id.filename_container);
-			mButtonContainer = (LinearLayout) view
-					.findViewById(R.id.button_container);
+			mDeleteProgress = (ProgressBar) view.findViewById(R.id.delete_progress);
+			mFilenameContainer = (LinearLayout) view.findViewById(R.id.filename_container);
+			mButtonContainer = (LinearLayout) view.findViewById(R.id.button_container);
 			mLoadButton = (Button) view.findViewById(R.id.load_button);
 			mDeleteButton = (Button) view.findViewById(R.id.delete_button);
 
@@ -81,11 +77,9 @@ public class LoadDialog extends DialogFragment {
 		}
 	}
 
-	private void addLoadListItem(FileDetail fileDetail,
-			final LinearLayout parent) {
+	private void addLoadListItem(FileDetail fileDetail, final LinearLayout parent) {
 		final LoadTextView tv = new LoadTextView(getActivity());
-		tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
-				LayoutParams.WRAP_CONTENT));
+		tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 		tv.setTextSize(20f);
 		tv.setGravity(Gravity.CENTER);
 		tv.setPadding(10, 10, 10, 10);
@@ -99,8 +93,7 @@ public class LoadDialog extends DialogFragment {
 				if (!tv.isSelected()) {
 					tv.setSelected(true);
 					if (selectedItemPath != null)
-						mFilenameContainer.findViewWithTag(selectedItemPath)
-								.setSelected(false);
+						mFilenameContainer.findViewWithTag(selectedItemPath).setSelected(false);
 					selectedItemPath = (String) tv.getTag();
 				} else {
 					tv.setSelected(false);

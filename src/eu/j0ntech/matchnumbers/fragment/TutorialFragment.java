@@ -12,19 +12,17 @@ import eu.j0ntech.matchnumbers.R;
 public class TutorialFragment extends Fragment {
 
 	private Drawable drawable;
-	
+
 	public void setImageDrawable(Drawable drawable) {
 		this.drawable = drawable;
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		ImageView rootView = (ImageView) inflater.inflate(
-				R.layout.fragment_tutorial, container, false);
-		
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		ImageView rootView = (ImageView) inflater.inflate(R.layout.fragment_tutorial, container, false);
+
 		rootView.setImageDrawable(drawable);
-		
+
 		return rootView;
 	}
 
