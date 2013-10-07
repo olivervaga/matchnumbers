@@ -32,7 +32,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/button_next"
-        android:text="@string/button_previous" />
+        android:text="@string/button_previous"
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/textView1"

@@ -49,6 +49,12 @@ public class TutorialActivity extends FragmentActivity {
 			@Override
 			public void onClick(View v) {
 				int currentItem = mPager.getCurrentItem();
+				if (currentItem == NUM_PAGES - 2)
+					mNextButton.setVisibility(View.INVISIBLE);
+				else {
+					mNextButton.setVisibility(View.VISIBLE);
+					mPrevButton.setVisibility(View.VISIBLE);
+				}
 				if (currentItem < NUM_PAGES - 1)
 					mPager.setCurrentItem(currentItem + 1);
 			}
@@ -59,20 +65,17 @@ public class TutorialActivity extends FragmentActivity {
 			@Override
 			public void onClick(View v) {
 				int currentItem = mPager.getCurrentItem();
+				if (currentItem == 1)
+					mPrevButton.setVisibility(View.INVISIBLE);
+				else {
+					mPrevButton.setVisibility(View.VISIBLE);
+					mNextButton.setVisibility(View.VISIBLE);
+				}
 				if (currentItem > 0)
 					mPager.setCurrentItem(currentItem - 1);
 
 			}
 		});
-	}
-
-	@Override
-	public void onBackPressed() {
-		if (mPager.getCurrentItem() == 0) {
-			super.onBackPressed();
-		} else {
-			mPager.setCurrentItem(mPager.getCurrentItem() - 1);
-		}
 	}
 
 	private class TutorialPagerAdapter extends FragmentPagerAdapter {
