@@ -49,8 +49,7 @@ public class SaveNameDialog extends DialogFragment {
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_DONE)
-					;
-				onSaveAction(nameDialog);
+					onSaveAction(nameDialog);
 				return true;
 			}
 		});

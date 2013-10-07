@@ -1,5 +1,7 @@
 package eu.j0ntech.matchnumbers.fragment;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -12,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TableLayout.LayoutParams;
 import eu.j0ntech.matchnumbers.R;
-import eu.j0ntech.matchnumbers.save.FileDetail;
+import eu.j0ntech.matchnumbers.save.SaveDetail;
 import eu.j0ntech.matchnumbers.save.Saver;
 import eu.j0ntech.matchnumbers.view.LoadTextView;
 
@@ -30,7 +32,7 @@ public class LoadDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		final FileDetail[] saves = Saver.getAvailableSaves(getActivity());
+		final List<SaveDetail> saves = Saver.getAvailableSaves(getActivity());
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		if (saves != null) {
 			builder.setTitle(getString(R.string.dialog_load));
@@ -70,21 +72,21 @@ public class LoadDialog extends DialogFragment {
 		return builder.create();
 	}
 
-	private void createLoadList(FileDetail[] saves) {
+	private void createLoadList(List<SaveDetail> saves) {
 		mFilenameContainer.removeAllViews();
-		for (FileDetail save : saves) {
+		for (SaveDetail save : saves) {
 			addLoadListItem(save, mFilenameContainer);
 		}
 	}
 
-	private void addLoadListItem(FileDetail fileDetail, final LinearLayout parent) {
+	private void addLoadListItem(SaveDetail fileDetail, final LinearLayout parent) {
 		final LoadTextView tv = new LoadTextView(getActivity());
 		tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 		tv.setTextSize(20f);
 		tv.setGravity(Gravity.CENTER);
 		tv.setPadding(10, 10, 10, 10);
 		String name = fileDetail.getName();
-		tv.setText(name.substring(0, name.indexOf(Saver.FILE_EXTENSION)));
+		tv.setText(name);
 		tv.setTag(fileDetail.getPath());
 		tv.setOnClickListener(new View.OnClickListener() {
 
@@ -116,7 +118,7 @@ public class LoadDialog extends DialogFragment {
 		mButtonContainer.setVisibility(View.VISIBLE);
 		mDeleteProgress.setVisibility(View.GONE);
 		selectedItemPath = null;
-		final FileDetail[] saves = Saver.getAvailableSaves(getActivity());
+		final List<SaveDetail> saves = Saver.getAvailableSaves(getActivity());
 		if (saves != null)
 			createLoadList(saves);
 		else {

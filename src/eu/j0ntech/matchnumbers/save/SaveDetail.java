@@ -1,14 +1,14 @@
 package eu.j0ntech.matchnumbers.save;
 
-public class FileDetail {
+public class SaveDetail {
 
 	private String path;
 
 	private String name;
 
-	public FileDetail(String fileName, String filePath) {
-		name = fileName;
-		path = filePath;
+	public SaveDetail(String saveName, String savePath) {
+		name = saveName;
+		path = savePath;
 	}
 
 	public String getPath() {

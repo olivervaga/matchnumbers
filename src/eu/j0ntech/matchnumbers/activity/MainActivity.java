@@ -14,7 +14,7 @@ import eu.j0ntech.matchnumbers.R;
 import eu.j0ntech.matchnumbers.application.MatchNumbersApplication;
 import eu.j0ntech.matchnumbers.fragment.LoadDialog;
 import eu.j0ntech.matchnumbers.fragment.LoadDialog.LoadDialogListener;
-import eu.j0ntech.matchnumbers.save.DeleteTask;
+import eu.j0ntech.matchnumbers.save.Saver;
 
 public class MainActivity extends FragmentActivity implements LoadDialogListener {
 
@@ -87,7 +87,6 @@ public class MainActivity extends FragmentActivity implements LoadDialogListener
 			@Override
 			public void onClick(View v) {
 				startActivity(new Intent(MainActivity.this, TutorialActivity.class));
-
 			}
 		});
 	}
@@ -113,7 +112,8 @@ public class MainActivity extends FragmentActivity implements LoadDialogListener
 
 	@Override
 	public void onDelete(String filepath) {
-		(new DeleteTask(mLoadDialog)).execute(filepath);
+		Saver.deleteSave(filepath, this);
+		mLoadDialog.setAsNormal();
 	}
 
 }

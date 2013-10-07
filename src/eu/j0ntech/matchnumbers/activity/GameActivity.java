@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import eu.j0ntech.matchnumbers.R;
 import eu.j0ntech.matchnumbers.application.MatchNumbersApplication;
 import eu.j0ntech.matchnumbers.fragment.GameWonDialog;
@@ -21,11 +22,10 @@ import eu.j0ntech.matchnumbers.fragment.SaveNameDialog;
 import eu.j0ntech.matchnumbers.fragment.SaveNameDialog.SaveDialogListener;
 import eu.j0ntech.matchnumbers.game.GameBoard;
 import eu.j0ntech.matchnumbers.game.GameBoard.BoardChangeListener;
-import eu.j0ntech.matchnumbers.save.LoadTask;
-import eu.j0ntech.matchnumbers.save.SaveTask;
 import eu.j0ntech.matchnumbers.save.Saver;
 import eu.j0ntech.matchnumbers.view.BoardView;
 import eu.j0ntech.matchnumbers.view.ScrollBar;
+import eu.j0ntech.matchnumbers.view.ToastUtil;
 import eu.j0ntech.matchnumbers.view.ScrollBar.ScrollListener;
 
 public class GameActivity extends FragmentActivity implements PauseDialogListener, SaveDialogListener,
@@ -108,15 +108,14 @@ public class GameActivity extends FragmentActivity implements PauseDialogListene
 				mCanvas.invalidate();
 			}
 		});
-		// mGameboard.displayBoard();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
+		MatchNumbersApplication app = (MatchNumbersApplication) getApplication();
+		app.setContinue(saveContinue);
 		if (saveContinue) {
-			MatchNumbersApplication app = (MatchNumbersApplication) getApplication();
-			app.setContinue(saveContinue);
 			app.setContinueData(Saver.createSave(mGameBoard));
 		}
 	}
@@ -130,8 +129,7 @@ public class GameActivity extends FragmentActivity implements PauseDialogListene
 		if (incoming.getBooleanExtra(MatchNumbersApplication.NEW_GAME_TAG, false)) {
 			mGameBoard = new GameBoard(this);
 		} else if (incoming.getBooleanExtra(MatchNumbersApplication.LOAD_GAME_TAG, false)) {
-			(new LoadTask(this)).execute(incoming.getStringExtra(MatchNumbersApplication.LOAD_GAME_PATH));
-			return;
+			mGameBoard = Saver.loadGame(incoming.getStringExtra(MatchNumbersApplication.LOAD_GAME_PATH), this, this);
 		} else if (app.getContinue()) {
 			String saveData = app.getContinueData();
 			if (saveData != null) {
@@ -221,10 +219,8 @@ public class GameActivity extends FragmentActivity implements PauseDialogListene
 
 	@Override
 	public void onSave(String saveName) {
-		if (mSaveDialog.isVisible())
-			mSaveDialog.dismiss();
-		(new SaveTask(this)).execute(saveName);
-
+		Saver.saveGame(mGameBoard, saveName, this);
+		ToastUtil.showToast(getResources().getString(R.string.confirm_save), Toast.LENGTH_SHORT, this);
 	}
 
 	@Override
@@ -248,6 +244,7 @@ public class GameActivity extends FragmentActivity implements PauseDialogListene
 			gameWonDialog.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_DeviceDefault_Dialog);
 		}
 		gameWonDialog.show(getSupportFragmentManager(), "game over");
+		saveContinue = false;
 	}
 
 	@Override

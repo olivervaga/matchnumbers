@@ -1,19 +1,14 @@
 package eu.j0ntech.matchnumbers.save;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import android.content.Context;
-import android.os.Environment;
+import android.content.SharedPreferences;
 import eu.j0ntech.matchnumbers.game.GameBoard;
-import eu.j0ntech.matchnumbers.game.Tile;
 import eu.j0ntech.matchnumbers.game.GameBoard.BoardChangeListener;
+import eu.j0ntech.matchnumbers.game.Tile;
 import eu.j0ntech.matchnumbers.game.Tile.TileType;
 
 public class Saver {
@@ -22,46 +17,41 @@ public class Saver {
 	private static final String COLUMN_DENOMINATOR = " ";
 	private static final String SCRATCHED_INDICATOR = "*";
 	private static final String ROW_DENOMINATOR = "nl";
+	private static final String SAVE_PREFIX = "data_";
 
 	private Saver() {
 	}
 
-	public static boolean saveGame(GameBoard board, String saveName, Context context) throws FileNotFoundException,
-			FileAlreadyExistsException {
+	public static void saveGame(GameBoard board, String saveName, Context context) {
 		String save = createSave(board);
-		if (checkExternalStorage()) {
-			writeSaveToFile(save, saveName, context);
-			return true;
-		} else {
-			return false;
-		}
+		SharedPreferences prefs = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putString(SAVE_PREFIX + saveName, save);
+		editor.commit();
 	}
 
-	public static GameBoard loadGame(String filepath, BoardChangeListener listener) {
-		if (!checkExternalStorage())
-			return null;
-		return readFromSaveFile(filepath, listener);
+	public static GameBoard loadGame(String saveName, BoardChangeListener listener, Context context) {
+		SharedPreferences prefs = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
+		return readFromPreferences(prefs.getString(saveName, null), listener);
 	}
 
-	public static boolean deleteSave(String filePath) {
-		if (!checkExternalStorage())
-			return false;
-		File file = new File(filePath);
-		return file.delete();
+	public static void deleteSave(String saveName, Context context) {
+		SharedPreferences prefs = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.remove(saveName);
+		editor.commit();
 	}
 
-	public static FileDetail[] getAvailableSaves(Context context) {
-		if (!checkExternalStorage())
-			return null;
-		FileDetail[] result = null;
-		File fileDir = context.getExternalFilesDir(null);
-		File[] files = fileDir.listFiles(new SaveFilter());
-		if (files != null && files.length > 0) {
-			result = new FileDetail[files.length];
-			for (int i = 0; i < files.length; i++) {
-				result[i] = new FileDetail(files[i].getName(), files[i].getAbsolutePath());
+	public static List<SaveDetail> getAvailableSaves(Context context) {
+		ArrayList<SaveDetail> result = new ArrayList<SaveDetail>();
+		SharedPreferences prefs = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
+		Set<String> prefsKeySet = prefs.getAll().keySet();
+		for (String key : prefsKeySet)
+			if (key.startsWith(SAVE_PREFIX)) {
+				result.add(new SaveDetail(key.substring(SAVE_PREFIX.length()), key));
 			}
-		}
+		if (result.size() == 0)
+			result = null;
 		return result;
 	}
 
@@ -77,57 +67,6 @@ public class Saver {
 			result.append(ROW_DENOMINATOR);
 		}
 		return result.toString();
-	}
-
-	private static boolean checkExternalStorage() {
-
-		String state = Environment.getExternalStorageState();
-
-		if (Environment.MEDIA_MOUNTED.equals(state)) {
-			// We can read and write the media
-			return true;
-		} else {
-			// Something else is wrong. It may be one of many other states, but
-			// all we need
-			// to know is we can neither read nor write
-			return false;
-		}
-	}
-
-	private static void writeSaveToFile(String save, String saveName, Context context) throws FileNotFoundException,
-			FileAlreadyExistsException {
-		File fileDir = context.getExternalFilesDir(null);
-		File saveFile = new File(fileDir, saveName + FILE_EXTENSION);
-		if (saveFile.exists())
-			throw new FileAlreadyExistsException();
-		PrintWriter writer = null;
-		try {
-			writer = new PrintWriter(saveFile);
-			writer.write(save);
-			writer.flush();
-		} finally {
-			if (writer != null)
-				writer.close();
-		}
-	}
-
-	private static GameBoard readFromSaveFile(String filePath, BoardChangeListener listener) {
-		ArrayList<ArrayList<Tile>> result;
-		BufferedReader br = null;
-		String save = null;
-		try {
-			br = new BufferedReader(new FileReader(filePath));
-			save = br.readLine();
-		} catch (Exception e) {
-			return null;
-		} finally {
-			try {
-				br.close();
-			} catch (IOException e) {
-			}
-		}
-		result = parseSaveData(save);
-		return new GameBoard(listener, result);
 	}
 
 	public static GameBoard readFromPreferences(String saveString, BoardChangeListener listener) {
@@ -150,17 +89,4 @@ public class Saver {
 		}
 		return result;
 	}
-
-	private static class SaveFilter implements FilenameFilter {
-
-		@Override
-		public boolean accept(File dir, String filename) {
-			if (filename.endsWith(FILE_EXTENSION))
-				return true;
-			else
-				return false;
-		}
-
-	}
-
 }
