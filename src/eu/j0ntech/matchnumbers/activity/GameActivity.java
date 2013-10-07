@@ -1,9 +1,7 @@
 package eu.j0ntech.matchnumbers.activity;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -15,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import eu.j0ntech.matchnumbers.R;
+import eu.j0ntech.matchnumbers.application.MatchNumbersApplication;
 import eu.j0ntech.matchnumbers.fragment.GameWonDialog;
 import eu.j0ntech.matchnumbers.fragment.PauseDialog;
 import eu.j0ntech.matchnumbers.fragment.PauseDialog.PauseDialogListener;
@@ -51,11 +50,6 @@ public class GameActivity extends FragmentActivity implements PauseDialogListene
 	private TextView mRemainingCount;
 
 	private boolean saveContinue = true;
-
-	public static final String LOAD_GAME_TAG = "load_game";
-	public static final String CONTINUE_GAME_TAG = "continue_game";
-	public static final String LOAD_GAME_PATH = "load_game_path";
-	public static final String CONTINUE_DATA = "continue_data";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -121,11 +115,9 @@ public class GameActivity extends FragmentActivity implements PauseDialogListene
 	protected void onPause() {
 		super.onPause();
 		if (saveContinue) {
-			SharedPreferences prefs = this.getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
-			SharedPreferences.Editor editor = prefs.edit();
-			editor.putBoolean(CONTINUE_GAME_TAG, true);
-			editor.putString(CONTINUE_DATA, Saver.createSave(mGameBoard));
-			editor.commit();
+			MatchNumbersApplication app = (MatchNumbersApplication) getApplication();
+			app.setContinue(saveContinue);
+			app.setContinueData(Saver.createSave(mGameBoard));
 		}
 	}
 
@@ -134,20 +126,21 @@ public class GameActivity extends FragmentActivity implements PauseDialogListene
 		super.onResume();
 		Intent incoming = getIntent();
 
-		if (incoming.getBooleanExtra(LOAD_GAME_TAG, false)) {
-			(new LoadTask(this)).execute(incoming.getStringExtra(LOAD_GAME_PATH));
+		MatchNumbersApplication app = (MatchNumbersApplication) getApplication();
+		if (incoming.getBooleanExtra(MatchNumbersApplication.NEW_GAME_TAG, false)) {
+			mGameBoard = new GameBoard(this);
+		} else if (incoming.getBooleanExtra(MatchNumbersApplication.LOAD_GAME_TAG, false)) {
+			(new LoadTask(this)).execute(incoming.getStringExtra(MatchNumbersApplication.LOAD_GAME_PATH));
 			return;
-		} else if (incoming.getBooleanExtra(CONTINUE_GAME_TAG, false)) {
-			SharedPreferences prefs = this.getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
-			String saveData = prefs.getString(CONTINUE_DATA, null);
+		} else if (app.getContinue()) {
+			String saveData = app.getContinueData();
 			if (saveData != null) {
 				mGameBoard = Saver.readFromPreferences(saveData, this);
-				mCanvas.recalculateBoardSize();
-				return;
+				mGameBoard.displayBoard();
 			}
 		}
-		mGameBoard = new GameBoard(this);
 		mCanvas.recalculateBoardSize();
+		mCanvas.invalidate();
 	}
 
 	private void resetGame() {

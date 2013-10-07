@@ -1,9 +1,7 @@
 package eu.j0ntech.matchnumbers.activity;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -13,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import eu.j0ntech.matchnumbers.R;
+import eu.j0ntech.matchnumbers.application.MatchNumbersApplication;
 import eu.j0ntech.matchnumbers.fragment.LoadDialog;
 import eu.j0ntech.matchnumbers.fragment.LoadDialog.LoadDialogListener;
 import eu.j0ntech.matchnumbers.save.DeleteTask;
@@ -44,7 +43,7 @@ public class MainActivity extends FragmentActivity implements LoadDialogListener
 			@Override
 			public void onClick(View v) {
 				Intent continueIntent = new Intent(MainActivity.this, GameActivity.class);
-				continueIntent.putExtra(GameActivity.CONTINUE_GAME_TAG, true);
+				continueIntent.putExtra(MatchNumbersApplication.CONTINUE_GAME_TAG, true);
 				startActivity(continueIntent);
 			}
 		});
@@ -53,8 +52,9 @@ public class MainActivity extends FragmentActivity implements LoadDialogListener
 
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(MainActivity.this, GameActivity.class));
-
+				Intent newIntent = new Intent(MainActivity.this, GameActivity.class);
+				newIntent.putExtra(MatchNumbersApplication.NEW_GAME_TAG, true);
+				startActivity(newIntent);
 			}
 		});
 
@@ -95,8 +95,7 @@ public class MainActivity extends FragmentActivity implements LoadDialogListener
 	@Override
 	protected void onResume() {
 		super.onResume();
-		SharedPreferences prefs = this.getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
-		if (!prefs.getBoolean(GameActivity.CONTINUE_GAME_TAG, false)) {
+		if (!((MatchNumbersApplication) getApplication()).getContinue()) {
 			mContinueButton.setVisibility(View.INVISIBLE);
 		} else {
 			mContinueButton.setVisibility(View.VISIBLE);
@@ -107,8 +106,8 @@ public class MainActivity extends FragmentActivity implements LoadDialogListener
 	public void onLoad(String filepath) {
 		mLoadDialog.dismiss();
 		Intent loadIntent = new Intent(this, GameActivity.class);
-		loadIntent.putExtra(GameActivity.LOAD_GAME_TAG, true);
-		loadIntent.putExtra(GameActivity.LOAD_GAME_PATH, filepath);
+		loadIntent.putExtra(MatchNumbersApplication.LOAD_GAME_TAG, true);
+		loadIntent.putExtra(MatchNumbersApplication.LOAD_GAME_PATH, filepath);
 		startActivity(loadIntent);
 	}
 

@@ -95,7 +95,7 @@ public class BoardView extends View {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		GameBoard board = mParent.getGameBoard();
-		// board.displayBoard();
+		board.displayBoard();
 		mBackgroundDrawer.draw(canvas, board.getRows(), offset);
 
 		for (int j = 0; j < board.getRows(); j++) {
